@@ -9,6 +9,7 @@ import { spSchoolToAbv, spTimeToShort } from "@/lib/spellFormatters";
 import Centered from "@/components/layout/Centered";
 import MasterDetailLayout from "@/components/layout/MasterDetailLayout";
 import ColumnHeader, { type ColumnDef } from "@/components/list/ColumnHeader";
+import { requestConfirm } from "@/components/ConfirmModal";
 import { useMasterDetail } from "@/hooks/useMasterDetail";
 
 type SortKey = "name" | "level" | "school";
@@ -23,6 +24,7 @@ export default function SpellBookPage() {
   const { data, isLoading, error } = useSpells();
   const [search, setSearch] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("name");
+  const [memorizedOnly, setMemorizedOnly] = useState(false);
   const { selectedKey, setSelectedKey, isMobileDetail, setIsMobileDetail, select } = useMasterDetail();
 
   // Spell-book store. Subscribe to the whole books map so list re-renders on
@@ -66,9 +68,13 @@ export default function SpellBookPage() {
 
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase();
-    const out = q ? bookSpells.filter((s) => s.name.toLowerCase().includes(q)) : bookSpells;
+    let out = bookSpells;
+    if (memorizedOnly && activeBook) {
+      out = out.filter((s) => activeBook.spells[refKey(makeRef(s.name, s.source))]);
+    }
+    if (q) out = out.filter((s) => s.name.toLowerCase().includes(q));
     return [...out].sort((a, b) => compareSpells(a, b, sortKey));
-  }, [bookSpells, search, sortKey]);
+  }, [bookSpells, memorizedOnly, activeBook, search, sortKey]);
 
   const selected = useMemo(
     () => (selectedKey ? spellsByRef.get(selectedKey) ?? null : null),
@@ -353,6 +359,19 @@ export default function SpellBookPage() {
                   {k}
                 </button>
               ))}
+              <div className="mx-1 h-4 w-px bg-border-subtle" />
+              <button
+                type="button"
+                onClick={() => setMemorizedOnly((v) => !v)}
+                className={`rounded px-2 py-0.5 ${
+                  memorizedOnly
+                    ? "bg-accent-subtle text-accent"
+                    : "text-fg-muted hover:bg-bg-raised"
+                }`}
+                title="Show only memorized spells"
+              >
+                Memorized ({memorizedCount})
+              </button>
             </div>
           </div>
 
@@ -403,7 +422,13 @@ export default function SpellBookPage() {
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
-                      if (activeBookId) removeFromBook(activeBookId, key);
+                      if (!activeBookId) return;
+                      requestConfirm({
+                        message: `Remove "${spell.name}" from "${activeBook?.name ?? "this book"}"?`,
+                        confirmLabel: "Remove",
+                        destructive: true,
+                        onConfirm: () => removeFromBook(activeBookId, key),
+                      });
                     }}
                     title="Remove from spell book"
                     aria-label="Remove from spell book"

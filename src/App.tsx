@@ -13,6 +13,7 @@ import LootPage from "@/pages/LootPage";
 import Landing from "@/pages/Landing";
 import NavItem from "@/components/nav/NavItem";
 import EntityPreviewModal from "@/components/EntityPreviewModal";
+import ConfirmModal from "@/components/ConfirmModal";
 
 const NAV_ITEMS: { to: string; label: string }[] = [
   { to: "/spells", label: "Spells" },
@@ -127,6 +128,7 @@ export default function App() {
       </aside>
 
       <EntityPreviewModal />
+      <ConfirmModal />
     </div>
   );
 }
