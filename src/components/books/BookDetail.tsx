@@ -13,6 +13,8 @@ export default function BookDetail({
 }) {
   const { data: chapters, isLoading } = useBookContent(book.id);
   const [activeChapter, setActiveChapter] = useState(0);
+  const [coverError, setCoverError] = useState(false);
+  const showCover = book.cover && !coverError;
 
   return (
     <div>
@@ -27,11 +29,12 @@ export default function BookDetail({
       <div className="flex gap-4">
         <div className="hidden w-32 shrink-0 sm:block">
           <div className="aspect-[3/4] overflow-hidden rounded-lg border border-border bg-bg-raised">
-            {book.cover ? (
+            {showCover ? (
               <img
-                src={`${import.meta.env.BASE_URL}${book.cover.path}`}
+                src={`${import.meta.env.BASE_URL}${book.cover!.path}`}
                 alt={book.name}
                 className="h-full w-full object-cover"
+                onError={() => setCoverError(true)}
               />
             ) : (
               <div className="flex h-full items-center justify-center text-2xl font-bold text-fg-faint">
