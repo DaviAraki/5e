@@ -19,7 +19,7 @@ const queryClient = new QueryClient({
 // Prefetch entity datasets so the preview popover can resolve cross-entity
 // links (e.g. clicking a {@spell} link from the feats page) without the user
 // having to visit each page first.
-const RESOLVED_BASE = "/data/resolved";
+const RESOLVED_BASE = `${import.meta.env.BASE_URL}data/resolved`;
 async function prefetch(url: string) {
   try {
     const res = await fetch(url);
@@ -53,7 +53,7 @@ async function prefetch(url: string) {
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <App />
       </BrowserRouter>
     </QueryClientProvider>

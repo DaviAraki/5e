@@ -22,7 +22,9 @@ import type {
  * dist/data/resolved/.
  */
 
-const RESOLVED_BASE = "/data/resolved";
+// import.meta.env.BASE_URL includes the configured base path + trailing slash
+// (e.g. "/5etools-react/" for GitHub Pages project sites, "/" for root).
+const RESOLVED_BASE = `${import.meta.env.BASE_URL}data/resolved`;
 
 async function fetchJson<T>(path: string): Promise<T> {
   const res = await fetch(path);
