@@ -7,6 +7,7 @@ import BackgroundsPage from "@/pages/BackgroundsPage";
 import SpeciesPage from "@/pages/SpeciesPage";
 import FeatsPage from "@/pages/FeatsPage";
 import BooksPage from "@/pages/BooksPage";
+import SpellBookPage from "@/pages/SpellBookPage";
 import EntityPreviewModal from "@/components/EntityPreviewModal";
 
 /**
@@ -27,6 +28,7 @@ export default function App() {
           <NavItem to="/species">Species</NavItem>
           <NavItem to="/feats">Feats</NavItem>
           <NavItem to="/books">Books</NavItem>
+          <NavItem to="/spellbook">Spell Book</NavItem>
         </nav>
       </header>
       <main className="flex-1 overflow-hidden">
@@ -40,6 +42,7 @@ export default function App() {
           <Route path="/species" element={<SpeciesPage />} />
           <Route path="/feats" element={<FeatsPage />} />
           <Route path="/books" element={<BooksPage />} />
+          <Route path="/spellbook" element={<SpellBookPage />} />
         </Routes>
       </main>
       <EntityPreviewModal />

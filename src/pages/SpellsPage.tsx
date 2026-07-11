@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import type { Spell } from "@/types/entities";
 import { useSpells } from "@/data/DataLoader";
+import { makeRef, refKey } from "@/data/entityRefs";
 import SpellStatBlock from "@/components/StatBlock/SpellStatBlock";
 import { SpellFilterSidebar, spellMatchesFilters } from "@/components/filters/SpellFilterSidebar";
 import { useSpellFilters } from "@/state/spellFilters";
+import { useSpellBook } from "@/state/spellBook";
 import {
   spTimeToShort,
   spSchoolToAbv,
@@ -32,6 +34,27 @@ export default function SpellsPage() {
   // Read filter store reactively (subscribe to all sets via a shallow snapshot).
   const filterSnapshot = useSpellFilters();
   const filterActive = filterSnapshot.activeCount();
+
+  // Spell book: target the active book for the add/remove toggle on each row.
+  const activeBookId = useSpellBook((s) => s.activeBookId);
+  const activeBookSpells = useSpellBook((s) =>
+    s.activeBookId ? s.books[s.activeBookId]?.spells ?? {} : {},
+  );
+  const addToBook = useSpellBook((s) => s.addToBook);
+  const removeFromBook = useSpellBook((s) => s.removeFromBook);
+  const activeBookName = useSpellBook((s) =>
+    s.activeBookId ? s.books[s.activeBookId]?.name ?? null : null,
+  );
+
+  function toggleSpellInBook(spell: Spell) {
+    if (!activeBookId) return;
+    const key = refKey(makeRef(spell.name, spell.source));
+    if (key in activeBookSpells) {
+      removeFromBook(activeBookId, key);
+    } else {
+      addToBook(activeBookId, key);
+    }
+  }
 
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -163,37 +186,83 @@ export default function SpellsPage() {
           {visible.map((spell) => {
             const key = spellKey(spell);
             const active = key === selectedKey;
+            const inBook =
+              activeBookId != null && refKey(makeRef(spell.name, spell.source)) in activeBookSpells;
             return (
-              <button
+              <div
                 key={key}
-                type="button"
-                onClick={() => selectSpell(key)}
-                className={`flex w-full items-center gap-3 border-b border-border-subtle px-3 py-1.5 text-left text-sm transition-colors ${
+                className={`flex items-center border-b border-border-subtle transition-colors ${
                   active ? "bg-accent-subtle" : "hover:bg-bg-raised"
                 }`}
               >
-                <span
-                  className={`w-6 shrink-0 text-center text-xs font-semibold ${
-                    spell.level === 0 ? "text-fg-muted" : "text-accent"
+                <button
+                  type="button"
+                  onClick={() => selectSpell(key)}
+                  className="flex min-w-0 flex-1 items-center gap-3 px-3 py-1.5 text-left text-sm"
+                >
+                  <span
+                    className={`w-6 shrink-0 text-center text-xs font-semibold ${
+                      spell.level === 0 ? "text-fg-muted" : "text-accent"
+                    }`}
+                  >
+                    {spell.level === 0 ? "C" : spell.level}
+                  </span>
+                  <span className="min-w-0 flex-1 truncate font-medium">{spell.name}</span>
+                  <span className="w-8 shrink-0 text-center">
+                    {isConcentration(spell) ? (
+                      <span title="Concentration" className="text-xs font-bold text-accent">
+                        C
+                      </span>
+                    ) : null}
+                  </span>
+                  <span className="w-14 shrink-0 text-right text-xs text-fg-muted">
+                    {spSchoolToAbv(spell.school)}
+                  </span>
+                  <span className="w-12 shrink-0 text-right text-xs text-fg-muted">
+                    {spell.time[0] ? spTimeToShort(spell.time[0]) : ""}
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  disabled={activeBookId == null}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleSpellInBook(spell);
+                  }}
+                  title={
+                    activeBookId == null
+                      ? "Create a spell book first"
+                      : inBook
+                        ? "Remove from spell book"
+                        : "Add to spell book"
+                  }
+                  aria-label={inBook ? "Remove from spell book" : "Add to spell book"}
+                  aria-pressed={inBook}
+                  className={`shrink-0 px-2 py-1.5 text-sm transition-colors ${
+                    activeBookId == null
+                      ? "cursor-not-allowed text-fg-faint"
+                      : inBook
+                        ? "text-accent"
+                        : "text-fg-muted hover:text-accent"
                   }`}
                 >
-                  {spell.level === 0 ? "C" : spell.level}
-                </span>
-                <span className="flex-1 truncate font-medium">{spell.name}</span>
-                <span className="w-8 shrink-0 text-center">
-                  {isConcentration(spell) ? (
-                    <span title="Concentration" className="text-xs font-bold text-accent">
-                      C
-                    </span>
-                  ) : null}
-                </span>
-                <span className="w-14 shrink-0 text-right text-xs text-fg-muted">
-                  {spSchoolToAbv(spell.school)}
-                </span>
-                <span className="w-12 shrink-0 text-right text-xs text-fg-muted">
-                  {spell.time[0] ? spTimeToShort(spell.time[0]) : ""}
-                </span>
-              </button>
+                  {/* Bookmark icon: filled when in the active book, outline otherwise */}
+                  {inBook ? (
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
+                      <path d="M4 2.5h8A1.5 1.5 0 0 1 13.5 4v9.5L8 10.5l-5.5 3V4A1.5 1.5 0 0 1 4 2.5z" />
+                    </svg>
+                  ) : (
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
+                      <path
+                        d="M4 2.5h8A1.5 1.5 0 0 1 13.5 4v9.5L8 10.5l-5.5 3V4A1.5 1.5 0 0 1 4 2.5z"
+                        stroke="currentColor"
+                        strokeWidth="1.4"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
+                </button>
+              </div>
             );
           })}
           {visible.length === 0 && (
@@ -202,6 +271,9 @@ export default function SpellsPage() {
         </div>
         <div className="border-t border-border px-3 py-1 text-xs text-fg-muted">
           {visible.length} / {spells.length} spells
+          {activeBookName ? (
+            <span className="ml-2 text-fg-faint">· adding to “{activeBookName}”</span>
+          ) : null}
         </div>
       </aside>
 

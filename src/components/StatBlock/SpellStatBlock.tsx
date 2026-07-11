@@ -1,5 +1,7 @@
 import type { Spell } from "@/types/entities";
 import EntryRenderer from "@/render/EntryRenderer";
+import { makeRef, refKey } from "@/data/entityRefs";
+import { useSpellBook } from "@/state/spellBook";
 import {
   spLevelSchoolRitualStr,
   spTimeToFull,
@@ -16,12 +18,51 @@ import {
  * Mirrors the classic 5etools spell stat block layout.
  */
 export default function SpellStatBlock({ spell }: { spell: Spell }) {
+  const activeBookId = useSpellBook((s) => s.activeBookId);
+  const activeBookName = useSpellBook((s) =>
+    s.activeBookId ? s.books[s.activeBookId]?.name ?? null : null,
+  );
+  const inBook = useSpellBook((s) => {
+    if (!s.activeBookId) return false;
+    return refKey(makeRef(spell.name, spell.source)) in (s.books[s.activeBookId]?.spells ?? {});
+  });
+  const addToBook = useSpellBook((s) => s.addToBook);
+  const removeFromBook = useSpellBook((s) => s.removeFromBook);
+
+  function toggleBook() {
+    if (!activeBookId) return;
+    const key = refKey(makeRef(spell.name, spell.source));
+    if (inBook) removeFromBook(activeBookId, key);
+    else addToBook(activeBookId, key);
+  }
+
   return (
     <article className="mx-auto max-w-2xl px-4 py-6 font-serif text-fg">
-      {/* Title */}
-      <h2 className="rd-heading border-b border-border-subtle pb-1 text-2xl font-bold">
-        {spell.name}
-      </h2>
+      {/* Title + spell-book action */}
+      <div className="flex items-start justify-between gap-3 border-b border-border-subtle pb-1">
+        <h2 className="rd-heading text-2xl font-bold">{spell.name}</h2>
+        <button
+          type="button"
+          disabled={activeBookId == null}
+          onClick={toggleBook}
+          title={
+            activeBookId == null
+              ? "Create a spell book first"
+              : inBook
+                ? `Remove from ${activeBookName ?? "spell book"}`
+                : `Add to ${activeBookName ?? "spell book"}`
+          }
+          className={`shrink-0 rounded-md border px-2.5 py-1 font-sans text-xs transition-colors ${
+            activeBookId == null
+              ? "cursor-not-allowed border-border-subtle text-fg-faint"
+              : inBook
+                ? "border-accent bg-accent-subtle text-accent"
+                : "border-border text-fg-muted hover:border-accent hover:text-accent"
+          }`}
+        >
+          {inBook ? "✓ In Book" : "+ Add to Book"}
+        </button>
+      </div>
 
       {/* School + level line */}
       <p className="mt-1 italic text-fg-muted">
