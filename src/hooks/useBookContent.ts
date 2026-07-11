@@ -7,7 +7,7 @@ export function useBookContent(bookId: string | undefined) {
     queryKey: ["book-content", bookId],
     queryFn: async () => {
       if (!bookId) return [];
-      const res = await fetch(`/data/resolved/books/${bookId.toLowerCase()}.json`);
+      const res = await fetch(`${import.meta.env.BASE_URL}data/resolved/books/${bookId.toLowerCase()}.json`);
       if (!res.ok) return [];
       return (await res.json()) as Array<{ name?: string; entries?: Entry[] }>;
     },
