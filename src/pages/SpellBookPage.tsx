@@ -5,7 +5,7 @@ import { indexByRef, makeRef, refKey } from "@/data/entityRefs";
 import SpellStatBlock from "@/components/StatBlock/SpellStatBlock";
 import { parseBooks, useSpellBook } from "@/state/spellBook";
 import { decodeBooks, encodeBooks } from "@/state/spellBookCodec";
-import { spSchoolToAbv, spTimeToShort } from "@/lib/spellFormatters";
+import { spSchoolToAbv, spTimeToShort, isRitual } from "@/lib/spellFormatters";
 import Centered from "@/components/layout/Centered";
 import MasterDetailLayout from "@/components/layout/MasterDetailLayout";
 import ColumnHeader, { type ColumnDef } from "@/components/list/ColumnHeader";
@@ -25,6 +25,7 @@ export default function SpellBookPage() {
   const [search, setSearch] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("name");
   const [memorizedOnly, setMemorizedOnly] = useState(false);
+  const [ritualOnly, setRitualOnly] = useState(false);
   const { selectedKey, setSelectedKey, isMobileDetail, setIsMobileDetail, select } = useMasterDetail();
 
   // Spell-book store. Subscribe to the whole books map so list re-renders on
@@ -72,9 +73,10 @@ export default function SpellBookPage() {
     if (memorizedOnly && activeBook) {
       out = out.filter((s) => activeBook.spells[refKey(makeRef(s.name, s.source))]);
     }
+    if (ritualOnly) out = out.filter((s) => isRitual(s));
     if (q) out = out.filter((s) => s.name.toLowerCase().includes(q));
     return [...out].sort((a, b) => compareSpells(a, b, sortKey));
-  }, [bookSpells, memorizedOnly, activeBook, search, sortKey]);
+  }, [bookSpells, memorizedOnly, ritualOnly, activeBook, search, sortKey]);
 
   const selected = useMemo(
     () => (selectedKey ? spellsByRef.get(selectedKey) ?? null : null),
@@ -371,6 +373,18 @@ export default function SpellBookPage() {
                 title="Show only memorized spells"
               >
                 Memorized ({memorizedCount})
+              </button>
+              <button
+                type="button"
+                onClick={() => setRitualOnly((v) => !v)}
+                className={`rounded px-2 py-0.5 ${
+                  ritualOnly
+                    ? "bg-accent-subtle text-accent"
+                    : "text-fg-muted hover:bg-bg-raised"
+                }`}
+                title="Show only ritual spells"
+              >
+                Rituals
               </button>
             </div>
           </div>
