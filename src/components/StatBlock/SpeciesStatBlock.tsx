@@ -1,6 +1,7 @@
 import type { Species } from "@/types/entities";
 import EntryRenderer from "@/render/EntryRenderer";
 import { sourceToAbv } from "@/lib/spellFormatters";
+import ShareLinkButton from "@/components/ShareLinkButton";
 
 /**
  * SpeciesStatBlock — displays a playable species/race.
@@ -14,9 +15,10 @@ export default function SpeciesStatBlock({ species }: { species: Species }) {
 
   return (
     <article className="mx-auto max-w-2xl px-4 py-6 font-serif text-fg">
-      <h2 className="rd-heading border-b-2 border-border pb-1 text-2xl font-bold italic">
-        {species.name}
-      </h2>
+      <div className="flex items-start justify-between gap-3 border-b-2 border-border pb-1">
+        <h2 className="rd-heading text-2xl font-bold italic">{species.name}</h2>
+        <ShareLinkButton />
+      </div>
 
       {/* Creature type line */}
       {species.creatureTypes && species.creatureTypes.length > 0 && (

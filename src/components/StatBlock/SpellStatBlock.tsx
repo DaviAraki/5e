@@ -2,6 +2,7 @@ import type { Spell } from "@/types/entities";
 import EntryRenderer from "@/render/EntryRenderer";
 import { makeRef, refKey } from "@/data/entityRefs";
 import { useSpellBook } from "@/state/spellBook";
+import ShareLinkButton from "@/components/ShareLinkButton";
 import {
   spLevelSchoolRitualStr,
   spTimeToFull,
@@ -41,7 +42,9 @@ export default function SpellStatBlock({ spell }: { spell: Spell }) {
       {/* Title + spell-book action */}
       <div className="flex items-start justify-between gap-3 border-b border-border-subtle pb-1">
         <h2 className="rd-heading text-2xl font-bold">{spell.name}</h2>
-        <button
+        <div className="flex shrink-0 items-center gap-2">
+          <ShareLinkButton />
+          <button
           type="button"
           disabled={activeBookId == null}
           onClick={toggleBook}
@@ -62,6 +65,7 @@ export default function SpellStatBlock({ spell }: { spell: Spell }) {
         >
           {inBook ? "✓ In Book" : "+ Add to Book"}
         </button>
+        </div>
       </div>
 
       {/* School + level line */}

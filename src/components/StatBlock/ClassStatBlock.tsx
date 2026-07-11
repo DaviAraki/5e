@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import type { Class, ClassTableGroup, ClassFeature, Subclass } from "@/types/entities";
 import EntryRenderer from "@/render/EntryRenderer";
 import InlineText from "@/render/InlineText";
+import ShareLinkButton from "@/components/ShareLinkButton";
 
 /**
  * ClassStatBlock — full class detail: header info, the 20-level progression
@@ -80,9 +81,10 @@ export default function ClassStatBlock({
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-6 font-serif text-fg">
-      <h2 className="rd-heading border-b border-border-subtle pb-1 text-2xl font-bold">
-        {cls.name}
-      </h2>
+      <div className="flex items-start justify-between gap-3 border-b border-border-subtle pb-1">
+        <h2 className="rd-heading text-2xl font-bold">{cls.name}</h2>
+        <ShareLinkButton />
+      </div>
 
       {/* Header info table */}
       <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-1 text-sm sm:grid-cols-3">

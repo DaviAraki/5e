@@ -17,6 +17,7 @@ import {
   languagesToFull,
 } from "@/lib/monsterFormatters";
 import { sourceToAbv } from "@/lib/spellFormatters";
+import ShareLinkButton from "@/components/ShareLinkButton";
 
 /**
  * MonsterStatBlock — the classic 5e monster stat block.
@@ -29,9 +30,10 @@ export default function MonsterStatBlock({ monster }: { monster: Monster }) {
   return (
     <article className="mx-auto max-w-2xl px-4 py-6 font-serif text-fg">
       {/* Name + type/alignment header */}
-      <h2 className="rd-heading border-b-2 border-border pb-1 text-2xl font-bold italic">
-        {monster.name}
-      </h2>
+      <div className="flex items-start justify-between gap-3 border-b-2 border-border pb-1">
+        <h2 className="rd-heading text-2xl font-bold italic">{monster.name}</h2>
+        <ShareLinkButton />
+      </div>
       <p className="mt-0.5 text-sm italic text-fg-muted">
         {sizeToFull(monster.size)} {typeToFull(monster.type)}, {alignmentToFull(monster.alignment)}
       </p>

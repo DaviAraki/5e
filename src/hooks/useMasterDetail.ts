@@ -1,22 +1,53 @@
 import { useCallback, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 /**
- * Shared master-detail selection state.
+ * Shared master-detail selection state, backed by a URL search param (`?s=...`).
  *
- * Encapsulates the pattern duplicated across all 8 list pages:
- * - `selectedKey` — the currently selected item's key (or null).
+ * The selected item's key lives in the address bar so it is shareable:
+ * copying and reopening the URL restores the same selection. Each page renders
+ * on its own route, so one generic `s` param is unambiguous across pages.
+ *
+ * - `selectedKey` — the currently selected item's key (or null), read from `s`.
  * - `isMobileDetail` — whether the detail pane is shown full-width on mobile.
- * - `select(key)` — sets selectedKey and flips isMobileDetail to true.
+ * - `select(key)` — writes the key to the URL (replace, not push) and flips
+ *   isMobileDetail to true.
+ * - `setSelectedKey` — set null to clear the param; a string to replace it.
  * - Auto-resets isMobileDetail to false when selectedKey clears.
  */
-export function useMasterDetail() {
-  const [selectedKey, setSelectedKey] = useState<string | null>(null);
-  const [isMobileDetail, setIsMobileDetail] = useState(false);
+const SEL_PARAM = "s";
 
-  const select = useCallback((key: string) => {
-    setSelectedKey(key);
-    setIsMobileDetail(true);
-  }, []);
+export function useMasterDetail() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedKey = searchParams.get(SEL_PARAM);
+
+  // Local UI state only — whether the mobile detail overlay is shown.
+  // Initialized true when arriving via a deep link so the detail pane shows.
+  const [isMobileDetail, setIsMobileDetail] = useState<boolean>(
+    () => selectedKey != null,
+  );
+
+  const setSelectedKey = useCallback(
+    (key: string | null) => {
+      setSearchParams(
+        (prev) => {
+          if (key == null) prev.delete(SEL_PARAM);
+          else prev.set(SEL_PARAM, key);
+          return prev;
+        },
+        { replace: true },
+      );
+    },
+    [setSearchParams],
+  );
+
+  const select = useCallback(
+    (key: string) => {
+      setSelectedKey(key);
+      setIsMobileDetail(true);
+    },
+    [setSelectedKey],
+  );
 
   useEffect(() => {
     if (!selectedKey) setIsMobileDetail(false);

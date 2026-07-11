@@ -2,6 +2,7 @@ import type { Feat } from "@/types/entities";
 import EntryRenderer from "@/render/EntryRenderer";
 import { categoryToFull, abilityToFull, prerequisiteToFull } from "@/lib/featFormatters";
 import { sourceToAbv } from "@/lib/spellFormatters";
+import ShareLinkButton from "@/components/ShareLinkButton";
 
 /**
  * FeatStatBlock — displays a single feat.
@@ -16,9 +17,10 @@ export default function FeatStatBlock({ feat }: { feat: Feat }) {
 
   return (
     <article className="mx-auto max-w-2xl px-4 py-6 font-serif text-fg">
-      <h2 className="rd-heading border-b-2 border-border pb-1 text-2xl font-bold italic">
-        {feat.name}
-      </h2>
+      <div className="flex items-start justify-between gap-3 border-b-2 border-border pb-1">
+        <h2 className="rd-heading text-2xl font-bold italic">{feat.name}</h2>
+        <ShareLinkButton />
+      </div>
       {category && (
         <p className="mt-0.5 text-sm italic text-fg-muted">
           {category} Feat

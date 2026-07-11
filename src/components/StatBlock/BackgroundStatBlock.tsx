@@ -1,6 +1,7 @@
 import type { Background } from "@/types/entities";
 import EntryRenderer from "@/render/EntryRenderer";
 import { sourceToAbv } from "@/lib/spellFormatters";
+import ShareLinkButton from "@/components/ShareLinkButton";
 
 /**
  * BackgroundStatBlock — displays a single background.
@@ -17,9 +18,10 @@ export default function BackgroundStatBlock({ bg }: { bg: Background }) {
 
   return (
     <article className="mx-auto max-w-2xl px-4 py-6 font-serif text-fg">
-      <h2 className="rd-heading border-b-2 border-border pb-1 text-2xl font-bold italic">
-        {bg.name}
-      </h2>
+      <div className="flex items-start justify-between gap-3 border-b-2 border-border pb-1">
+        <h2 className="rd-heading text-2xl font-bold italic">{bg.name}</h2>
+        <ShareLinkButton />
+      </div>
 
       {/* Body entries (the proficiency/equipment list + any extra blocks) */}
       <div className="mt-4 space-y-3 font-sans">

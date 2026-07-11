@@ -9,6 +9,7 @@ import {
   propertiesToFull,
 } from "@/lib/itemFormatters";
 import { sourceToAbv } from "@/lib/spellFormatters";
+import ShareLinkButton from "@/components/ShareLinkButton";
 
 /**
  * ItemStatBlock — displays a single item (mundane or magic).
@@ -34,9 +35,10 @@ export default function ItemStatBlock({ item }: { item: Item }) {
 
   return (
     <article className="mx-auto max-w-2xl px-4 py-6 font-serif text-fg">
-      <h2 className="rd-heading border-b-2 border-border pb-1 text-2xl font-bold italic">
-        {item.name}
-      </h2>
+      <div className="flex items-start justify-between gap-3 border-b-2 border-border pb-1">
+        <h2 className="rd-heading text-2xl font-bold italic">{item.name}</h2>
+        <ShareLinkButton />
+      </div>
       {subtitle && <p className="mt-0.5 text-sm italic text-fg-muted">{subtitle}</p>}
 
       {/* Stat grid */}
