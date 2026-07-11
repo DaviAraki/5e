@@ -8,7 +8,7 @@ import { fileURLToPath, URL } from "node:url";
 export default defineConfig({
   // Serve assets under the repo subpath for GitHub Pages project sites.
   // Override locally with `--base=/` if deploying to a root domain.
-  base: "/5etools-react/",
+  base: "/5e/",
   plugins: [react()],
   resolve: {
     alias: {
