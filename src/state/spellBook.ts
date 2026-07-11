@@ -39,6 +39,11 @@ interface SpellBookState {
   addToBook: (bookId: string, key: string) => void;
   removeFromBook: (bookId: string, key: string) => void;
   toggleMemorized: (bookId: string, key: string) => void;
+
+  // --- portability ---
+  exportBooks: () => SpellBook[];
+  /** Merge validated books into the store. Returns the number imported. */
+  importBooks: (books: SpellBook[]) => number;
 }
 
 function newId(): string {
@@ -55,7 +60,7 @@ function firstKey(books: Record<string, SpellBook>): string | null {
 
 export const useSpellBook = create<SpellBookState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       books: {},
       activeBookId: null,
 
@@ -119,7 +124,7 @@ export const useSpellBook = create<SpellBookState>()(
           };
         }),
 
-      toggleMemorized: (bookId, key) =>
+        toggleMemorized: (bookId, key) =>
         set((state) => {
           const book = state.books[bookId];
           if (!book || !(key in book.spells)) return state;
@@ -133,6 +138,25 @@ export const useSpellBook = create<SpellBookState>()(
             },
           };
         }),
+
+      exportBooks: () =>
+        Object.values(get().books).sort((a, b) =>
+          a.createdAt.localeCompare(b.createdAt),
+        ),
+
+      importBooks: (books) => {
+        set((state) => {
+          const next = { ...state.books };
+          for (const book of books) {
+            // Avoid clobbering existing books: if the imported id collides,
+            // assign a fresh id so both are kept.
+            const id = book.id in next ? newId() : book.id;
+            next[id] = { ...book, id };
+          }
+          return { books: next };
+        });
+        return books.length;
+      },
     }),
     {
       name: "5etools-react/spellbook",
@@ -144,4 +168,47 @@ export const useSpellBook = create<SpellBookState>()(
 /** Convenience selector: the active book object, or null. */
 export function selectActiveBook(state: SpellBookState): SpellBook | null {
   return state.activeBookId ? state.books[state.activeBookId] ?? null : null;
+}
+
+/**
+ * Validate an unknown payload (e.g. decoded by the codec) as a spell-books
+ * array. Returns the books on success, or null if the shape is invalid.
+ * Defensive against arbitrary user-provided / pasted data.
+ *
+ * Accepts either a bare `SpellBook[]` (the compact-codec format) or a legacy
+ * `{ version, exportedAt, books }` envelope.
+ */
+export function parseBooks(data: unknown): SpellBook[] | null {
+  // Bare array (current compact format).
+  if (Array.isArray(data)) return parseBooksArray(data);
+  // Legacy envelope.
+  if (typeof data === "object" && data !== null) {
+    const obj = data as Record<string, unknown>;
+    if (obj.version === 1 && Array.isArray(obj.books)) return parseBooksArray(obj.books);
+  }
+  return null;
+}
+
+function parseBooksArray(arr: unknown[]): SpellBook[] | null {
+  const books: SpellBook[] = [];
+  for (const raw of arr) {
+    if (typeof raw !== "object" || raw === null) return null;
+    const b = raw as Record<string, unknown>;
+    if (
+      typeof b.id !== "string" ||
+      typeof b.name !== "string" ||
+      typeof b.createdAt !== "string" ||
+      typeof b.spells !== "object" ||
+      b.spells === null
+    ) {
+      return null;
+    }
+    // Coerce spells to Record<string, boolean>, dropping any non-boolean values.
+    const spells: Record<string, boolean> = {};
+    for (const [k, v] of Object.entries(b.spells as Record<string, unknown>)) {
+      if (typeof v === "boolean") spells[k] = v;
+    }
+    books.push({ id: b.id, name: b.name, createdAt: b.createdAt, spells });
+  }
+  return books;
 }

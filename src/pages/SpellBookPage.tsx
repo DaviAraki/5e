@@ -3,7 +3,8 @@ import type { Spell } from "@/types/entities";
 import { useSpells } from "@/data/DataLoader";
 import { indexByRef, makeRef, refKey } from "@/data/entityRefs";
 import SpellStatBlock from "@/components/StatBlock/SpellStatBlock";
-import { useSpellBook } from "@/state/spellBook";
+import { parseBooks, useSpellBook } from "@/state/spellBook";
+import { decodeBooks, encodeBooks } from "@/state/spellBookCodec";
 import { spSchoolToAbv, spTimeToShort } from "@/lib/spellFormatters";
 
 /**
@@ -28,6 +29,16 @@ export default function SpellBookPage() {
   const deleteBook = useSpellBook((s) => s.deleteBook);
   const removeFromBook = useSpellBook((s) => s.removeFromBook);
   const toggleMemorized = useSpellBook((s) => s.toggleMemorized);
+  const exportBooks = useSpellBook((s) => s.exportBooks);
+  const importBooks = useSpellBook((s) => s.importBooks);
+
+  // Export/import panel state.
+  const [showExport, setShowExport] = useState(false);
+  const [showImport, setShowImport] = useState(false);
+  const [exportCode, setExportCode] = useState("");
+  const [importCode, setImportCode] = useState("");
+  const [exportError, setExportError] = useState<string | null>(null);
+  const [importError, setImportError] = useState<string | null>(null);
 
   const allSpells = data?.entities ?? [];
   const spellsByRef = useMemo(() => indexByRef(allSpells), [allSpells]);
@@ -123,6 +134,52 @@ export default function SpellBookPage() {
     }
   }
 
+  async function openExport() {
+    setShowImport(false);
+    setImportCode("");
+    setImportError(null);
+    setExportError(null);
+    setExportCode("");
+    setShowExport(true);
+    try {
+      const code = await encodeBooks(exportBooks());
+      setExportCode(code);
+    } catch (e) {
+      setExportError(String(e instanceof Error ? e.message : e));
+    }
+  }
+
+  async function copyExport() {
+    if (!exportCode) return;
+    try {
+      await navigator.clipboard.writeText(exportCode);
+    } catch {
+      // clipboard API can be unavailable (non-secure context); fail silently.
+    }
+  }
+
+  async function doImport() {
+    setImportError(null);
+    try {
+      const decoded = await decodeBooks(importCode);
+      const parsed = parseBooks(decoded);
+      if (!parsed) {
+        setImportError("That code doesn't contain valid spell books.");
+        return;
+      }
+      const n = importBooks(parsed);
+      if (n === 0) {
+        setImportError("No spell books found in that code.");
+      } else {
+        setImportCode("");
+        setShowImport(false);
+        window.alert(`Imported ${n} spell book${n === 1 ? "" : "s"}.`);
+      }
+    } catch (e) {
+      setImportError(String(e instanceof Error ? e.message : e));
+    }
+  }
+
   return (
     <div className="flex h-full">
       {/* LIST PANE */}
@@ -170,6 +227,102 @@ export default function SpellBookPage() {
               Delete
             </button>
           </div>
+          <div className="mt-2 flex gap-2">
+            <button
+              type="button"
+              onClick={openExport}
+              disabled={bookList.length === 0}
+              className="flex-1 rounded-md border border-border px-2 py-1 text-xs text-fg-muted hover:text-fg disabled:cursor-not-allowed disabled:text-fg-faint"
+              title="Copy all spell books as a compact code"
+            >
+              Export code
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setShowExport(false);
+                setExportCode("");
+                setExportError(null);
+                setImportError(null);
+                setShowImport((s) => !s);
+              }}
+              className="flex-1 rounded-md border border-border px-2 py-1 text-xs text-fg-muted hover:text-fg"
+              title="Import spell books from a compact code (merges)"
+            >
+              Import code
+            </button>
+          </div>
+
+          {showExport && (
+            <div className="mt-2">
+              <textarea
+                readOnly
+                value={exportCode}
+                placeholder={exportError ?? "Generating code…"}
+                rows={3}
+                className="min-w-0 w-full resize-none rounded-md border border-border bg-bg-raised px-2 py-1 font-mono text-[11px] text-fg-muted outline-none focus:border-accent"
+              />
+              {exportError && (
+                <p className="mt-1 text-xs text-red-400">{exportError}</p>
+              )}
+              <div className="mt-1 flex gap-2">
+                <button
+                  type="button"
+                  onClick={copyExport}
+                  disabled={!exportCode}
+                  className="flex-1 rounded-md border border-border px-2 py-1 text-xs text-accent hover:bg-accent-subtle disabled:text-fg-faint"
+                >
+                  Copy
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowExport(false);
+                    setExportCode("");
+                  }}
+                  className="flex-1 rounded-md border border-border px-2 py-1 text-xs text-fg-muted hover:text-fg"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
+
+          {showImport && (
+            <div className="mt-2">
+              <textarea
+                value={importCode}
+                onChange={(e) => setImportCode(e.target.value)}
+                placeholder="Paste an SB1:… spell book code here"
+                rows={3}
+                className="min-w-0 w-full resize-none rounded-md border border-border bg-bg-raised px-2 py-1 font-mono text-[11px] text-fg outline-none placeholder:text-fg-faint focus:border-accent"
+              />
+              {importError && (
+                <p className="mt-1 text-xs text-red-400">{importError}</p>
+              )}
+              <div className="mt-1 flex gap-2">
+                <button
+                  type="button"
+                  onClick={doImport}
+                  disabled={!importCode.trim()}
+                  className="flex-1 rounded-md border border-border px-2 py-1 text-xs text-accent hover:bg-accent-subtle disabled:text-fg-faint"
+                >
+                  Import
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowImport(false);
+                    setImportCode("");
+                    setImportError(null);
+                  }}
+                  className="flex-1 rounded-md border border-border px-2 py-1 text-xs text-fg-muted hover:text-fg"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
           <input
             type="search"
             placeholder={`Search ${activeBook ? Object.keys(activeBook.spells).length : 0} spells…`}
