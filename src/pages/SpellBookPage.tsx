@@ -11,6 +11,8 @@ import MasterDetailLayout from "@/components/layout/MasterDetailLayout";
 import ColumnHeader, { type ColumnDef } from "@/components/list/ColumnHeader";
 import { useMasterDetail } from "@/hooks/useMasterDetail";
 
+type SortKey = "name" | "level" | "school";
+
 /**
  * Spell Book page: manage named spell books (e.g. one per character) and toggle
  * which spells are memorized. Mirrors the SpellsPage master-detail layout but
@@ -20,6 +22,7 @@ import { useMasterDetail } from "@/hooks/useMasterDetail";
 export default function SpellBookPage() {
   const { data, isLoading, error } = useSpells();
   const [search, setSearch] = useState("");
+  const [sortKey, setSortKey] = useState<SortKey>("name");
   const { selectedKey, setSelectedKey, isMobileDetail, setIsMobileDetail, select } = useMasterDetail();
 
   // Spell-book store. Subscribe to the whole books map so list re-renders on
@@ -64,8 +67,8 @@ export default function SpellBookPage() {
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase();
     const out = q ? bookSpells.filter((s) => s.name.toLowerCase().includes(q)) : bookSpells;
-    return [...out].sort((a, b) => a.name.localeCompare(b.name));
-  }, [bookSpells, search]);
+    return [...out].sort((a, b) => compareSpells(a, b, sortKey));
+  }, [bookSpells, search, sortKey]);
 
   const selected = useMemo(
     () => (selectedKey ? spellsByRef.get(selectedKey) ?? null : null),
@@ -327,6 +330,23 @@ export default function SpellBookPage() {
               onChange={(e) => setSearch(e.target.value)}
               className="mt-2 min-w-0 w-full rounded-md border border-border bg-bg-raised px-3 py-1.5 text-sm outline-none placeholder:text-fg-faint focus:border-accent"
             />
+            <div className="mt-2 flex items-center gap-1 text-xs">
+              <span className="text-fg-muted">Sort:</span>
+              {(["name", "level", "school"] as SortKey[]).map((k) => (
+                <button
+                  key={k}
+                  type="button"
+                  onClick={() => setSortKey(k)}
+                  className={`rounded px-2 py-0.5 capitalize ${
+                    sortKey === k
+                      ? "bg-accent-subtle text-accent"
+                      : "text-fg-muted hover:bg-bg-raised"
+                  }`}
+                >
+                  {k}
+                </button>
+              ))}
+            </div>
           </div>
 
           <ColumnHeader columns={columns} gap="gap-3" />
@@ -416,4 +436,17 @@ export default function SpellBookPage() {
       }
     />
   );
+}
+
+function compareSpells(a: Spell, b: Spell, key: SortKey): number {
+  switch (key) {
+    case "name":
+      return a.name.localeCompare(b.name);
+    case "level":
+      return a.level - b.level || a.name.localeCompare(b.name);
+    case "school":
+      return a.school.localeCompare(b.school) || a.name.localeCompare(b.name);
+    default:
+      return 0;
+  }
 }
