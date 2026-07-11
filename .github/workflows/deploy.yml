@@ -32,6 +32,12 @@ jobs:
       - name: Build
         run: pnpm build
 
+      # GitHub Pages has no SPA fallback. Copy index.html to 404.html so
+      # refreshing a client-side route (e.g. /spells) serves the app instead
+      # of a hard 404.
+      - name: SPA fallback
+        run: cp dist/index.html dist/404.html
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
