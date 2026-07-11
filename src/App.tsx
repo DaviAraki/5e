@@ -9,6 +9,7 @@ import SpeciesPage from "@/pages/SpeciesPage";
 import FeatsPage from "@/pages/FeatsPage";
 import BooksPage from "@/pages/BooksPage";
 import SpellBookPage from "@/pages/SpellBookPage";
+import LootPage from "@/pages/LootPage";
 import Landing from "@/pages/Landing";
 import NavItem from "@/components/nav/NavItem";
 import EntityPreviewModal from "@/components/EntityPreviewModal";
@@ -23,6 +24,7 @@ const NAV_ITEMS: { to: string; label: string }[] = [
   { to: "/feats", label: "Feats" },
   { to: "/books", label: "Books" },
   { to: "/spellbook", label: "Spell Book" },
+  { to: "/loot", label: "Loot" },
 ];
 
 /**
@@ -85,6 +87,7 @@ export default function App() {
           <Route path="/feats" element={<FeatsPage />} />
           <Route path="/books" element={<BooksPage />} />
           <Route path="/spellbook" element={<SpellBookPage />} />
+          <Route path="/loot" element={<LootPage />} />
         </Routes>
       </main>
 

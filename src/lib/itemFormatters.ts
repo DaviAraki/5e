@@ -154,6 +154,20 @@ export function propertiesToFull(props: string[] | undefined): string {
     .join(", ");
 }
 
+/** Item type codes that are inherently consumable (potions, scrolls, etc.). */
+const CONSUMABLE_TYPE_CODES = new Set(["P", "SC", "EXP", "FD"]);
+
+/**
+ * Whether an item is a consumable. The dataset tags consumables explicitly via
+ * `miscTags: ["CNS"]` (136 items — all potions, scrolls, explosives, food);
+ * the type-code fallback covers any item missing the tag.
+ */
+export function isConsumable(item: Item): boolean {
+  if (item.miscTags?.includes("CNS")) return true;
+  const code = (item.type ?? "").split("|")[0] ?? "";
+  return CONSUMABLE_TYPE_CODES.has(code.replace(/^\$/, ""));
+}
+
 function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
