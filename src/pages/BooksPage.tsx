@@ -1,8 +1,9 @@
 import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import type { Book, Entry } from "@/types/entities";
+import type { Book } from "@/types/entities";
 import { useBooks } from "@/data/DataLoader";
-import EntryRenderer from "@/render/EntryRenderer";
+import BookCard from "@/components/books/BookCard";
+import BookDetail from "@/components/books/BookDetail";
+import Centered from "@/components/layout/Centered";
 
 /**
  * Books page — a browsable reference of all source books.
@@ -74,17 +75,12 @@ export default function BooksPage() {
     [books, selectedKey],
   );
 
-  if (isLoading)
-    return (
-      <div className="flex h-full items-center justify-center text-fg-muted">
-        Loading books…
-      </div>
-    );
+  if (isLoading) return <Centered>Loading books…</Centered>;
   if (error)
     return (
-      <div className="flex h-full items-center justify-center text-red-400">
-        Failed to load: {String(error.message)}
-      </div>
+      <Centered>
+        <div className="text-red-400">Failed to load: {String(error.message)}</div>
+      </Centered>
     );
 
   return (
@@ -154,165 +150,4 @@ export default function BooksPage() {
 
 function bookKey(b: Book): string {
   return `${b.id}|${b.source}`;
-}
-
-function BookCard({ book, onClick }: { book: Book; onClick: () => void }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="group flex flex-col gap-1.5 rounded-lg border border-border p-2 text-left transition-colors hover:border-accent hover:bg-bg-subtle"
-    >
-      <div className="flex aspect-[3/4] items-center justify-center overflow-hidden rounded-md bg-bg-raised">
-        {book.cover ? (
-          <img
-            src={`/${book.cover.path}`}
-            alt={book.name}
-            className="h-full w-full object-cover"
-            loading="lazy"
-          />
-        ) : (
-          <span className="text-2xl font-bold text-fg-faint">{book.id}</span>
-        )}
-      </div>
-      <span className="line-clamp-2 text-xs font-medium text-fg">{book.name}</span>
-      <span className="text-[10px] text-fg-faint">
-        {book.published?.slice(0, 4)}
-      </span>
-    </button>
-  );
-}
-
-/** Per-book content fetch hook. Lazy-loads chapters on demand. */
-function useBookContent(bookId: string | undefined) {
-  return useQuery({
-    queryKey: ["book-content", bookId],
-    queryFn: async () => {
-      if (!bookId) return [];
-      const res = await fetch(`/data/resolved/books/${bookId.toLowerCase()}.json`);
-      if (!res.ok) return [];
-      return (await res.json()) as Array<{ name?: string; entries?: Entry[] }>;
-    },
-    enabled: !!bookId,
-  });
-}
-
-function BookDetail({ book, onBack }: { book: Book; onBack: () => void }) {
-  const { data: chapters, isLoading } = useBookContent(book.id);
-  const [activeChapter, setActiveChapter] = useState(0);
-
-  return (
-    <div>
-      <button
-        type="button"
-        onClick={onBack}
-        className="mb-4 flex items-center gap-1 text-sm text-accent hover:text-accent-hover"
-      >
-        <span aria-hidden>←</span> All books
-      </button>
-
-      <div className="flex gap-4">
-        <div className="hidden w-32 shrink-0 sm:block">
-          <div className="aspect-[3/4] overflow-hidden rounded-lg border border-border bg-bg-raised">
-            {book.cover ? (
-              <img
-                src={`/${book.cover.path}`}
-                alt={book.name}
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <div className="flex h-full items-center justify-center text-2xl font-bold text-fg-faint">
-                {book.id}
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="flex-1">
-          <h2 className="font-serif text-xl font-bold text-fg">{book.name}</h2>
-          <dl className="mt-2 space-y-0.5 text-sm text-fg-muted">
-            <div>
-              <dt className="inline font-semibold text-fg">Source: </dt>
-              <dd className="inline">{book.source}</dd>
-            </div>
-            {book.author && (
-              <div>
-                <dt className="inline font-semibold text-fg">Author: </dt>
-                <dd className="inline">{book.author}</dd>
-              </div>
-            )}
-            {book.published && (
-              <div>
-                <dt className="inline font-semibold text-fg">Published: </dt>
-                <dd className="inline">{book.published}</dd>
-              </div>
-            )}
-            {book.level && (
-              <div>
-                <dt className="inline font-semibold text-fg">Levels: </dt>
-                <dd className="inline">
-                  {book.level.start}–{book.level.end}
-                </dd>
-              </div>
-            )}
-          </dl>
-        </div>
-      </div>
-
-      {/* Chapter navigation + readable content */}
-      {isLoading ? (
-        <p className="mt-6 text-sm text-fg-muted">Loading chapters…</p>
-      ) : chapters && chapters.length > 0 ? (
-        <div className="mt-6">
-          {/* Chapter selector */}
-          <div className="mb-4 flex flex-wrap gap-1">
-            {chapters.map((ch, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setActiveChapter(i)}
-                className={`rounded-md border px-2.5 py-1 text-xs transition-colors ${
-                  i === activeChapter
-                    ? "border-accent bg-accent-subtle text-accent"
-                    : "border-border text-fg-muted hover:border-border-strong hover:text-fg"
-                }`}
-              >
-                {ch.name ?? `Chapter ${i + 1}`}
-              </button>
-            ))}
-          </div>
-
-          {/* Chapter content */}
-          <div className="rounded-lg border border-border bg-bg-subtle p-4 font-sans">
-            {chapters[activeChapter]?.entries?.map((entry, i) => (
-              <EntryRenderer key={i} entry={entry} />
-            ))}
-          </div>
-        </div>
-      ) : (
-        book.contents &&
-        book.contents.length > 0 && (
-          <div className="mt-6">
-            <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-fg-muted">
-              Table of Contents
-            </h3>
-            <div className="space-y-2">
-              {book.contents.map((ch, i) => (
-                <div
-                  key={i}
-                  className="rounded-md border border-border-subtle px-3 py-2"
-                >
-                  <p className="text-sm font-semibold text-fg">{ch.name}</p>
-                  {ch.headers && ch.headers.length > 0 && (
-                    <p className="mt-0.5 text-xs text-fg-muted">
-                      {ch.headers.join(" • ")}
-                    </p>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        )
-      )}
-    </div>
-  );
 }

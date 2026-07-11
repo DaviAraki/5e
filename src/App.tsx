@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Routes, Route, NavLink, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import SpellsPage from "@/pages/SpellsPage";
 import ClassesPage from "@/pages/ClassesPage";
 import BestiaryPage from "@/pages/BestiaryPage";
@@ -9,6 +9,8 @@ import SpeciesPage from "@/pages/SpeciesPage";
 import FeatsPage from "@/pages/FeatsPage";
 import BooksPage from "@/pages/BooksPage";
 import SpellBookPage from "@/pages/SpellBookPage";
+import Landing from "@/pages/Landing";
+import NavItem from "@/components/nav/NavItem";
 import EntityPreviewModal from "@/components/EntityPreviewModal";
 
 const NAV_ITEMS: { to: string; label: string }[] = [
@@ -122,31 +124,6 @@ export default function App() {
       </aside>
 
       <EntityPreviewModal />
-    </div>
-  );
-}
-
-function NavItem({ to, children }: { to: string; children: React.ReactNode }) {
-  return (
-    <NavLink
-      to={to}
-      className={({ isActive }) =>
-        `rounded-md px-3 py-1.5 transition-colors ${
-          isActive
-            ? "bg-accent-subtle text-accent"
-            : "text-fg-muted hover:bg-bg-raised hover:text-fg"
-        }`
-      }
-    >
-      {children}
-    </NavLink>
-  );
-}
-
-function Landing() {
-  return (
-    <div className="flex h-full items-center justify-center text-fg-muted">
-      Select a tool from the nav.
     </div>
   );
 }

@@ -1,7 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import type { Class } from "@/types/entities";
 import { useClasses } from "@/data/DataLoader";
+import { makeRef } from "@/data/entityRefs";
 import ClassStatBlock from "@/components/StatBlock/ClassStatBlock";
+import Centered from "@/components/layout/Centered";
+import MasterDetailLayout from "@/components/layout/MasterDetailLayout";
+import ColumnHeader, { type ColumnDef } from "@/components/list/ColumnHeader";
+import { useMasterDetail } from "@/hooks/useMasterDetail";
 
 /**
  * Responsive class browser. Same mobile/desktop pattern as SpellsPage:
@@ -10,8 +15,7 @@ import ClassStatBlock from "@/components/StatBlock/ClassStatBlock";
  */
 export default function ClassesPage() {
   const { data, isLoading, error } = useClasses();
-  const [selectedKey, setSelectedKey] = useState<string | null>(null);
-  const [isMobileDetail, setIsMobileDetail] = useState(false);
+  const { selectedKey, isMobileDetail, setIsMobileDetail, select } = useMasterDetail();
 
   const classes = data?.classes ?? [];
   const subclasses = data?.subclasses ?? [];
@@ -22,18 +26,9 @@ export default function ClassesPage() {
   );
 
   const selected = useMemo(
-    () => classes.find((c) => classKey(c) === selectedKey) ?? null,
+    () => classes.find((c) => makeRef(c.name, c.source) === selectedKey) ?? null,
     [classes, selectedKey],
   );
-
-  function selectClass(key: string) {
-    setSelectedKey(key);
-    setIsMobileDetail(true);
-  }
-
-  useEffect(() => {
-    if (!selectedKey) setIsMobileDetail(false);
-  }, [selectedKey]);
 
   if (isLoading) return <Centered>Loading classes…</Centered>;
   if (error)
@@ -48,89 +43,66 @@ export default function ClassesPage() {
       </Centered>
     );
 
+  const columns: ColumnDef[] = [
+    { label: "Name", className: "flex-1" },
+    { label: "Magic", title: "Spellcasting type", className: "w-14 shrink-0 text-center" },
+    { label: "HD", title: "Hit die", className: "w-8 shrink-0 text-center" },
+  ];
+
   return (
-    <div className="flex h-full">
-      {/* LIST PANE */}
-      <aside
-        className={`${
-          isMobileDetail ? "hidden md:flex" : "flex"
-        } w-full flex-col border-border bg-bg-subtle md:w-64 md:shrink-0 md:border-r`}
-      >
-        <div className="border-b border-border px-3 py-2">
-          <span className="text-sm font-semibold text-fg">
-            Classes <span className="text-fg-muted">({sorted.length})</span>
-          </span>
-        </div>
-        {/* Column header */}
-        <div className="flex items-center gap-2 border-b border-border bg-bg-raised px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-fg-faint">
-          <span className="flex-1">Name</span>
-          <span className="w-14 shrink-0 text-center" title="Spellcasting type">
-            Magic
-          </span>
-          <span className="w-8 shrink-0 text-center" title="Hit die">
-            HD
-          </span>
-        </div>
-        <div className="flex-1 overflow-y-auto">
-          {sorted.map((c) => {
-            const key = classKey(c);
-            const active = key === selectedKey;
-            return (
-              <button
-                key={key}
-                type="button"
-                onClick={() => selectClass(key)}
-                className={`flex w-full items-center gap-2 border-b border-border-subtle px-3 py-2 text-left text-sm transition-colors ${
-                  active ? "bg-accent-subtle" : "hover:bg-bg-raised"
-                }`}
-              >
-                <span className="flex-1 truncate font-medium">{c.name}</span>
-                <span
-                  className="w-14 shrink-0 text-center text-xs text-accent"
-                  title={casterTooltip(c)}
+    <MasterDetailLayout
+      isMobileDetail={isMobileDetail}
+      onBack={() => setIsMobileDetail(false)}
+      backLabel="Classes"
+      listWidth="md:w-64"
+      list={
+        <>
+          <div className="border-b border-border px-3 py-2">
+            <span className="text-sm font-semibold text-fg">
+              Classes <span className="text-fg-muted">({sorted.length})</span>
+            </span>
+          </div>
+          <ColumnHeader columns={columns} />
+          <div className="flex-1 overflow-y-auto">
+            {sorted.map((c) => {
+              const key = makeRef(c.name, c.source);
+              const active = key === selectedKey;
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => select(key)}
+                  className={`flex w-full items-center gap-2 border-b border-border-subtle px-3 py-2 text-left text-sm transition-colors ${
+                    active ? "bg-accent-subtle" : "hover:bg-bg-raised"
+                  }`}
                 >
-                  {casterLabel(c)}
-                </span>
-                <span className="w-8 shrink-0 text-center text-xs text-fg-faint">
-                  d{c.hd.faces}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </aside>
-
-      {/* DETAIL PANE */}
-      <section
-        className={`${
-          isMobileDetail ? "flex" : "hidden md:flex"
-        } absolute inset-0 top-0 z-10 flex-1 flex-col overflow-hidden bg-bg md:static md:z-auto`}
-      >
-        <div className="flex items-center border-b border-border bg-bg-subtle px-2 py-2 md:hidden">
-          <button
-            type="button"
-            onClick={() => setIsMobileDetail(false)}
-            className="flex items-center gap-1 rounded-md px-3 py-1 text-sm text-accent hover:bg-bg-raised"
-          >
-            <span aria-hidden>←</span> Classes
-          </button>
-        </div>
-        <div className="flex-1 overflow-y-auto">
-          {selected ? (
-            <ClassStatBlock cls={selected} subclasses={subclasses} />
-          ) : (
-            <Centered>
-              <p className="text-fg-muted">Select a class to view details.</p>
-            </Centered>
-          )}
-        </div>
-      </section>
-    </div>
+                  <span className="flex-1 truncate font-medium">{c.name}</span>
+                  <span
+                    className="w-14 shrink-0 text-center text-xs text-accent"
+                    title={casterTooltip(c)}
+                  >
+                    {casterLabel(c)}
+                  </span>
+                  <span className="w-8 shrink-0 text-center text-xs text-fg-faint">
+                    d{c.hd.faces}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </>
+      }
+      detail={
+        selected ? (
+          <ClassStatBlock cls={selected} subclasses={subclasses} />
+        ) : (
+          <Centered>
+            <p className="text-fg-muted">Select a class to view details.</p>
+          </Centered>
+        )
+      }
+    />
   );
-}
-
-function classKey(c: Class): string {
-  return `${c.name}|${c.source}`;
 }
 
 /** Short badge label for the class list's "Magic" column. */
@@ -166,10 +138,4 @@ function casterTooltip(c: Class): string {
     default:
       return `${abil} caster`;
   }
-}
-
-function Centered({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex h-full items-center justify-center text-fg-muted">{children}</div>
-  );
 }

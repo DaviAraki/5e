@@ -1,12 +1,8 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { useEntityPreview, type EntityType } from "@/state/entityPreview";
-import type { ResolvedData, Spell, Monster, Item, Feat, VariantRule } from "@/types/entities";
-import SpellStatBlock from "@/components/StatBlock/SpellStatBlock";
-import MonsterStatBlock from "@/components/StatBlock/MonsterStatBlock";
-import ItemStatBlock from "@/components/StatBlock/ItemStatBlock";
-import FeatStatBlock from "@/components/StatBlock/FeatStatBlock";
-import VariantRuleStatBlock from "@/components/StatBlock/VariantRuleStatBlock";
+import { useEntityPreview } from "@/state/entityPreview";
+import { resolveEntity } from "@/lib/resolveEntity";
+import EntityContent from "@/components/EntityContent";
 
 /**
  * EntityPreviewModal — a popover that shows a quick-look of any entity
@@ -71,67 +67,4 @@ export default function EntityPreviewModal() {
       </div>
     </div>
   );
-}
-
-/** Resolve an entity from the React Query cache by type + name|source. */
-function resolveEntity(
-  qc: ReturnType<typeof useQueryClient>,
-  type: EntityType,
-  name: string,
-  source: string,
-): unknown | null {
-  const nameLower = name.toLowerCase();
-  const sourceLower = source.toLowerCase();
-
-  const find = <T extends { name: string; source: string }>(data: T[] | undefined): T | null => {
-    if (!data) return null;
-    return (
-      data.find(
-        (e) => e.name.toLowerCase() === nameLower && e.source.toLowerCase() === sourceLower,
-      ) ?? null
-    );
-  };
-
-  switch (type) {
-    case "spell": {
-      const data = qc.getQueryData<ResolvedData<Spell>>(["spells"]);
-      return find(data?.entities);
-    }
-    case "creature": {
-      const data = qc.getQueryData<ResolvedData<Monster>>(["monsters"]);
-      return find(data?.entities);
-    }
-    case "item": {
-      const data = qc.getQueryData<{ items: Item[] }>(["items"]);
-      return find(data?.items);
-    }
-    case "feat": {
-      const data = qc.getQueryData<ResolvedData<Feat>>(["feats"]);
-      return find(data?.entities);
-    }
-    case "variantrule": {
-      const data = qc.getQueryData<ResolvedData<VariantRule>>(["variantrules"]);
-      return find(data?.entities);
-    }
-    default:
-      return null;
-  }
-}
-
-/** Render the resolved entity with the appropriate stat block. */
-function EntityContent({ type, data }: { type: EntityType; data: unknown }) {
-  switch (type) {
-    case "spell":
-      return <SpellStatBlock spell={data as Spell} />;
-    case "creature":
-      return <MonsterStatBlock monster={data as Monster} />;
-    case "item":
-      return <ItemStatBlock item={data as Item} />;
-    case "feat":
-      return <FeatStatBlock feat={data as Feat} />;
-    case "variantrule":
-      return <VariantRuleStatBlock vr={data as VariantRule} />;
-    default:
-      return <div className="p-4 text-sm text-fg-muted">Preview not available for this entity type.</div>;
-  }
 }

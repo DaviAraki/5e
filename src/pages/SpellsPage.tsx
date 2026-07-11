@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import type { Spell } from "@/types/entities";
 import { useSpells } from "@/data/DataLoader";
 import { makeRef, refKey } from "@/data/entityRefs";
@@ -12,6 +12,12 @@ import {
   sourceToAbv,
   isConcentration,
 } from "@/lib/spellFormatters";
+import Centered from "@/components/layout/Centered";
+import MasterDetailLayout from "@/components/layout/MasterDetailLayout";
+import ListSearchBar from "@/components/layout/ListSearchBar";
+import SortBar from "@/components/list/SortBar";
+import ColumnHeader, { type ColumnDef } from "@/components/list/ColumnHeader";
+import { useMasterDetail } from "@/hooks/useMasterDetail";
 
 type SortKey = "name" | "level" | "school" | "time";
 
@@ -25,9 +31,8 @@ export default function SpellsPage() {
   const { data, isLoading, error } = useSpells();
   const [search, setSearch] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("name");
-  const [selectedKey, setSelectedKey] = useState<string | null>(null);
-  const [isMobileDetail, setIsMobileDetail] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const { selectedKey, isMobileDetail, setIsMobileDetail, select } = useMasterDetail();
 
   const spells = data?.entities ?? [];
 
@@ -71,25 +76,9 @@ export default function SpellsPage() {
   }, [spells, search, sortKey, filterSnapshot]);
 
   const selected = useMemo(
-    () => spells.find((s) => spellKey(s) === selectedKey) ?? null,
+    () => spells.find((s) => makeRef(s.name, s.source) === selectedKey) ?? null,
     [spells, selectedKey],
   );
-
-  /** Selecting a spell: store it and, on mobile, switch to detail view. */
-  function selectSpell(key: string) {
-    setSelectedKey(key);
-    setIsMobileDetail(true);
-  }
-
-  /** Back button on mobile detail: return to the list. */
-  function backToList() {
-    setIsMobileDetail(false);
-  }
-
-  // When the selected spell clears, make sure mobile returns to list.
-  useEffect(() => {
-    if (!selectedKey) setIsMobileDetail(false);
-  }, [selectedKey]);
 
   if (isLoading) return <Centered>Loading spells…</Centered>;
   if (error)
@@ -104,218 +93,158 @@ export default function SpellsPage() {
       </Centered>
     );
 
+  const columns: ColumnDef[] = [
+    { label: "Lvl", title: "Spell level (C = cantrip)", className: "w-6 shrink-0 text-center" },
+    { label: "Name", className: "flex-1" },
+    { label: "Conc", title: "Requires concentration", className: "w-8 shrink-0 text-center" },
+    { label: "School", title: "School of magic", className: "w-14 shrink-0 text-right" },
+    { label: "Cast", title: "Casting time", className: "w-12 shrink-0 text-right" },
+  ];
+
   return (
-    <div className="flex h-full">
-      {/* LIST PANE */}
-      {/* On mobile: hidden when detail is open. On desktop: always visible. */}
-      <aside
-        className={`${
-          isMobileDetail ? "hidden md:flex" : "flex"
-        } w-full flex-col border-border bg-bg-subtle md:w-96 md:shrink-0 md:border-r`}
-      >
-        <div className="border-b border-border p-2">
-          <div className="flex gap-2">
-            <input
-              type="search"
+    <MasterDetailLayout
+      isMobileDetail={isMobileDetail}
+      onBack={() => setIsMobileDetail(false)}
+      backLabel="Spells"
+      listWidth="md:w-96"
+      list={
+        <>
+          <div className="border-b border-border p-2">
+            <ListSearchBar
+              search={search}
+              onSearchChange={setSearch}
               placeholder={`Search ${spells.length} spells…`}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="min-w-0 flex-1 rounded-md border border-border bg-bg-raised px-3 py-1.5 text-sm outline-none placeholder:text-fg-faint focus:border-accent"
+              filterActive={filterActive}
+              showFilters={showFilters}
+              onToggleFilters={() => setShowFilters((s) => !s)}
             />
-            <button
-              type="button"
-              onClick={() => setShowFilters((s) => !s)}
-              className={`flex shrink-0 items-center gap-1 rounded-md border px-2.5 py-1.5 text-sm transition-colors ${
-                showFilters || filterActive > 0
-                  ? "border-accent bg-accent-subtle text-accent"
-                  : "border-border text-fg-muted hover:text-fg"
-              }`}
-              title="Toggle filters"
-            >
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
-                <path d="M1.5 3.5h13M3.5 8h9M6 12.5h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-              {filterActive > 0 ? filterActive : ""}
-            </button>
+            <SortBar
+              keys={["name", "level", "school", "time"] as SortKey[]}
+              value={sortKey}
+              onChange={setSortKey}
+            />
           </div>
-          <div className="mt-2 flex items-center gap-1 text-xs">
-            <span className="text-fg-muted">Sort:</span>
-            {(["name", "level", "school", "time"] as SortKey[]).map((k) => (
-              <button
-                key={k}
-                type="button"
-                onClick={() => setSortKey(k)}
-                className={`rounded px-2 py-0.5 capitalize ${
-                  sortKey === k
-                    ? "bg-accent-subtle text-accent"
-                    : "text-fg-muted hover:bg-bg-raised"
-                }`}
-              >
-                {k}
-              </button>
-            ))}
-          </div>
-        </div>
 
-        {/* Collapsible filter panel */}
-        {showFilters && (
-          <div className="max-h-[40vh] shrink-0 overflow-y-auto border-b border-border bg-bg md:max-h-[50vh]">
-            <SpellFilterSidebar spells={spells} />
-          </div>
-        )}
+          {showFilters && (
+            <div className="max-h-[40vh] shrink-0 overflow-y-auto border-b border-border bg-bg md:max-h-[50vh]">
+              <SpellFilterSidebar spells={spells} />
+            </div>
+          )}
 
-        {/* Column header — fixed above the scrollable list.
-            Wider gap-3 and w-8 on Conc so labels don't collide. */}
-        <div className="flex items-center gap-3 border-b border-border bg-bg-raised px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-fg-faint">
-          <span className="w-6 shrink-0 text-center" title="Spell level (C = cantrip)">
-            Lvl
-          </span>
-          <span className="flex-1">Name</span>
-          <span className="w-8 shrink-0 text-center" title="Requires concentration">
-            Conc
-          </span>
-          <span className="w-14 shrink-0 text-right" title="School of magic">
-            School
-          </span>
-          <span className="w-12 shrink-0 text-right" title="Casting time">
-            Cast
-          </span>
-        </div>
+          <ColumnHeader columns={columns} gap="gap-3" />
 
-        <div className="flex-1 overflow-y-auto">
-          {visible.map((spell) => {
-            const key = spellKey(spell);
-            const active = key === selectedKey;
-            const inBook =
-              activeBookId != null && refKey(makeRef(spell.name, spell.source)) in activeBookSpells;
-            return (
-              <div
-                key={key}
-                className={`flex items-center border-b border-border-subtle transition-colors ${
-                  active ? "bg-accent-subtle" : "hover:bg-bg-raised"
-                }`}
-              >
-                <button
-                  type="button"
-                  onClick={() => selectSpell(key)}
-                  className="flex min-w-0 flex-1 items-center gap-3 px-3 py-1.5 text-left text-sm"
-                >
-                  <span
-                    className={`w-6 shrink-0 text-center text-xs font-semibold ${
-                      spell.level === 0 ? "text-fg-muted" : "text-accent"
-                    }`}
-                  >
-                    {spell.level === 0 ? "C" : spell.level}
-                  </span>
-                  <span className="min-w-0 flex-1 truncate font-medium">{spell.name}</span>
-                  <span className="w-8 shrink-0 text-center">
-                    {isConcentration(spell) ? (
-                      <span title="Concentration" className="text-xs font-bold text-accent">
-                        C
-                      </span>
-                    ) : null}
-                  </span>
-                  <span className="w-14 shrink-0 text-right text-xs text-fg-muted">
-                    {spSchoolToAbv(spell.school)}
-                  </span>
-                  <span className="w-12 shrink-0 text-right text-xs text-fg-muted">
-                    {spell.time[0] ? spTimeToShort(spell.time[0]) : ""}
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  disabled={activeBookId == null}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleSpellInBook(spell);
-                  }}
-                  title={
-                    activeBookId == null
-                      ? "Create a spell book first"
-                      : inBook
-                        ? "Remove from spell book"
-                        : "Add to spell book"
-                  }
-                  aria-label={inBook ? "Remove from spell book" : "Add to spell book"}
-                  aria-pressed={inBook}
-                  className={`shrink-0 px-2 py-1.5 text-sm transition-colors ${
-                    activeBookId == null
-                      ? "cursor-not-allowed text-fg-faint"
-                      : inBook
-                        ? "text-accent"
-                        : "text-fg-muted hover:text-accent"
+          <div className="flex-1 overflow-y-auto">
+            {visible.map((spell) => {
+              const key = makeRef(spell.name, spell.source);
+              const active = key === selectedKey;
+              const inBook =
+                activeBookId != null && refKey(makeRef(spell.name, spell.source)) in activeBookSpells;
+              return (
+                <div
+                  key={key}
+                  className={`flex items-center border-b border-border-subtle transition-colors ${
+                    active ? "bg-accent-subtle" : "hover:bg-bg-raised"
                   }`}
                 >
-                  {/* Bookmark icon: filled when in the active book, outline otherwise */}
-                  {inBook ? (
-                    <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
-                      <path d="M4 2.5h8A1.5 1.5 0 0 1 13.5 4v9.5L8 10.5l-5.5 3V4A1.5 1.5 0 0 1 4 2.5z" />
-                    </svg>
-                  ) : (
-                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
-                      <path
-                        d="M4 2.5h8A1.5 1.5 0 0 1 13.5 4v9.5L8 10.5l-5.5 3V4A1.5 1.5 0 0 1 4 2.5z"
-                        stroke="currentColor"
-                        strokeWidth="1.4"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  )}
-                </button>
-              </div>
-            );
-          })}
-          {visible.length === 0 && (
-            <div className="p-4 text-center text-sm text-fg-muted">No spells match.</div>
-          )}
-        </div>
-        <div className="border-t border-border px-3 py-1 text-xs text-fg-muted">
-          {visible.length} / {spells.length} spells
-          {activeBookName ? (
-            <span className="ml-2 text-fg-faint">· adding to “{activeBookName}”</span>
-          ) : null}
-        </div>
-      </aside>
-
-      {/* DETAIL PANE */}
-      {/* On mobile: shown full-width when a spell is selected. On desktop: always visible beside the list. */}
-      <section
-        className={`${
-          isMobileDetail ? "flex" : "hidden md:flex"
-        } absolute inset-0 top-0 z-10 flex-1 flex-col overflow-hidden bg-bg md:static md:z-auto`}
-      >
-        {/* Mobile back bar */}
-        <div className="flex items-center border-b border-border bg-bg-subtle px-2 py-2 md:hidden">
-          <button
-            type="button"
-            onClick={backToList}
-            className="flex items-center gap-1 rounded-md px-3 py-1 text-sm text-accent hover:bg-bg-raised"
-          >
-            <span aria-hidden>←</span> Spells
-          </button>
-        </div>
-        <div className="flex-1 overflow-y-auto">
-          {selected ? (
-            <SpellStatBlock spell={selected} />
-          ) : (
-            <Centered>
-              <div className="text-center">
-                <p className="text-fg-muted">Select a spell to view details.</p>
-                <p className="mt-1 text-xs text-fg-faint">
-                  {visible.length} spells loaded
-                  {spells[0] ? ` from ${sourceToAbv(spells[0].source)}…` : "…"}
-                </p>
-              </div>
-            </Centered>
-          )}
-        </div>
-      </section>
-    </div>
+                  <button
+                    type="button"
+                    onClick={() => select(key)}
+                    className="flex min-w-0 flex-1 items-center gap-3 px-3 py-1.5 text-left text-sm"
+                  >
+                    <span
+                      className={`w-6 shrink-0 text-center text-xs font-semibold ${
+                        spell.level === 0 ? "text-fg-muted" : "text-accent"
+                      }`}
+                    >
+                      {spell.level === 0 ? "C" : spell.level}
+                    </span>
+                    <span className="min-w-0 flex-1 truncate font-medium">{spell.name}</span>
+                    <span className="w-8 shrink-0 text-center">
+                      {isConcentration(spell) ? (
+                        <span title="Concentration" className="text-xs font-bold text-accent">
+                          C
+                        </span>
+                      ) : null}
+                    </span>
+                    <span className="w-14 shrink-0 text-right text-xs text-fg-muted">
+                      {spSchoolToAbv(spell.school)}
+                    </span>
+                    <span className="w-12 shrink-0 text-right text-xs text-fg-muted">
+                      {spell.time[0] ? spTimeToShort(spell.time[0]) : ""}
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    disabled={activeBookId == null}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleSpellInBook(spell);
+                    }}
+                    title={
+                      activeBookId == null
+                        ? "Create a spell book first"
+                        : inBook
+                          ? "Remove from spell book"
+                          : "Add to spell book"
+                    }
+                    aria-label={inBook ? "Remove from spell book" : "Add to spell book"}
+                    aria-pressed={inBook}
+                    className={`shrink-0 px-2 py-1.5 text-sm transition-colors ${
+                      activeBookId == null
+                        ? "cursor-not-allowed text-fg-faint"
+                        : inBook
+                          ? "text-accent"
+                          : "text-fg-muted hover:text-accent"
+                    }`}
+                  >
+                    {/* Bookmark icon: filled when in the active book, outline otherwise */}
+                    {inBook ? (
+                      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
+                        <path d="M4 2.5h8A1.5 1.5 0 0 1 13.5 4v9.5L8 10.5l-5.5 3V4A1.5 1.5 0 0 1 4 2.5z" />
+                      </svg>
+                    ) : (
+                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
+                        <path
+                          d="M4 2.5h8A1.5 1.5 0 0 1 13.5 4v9.5L8 10.5l-5.5 3V4A1.5 1.5 0 0 1 4 2.5z"
+                          stroke="currentColor"
+                          strokeWidth="1.4"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    )}
+                  </button>
+                </div>
+              );
+            })}
+            {visible.length === 0 && (
+              <div className="p-4 text-center text-sm text-fg-muted">No spells match.</div>
+            )}
+          </div>
+          <div className="border-t border-border px-3 py-1 text-xs text-fg-muted">
+            {visible.length} / {spells.length} spells
+            {activeBookName ? (
+              <span className="ml-2 text-fg-faint">· adding to “{activeBookName}”</span>
+            ) : null}
+          </div>
+        </>
+      }
+      detail={
+        selected ? (
+          <SpellStatBlock spell={selected} />
+        ) : (
+          <Centered>
+            <div className="text-center">
+              <p className="text-fg-muted">Select a spell to view details.</p>
+              <p className="mt-1 text-xs text-fg-faint">
+                {visible.length} spells loaded
+                {spells[0] ? ` from ${sourceToAbv(spells[0].source)}…` : "…"}
+              </p>
+            </div>
+          </Centered>
+        )
+      }
+    />
   );
-}
-
-function spellKey(s: Spell): string {
-  return `${s.name}|${s.source}`;
 }
 
 function compareSpells(a: Spell, b: Spell, key: SortKey): number {
@@ -349,10 +278,4 @@ function timeSortValue(t: Spell["time"][number] | undefined): number {
     hour: 5,
   };
   return (order[t.unit] ?? 9) * 100 + t.number;
-}
-
-function Centered({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex h-full items-center justify-center text-fg-muted">{children}</div>
-  );
 }
