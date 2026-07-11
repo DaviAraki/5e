@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Spell } from "@/types/entities";
 import { useSpells } from "@/data/DataLoader";
 import { indexByRef, makeRef, refKey } from "@/data/entityRefs";
@@ -79,9 +79,16 @@ export default function SpellBookPage() {
     ? Object.values(activeBook.spells).filter(Boolean).length
     : 0;
 
-  // If the active book changes, clear the selection (it may not be in the new book).
+  // Clear the selection only when the active book actually changes (the
+  // selected spell may not be in the new book). We compare against a ref of the
+  // last-seen book id rather than depending on setSelectedKey, whose identity
+  // is not stable across renders (it wraps react-router's setSearchParams).
+  const prevBookIdRef = useRef<string | null>(activeBookId);
   useEffect(() => {
-    setSelectedKey(null);
+    if (prevBookIdRef.current !== activeBookId) {
+      prevBookIdRef.current = activeBookId;
+      setSelectedKey(null);
+    }
   }, [activeBookId, setSelectedKey]);
 
   if (isLoading) return <Centered>Loading spells…</Centered>;
