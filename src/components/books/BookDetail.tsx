@@ -29,7 +29,7 @@ export default function BookDetail({
           <div className="aspect-[3/4] overflow-hidden rounded-lg border border-border bg-bg-raised">
             {book.cover ? (
               <img
-                src={`/${book.cover.path}`}
+                src={`${import.meta.env.BASE_URL}${book.cover.path}`}
                 alt={book.name}
                 className="h-full w-full object-cover"
               />

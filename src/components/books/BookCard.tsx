@@ -17,7 +17,7 @@ export default function BookCard({
       <div className="flex aspect-[3/4] items-center justify-center overflow-hidden rounded-md bg-bg-raised">
         {book.cover ? (
           <img
-            src={`/${book.cover.path}`}
+            src={`${import.meta.env.BASE_URL}${book.cover.path}`}
             alt={book.name}
             className="h-full w-full object-cover"
             loading="lazy"
