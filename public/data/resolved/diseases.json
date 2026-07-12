@@ -1,0 +1,113 @@
+{
+  "entities": [
+    {
+      "name": "Weeping Pox",
+      "source": "GrimHollowCG24",
+      "page": 293,
+      "entries": [
+        "A person subjected to the disease must succeed on a {@dc 20} Constitution saving throw once each day they are exposed. If they succeed, they are safe for 24 hours. On a failed save, they have the affliction and begin to show symptoms within 24 hours.",
+        "At first a sick person will be subject to fever causing sharpened senses, overexcitement, and a sense of wellbeing. For the first three days, creatures suffering from the Weeping Pox must succeed on a {@dc 20} Constitution saving throw each day. If any of those saving throws fail, the creature reaches critical stages at the end of those 72 hours.",
+        "After 72 hours, these original symptoms transition to delirium, burning fever, insatiable thirst, and weltering lesions that have given the illness its name. Beyond this, nearly all who contract the disease die withing the next 72 hours. Most people succumb to the pox within the week, while the most resilient may hold on for almost two weeks."
+      ]
+    },
+    {
+      "name": "Tormach's Rage",
+      "source": "GrimHollowMG24",
+      "page": 45,
+      "color": "67211f",
+      "entries": [
+        "The bugbear has a disease called {@disease Tormach's Rage|GrimHollowMG24} that changes its alignment to Chaotic Evil, gives it the Reckless Attack trait, and grants it an extra 2 ({@damage 1d4}) damage on Strengthbased attacks (included in the attack).",
+        "A bugbear that touches the rage-infected bugbear is subjected to the following effect. {@actSave con} {@dc 14}. {@actSaveFail} The target contracts {@disease Tormach's Rage|GrimHollowMG24}. Only powerful magic like a {@spell Greater Restoration|XPHB} spell or a special herbal concoction (see Salvage) can cure this disease.",
+        {
+          "type": "hr"
+        },
+        {
+          "type": "entries",
+          "entries": [
+            {
+              "type": "quote",
+              "entries": [
+                "Tormach subverted bugbears with a disease that makes them little more than killing machines."
+              ]
+            },
+            {
+              "type": "entries",
+              "entries": [
+                {
+                  "type": "entries",
+                  "name": "Tormach's Rage",
+                  "page": 45,
+                  "entries": [
+                    "The bugbears of Etharis weren't always ferocious and violent. When the Arch Daemons appeared in the world, Tormach believed he could make minions of the goblinoids. Bugbear warriors forcefully opposed his efforts to subvert goblin tribes to his will. Tormach commanded his servants to craft a disease that would render defiant bugbears into vicious drones, a grim task those minions completed with great success. {@disease Tormach's Rage|GrimHollowMG24}, as the disease has come to be known, spread quickly. Most bugbears of Etharis are now victims of this mind-altering plague.",
+                    "The disease causes a bugbear to become more resilient while increasing muscle mass and capacity for aggression. Bugbears infected with {@disease Tormach's Rage|GrimHollowMG24} experience a powerful, instinctive urge to spread their illness. Infected bugbears have enhanced olfactory senses that allow them to smell whether a creature carries {@disease Tormach's Rage|GrimHollowMG24}. When they discover a bugbear without the disease, they fly into a frenzy. The sickness is virulent enough that even if a bugbear survives the fight or kills the infected aggressor, it's unlikely to do so without contracting {@disease Tormach's Rage|GrimHollowMG24}."
+                  ]
+                },
+                {
+                  "type": "entries",
+                  "name": "Staged Changes",
+                  "page": 45,
+                  "entries": [
+                    "Rage-infected bugbears have only recently gotten the disease. A bugbear who contracts {@disease Tormach's Rage|GrimHollowMG24} can't expect to live long as the illness compels the victim to acts of aggression that ultimately end in the bugbear's destruction. The infection lasts until death, although magic and rare herbal knowledge can counteract it.",
+                    "Very rarely, an infected bugbear lives long enough that {@disease Tormach's Rage|GrimHollowMG24} exhibits advanced symptoms. At this stage, the disease further accentuates the bugbear's muscular system, granting increased strength and speed. Bugbears who live this long have little impulse control and ability to reason."
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "entries",
+              "name": "Salvage",
+              "page": 45,
+              "entries": [
+                "The viscera of a bugbear infected with {@disease Tormach's Rage|GrimHollowMG24} can be used as a vector or as a curative. To create an infectious agent, someone who has proficiency with an {@item Herbalism Kit|XPHB} or a {@item Poisoner's Kit|XPHB} must use the viscera and other materials worth 25 GP. Creating the vector takes 4 hours of work and requires a successful {@dc 13} Intelligence or Wisdom check. A bugbear exposed to the vector through a wound or by consuming it must save against {@disease Tormach's Rage|GrimHollowMG24} as if bitten by a rage-infected bugbear.",
+                "Making the curative requires the same proficiency, reagents worth 50 GP, 8 hours of work, and a successful {@dc 15} Wisdom ({@skill Medicine}) check. A bugbear exposed to the curative through a wound or by consuming it can reattempt the saving throw against {@disease Tormach's Rage|GrimHollowMG24}. If the save succeeds, the disease is cured. Its effects end in a matter of minutes."
+              ]
+            },
+            {
+              "type": "entries",
+              "name": "Lore",
+              "page": 45,
+              "entries": [
+                {
+                  "type": "entries",
+                  "name": "{@dc 10} Intelligence ({@skill History} or {@skill Religion}):",
+                  "page": 45,
+                  "entries": [
+                    "Bugbears once fought against the Arch Daemon Tormach's efforts to dominate goblinoids. He concocted a disease to thwart their efforts and those of any who would join them."
+                  ]
+                },
+                {
+                  "type": "entries",
+                  "name": "{@dc 10} Intelligence ({@skill Medicine}):",
+                  "page": 45,
+                  "entries": [
+                    "{@disease Tormach's Rage|GrimHollowMG24} grants its infected superior resilience and strength but causes drastic, violent personality changes."
+                  ]
+                },
+                {
+                  "type": "entries",
+                  "name": "{@dc 15} Intelligence ({@skill Medicine}):",
+                  "page": 45,
+                  "entries": [
+                    "Combined with herbal reagents, the viscera of a deceased bugbear infected with {@disease Tormach's Rage|GrimHollowMG24} can be used to spread the disease or create a cure."
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "inset",
+              "page": 46,
+              "name": "GM Advice:",
+              "entries": [
+                "Bugbears fear very little, but {@disease Tormach's Rage|GrimHollowMG24} is an exception. In the few places in Etharis where bugbears have not succumbed to the disease, stopping its spread or reversing it might be one bargaining chip that characters have to strike a bargain. A more advanced version of the disease, creating an even more dangerous bugbear, is always a possibility as well."
+              ]
+            }
+          ]
+        }
+      ],
+      "hasFluffImages": true
+    }
+  ],
+  "generatedAt": "2026-07-12T15:49:56.675Z",
+  "source": "5etools-src (One/2024 edition, build-time pre-merged)",
+  "edition": "one"
+}

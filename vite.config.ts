@@ -41,8 +41,9 @@ export default defineConfig({
           "**/*.{js,css,html,woff2,svg,png}",
           "data/resolved/*.json",
         ],
-        // bestiary.json is ~2.38 MB; Workbox's default 2 MB cap would drop it.
-        maximumFileSizeToCacheInBytes: 3_000_000,
+        // bestiary.json is ~4.03 MB after adding Grim Hollow; Workbox's default
+        // 2 MB cap would drop it. Bumped to 5 MB for headroom.
+        maximumFileSizeToCacheInBytes: 5_000_000,
         runtimeCaching: [
           {
             urlPattern: /\/data\/resolved\/books\/.*\.json$/,

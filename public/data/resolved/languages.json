@@ -1,0 +1,64 @@
+{
+  "entities": [
+    {
+      "name": "Castinellan",
+      "source": "GrimHollowPG24",
+      "page": 217,
+      "entries": [
+        "The dominant language of the Castinellan Provinces{@sup ({@book PG|GrimHollowPG24|8|The Castinellan Provinces}/{@book CG|GrimHollowCG24|6})}. This language is also used for most of Etharis's religious texts. It was until recently considered a crime to translate the teachings of the Seraphs into a language other than Castinellan. Castinellan is also predominantly spoken in Morencia{@sup ({@book PG|GrimHollowPG24|8|The City of Morencia}/{@book CG|GrimHollowCG24|9})}, making it the most common language used in trade."
+      ]
+    },
+    {
+      "name": "Charneault",
+      "source": "GrimHollowPG24",
+      "page": 217,
+      "entries": [
+        "The dominant language of the Charneault Kingdom{@sup ({@book PG|GrimHollowPG24|8|The Charneault Kingdom}/{@book CG|GrimHollowCG24|5})}."
+      ]
+    },
+    {
+      "name": "Higher Büräch",
+      "source": "GrimHollowPG24",
+      "page": 217,
+      "entries": [
+        "The highborn dialect in the Büräch Empire{@sup ({@book PG|GrimHollowPG24|8|The Bürach Empire}/{@book CG|GrimHollowCG24|3})}. Most formal writings are in this dialect as well, such as religious texts, laws, royal decrees, plays and poems, etc. If a foreigner learns Büräch, this is the dialect they learn."
+      ]
+    },
+    {
+      "name": "Low Büräch",
+      "source": "GrimHollowPG24",
+      "page": 217,
+      "entries": [
+        "The commoner's dialect in the Büräch Empire{@sup ({@book PG|GrimHollowPG24|8|The Bürach Empire}/{@book CG|GrimHollowCG24|3})}. It is more heavily accented than High Büräch, making the general population of the nation harder for foreigners to understand."
+      ]
+    },
+    {
+      "name": "Ostoy",
+      "source": "GrimHollowPG24",
+      "page": 217,
+      "entries": [
+        "The dominant language of Ostoya{@sup ({@book PG|GrimHollowPG24|8|The Ostoyan Empire}/{@book CG|GrimHollowCG24|4})}."
+      ]
+    },
+    {
+      "name": "Valiki",
+      "source": "GrimHollowPG24",
+      "page": 217,
+      "entries": [
+        "The dominant language of the Valikan Clans{@sup ({@book PG|GrimHollowPG24|8|The Valikan Clans}/{@book CG|GrimHollowCG24|7})}. Each of the clans speaks a slightly different dialect of Valiki, but each dialect is similar enough to make themselves understood."
+      ]
+    },
+    {
+      "name": "Grudgel",
+      "source": "GrimHollowMG24",
+      "page": 420,
+      "type": "exotic",
+      "typicalSpeakers": [
+        "{@filter Grudgels|bestiary|source=|tag=grudgel|miscellaneous=}"
+      ]
+    }
+  ],
+  "generatedAt": "2026-07-12T15:49:56.675Z",
+  "source": "5etools-src (One/2024 edition, build-time pre-merged)",
+  "edition": "one"
+}

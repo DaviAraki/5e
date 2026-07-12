@@ -17328,9 +17328,2148 @@
         ]
       ],
       "hasFluffImages": true
+    },
+    {
+      "name": "Apocalypse Sorcery",
+      "shortName": "Apocalypse",
+      "source": "GrimHollowPG24",
+      "className": "Sorcerer",
+      "classSource": "XPHB",
+      "page": 94,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "prepared": {
+            "3": [
+              "Augury|XPHB",
+              "Comprehend Languages|XPHB",
+              "Hellish Rebuke|XPHB",
+              "Ray of Enfeeblement|XPHB"
+            ],
+            "5": [
+              "Bestow Curse|XPHB",
+              "Revivify|XPHB"
+            ],
+            "7": [
+              "Banishment|XPHB",
+              "Divination|XPHB"
+            ],
+            "9": [
+              "Contagion|XPHB",
+              "Insect Plague|XPHB"
+            ]
+          }
+        }
+      ],
+      "subclassSpells": [
+        "Augury|XPHB",
+        "Comprehend Languages|XPHB",
+        "Hellish Rebuke|XPHB",
+        "Ray of Enfeeblement|XPHB",
+        "Bestow Curse|XPHB",
+        "Revivify|XPHB",
+        "Banishment|XPHB",
+        "Divination|XPHB",
+        "Contagion|XPHB",
+        "Insect Plague|XPHB"
+      ],
+      "subclassFeatures": [
+        "Apocalypse Sorcery|Sorcerer|XPHB|Apocalypse|GrimHollowPG24|3",
+        "Bear Witness|Sorcerer|XPHB|Apocalypse|GrimHollowPG24|6",
+        "Arcane Apocrypha|Sorcerer|XPHB|Apocalypse|GrimHollowPG24|6",
+        "Forbidden Magic|Sorcerer|XPHB|Apocalypse|GrimHollowPG24|14",
+        "The End is Nigh|Sorcerer|XPHB|Apocalypse|GrimHollowPG24|18"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Bulwark Warrior",
+      "shortName": "Bulwark Warrior",
+      "source": "GrimHollowPG24",
+      "className": "Fighter",
+      "classSource": "XPHB",
+      "page": 74,
+      "edition": "one",
+      "subclassFeatures": [
+        "Bulwark Warrior|Fighter|XPHB|Bulwark Warrior|GrimHollowPG24|3",
+        "Threatening Presence|Fighter|XPHB|Bulwark Warrior|GrimHollowPG24|7",
+        "Aggressive Defense|Fighter|XPHB|Bulwark Warrior|GrimHollowPG24|10",
+        "Improved Second Wind|Fighter|XPHB|Bulwark Warrior|GrimHollowPG24|15",
+        "Halt the Assault|Fighter|XPHB|Bulwark Warrior|GrimHollowPG24|18"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Carver Guild",
+      "shortName": "Carver",
+      "source": "GrimHollowPG24",
+      "className": "Monster Hunter",
+      "classSource": "GrimHollowPG24",
+      "page": 54,
+      "edition": "one",
+      "subclassFeatures": [
+        "Carver Guild|Monster Hunter|GrimHollowPG24|Carver|GrimHollowPG24|3",
+        "True Grit|Monster Hunter|GrimHollowPG24|Carver|GrimHollowPG24|7",
+        "Terrorize the Terrors|Monster Hunter|GrimHollowPG24|Carver|GrimHollowPG24|10",
+        "Deadly Redirect|Monster Hunter|GrimHollowPG24|Carver|GrimHollowPG24|15",
+        "Controlled Footwork|Monster Hunter|GrimHollowPG24|Carver|GrimHollowPG24|18"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Circle of Blood",
+      "shortName": "Blood",
+      "source": "GrimHollowPG24",
+      "className": "Druid",
+      "classSource": "XPHB",
+      "page": 70,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "prepared": {
+            "3": [
+              "Blood Rush|GrimHollowPG24",
+              "Crimson Lash|GrimHollowPG24",
+              "Sense Lifeblood|GrimHollowPG24"
+            ],
+            "5": [
+              "Blood Bond|GrimHollowPG24",
+              "Sanguine Poppet|GrimHollowPG24"
+            ],
+            "7": [
+              "Circle of Scarlet|GrimHollowPG24",
+              "Dark Sacrament|GrimHollowPG24"
+            ],
+            "9": [
+              "Dominate Person|XPHB",
+              "Mortality|GrimHollowPG24"
+            ]
+          }
+        }
+      ],
+      "subclassSpells": [
+        "Blood Rush|GrimHollowPG24",
+        "Crimson Lash|GrimHollowPG24",
+        "Sense Lifeblood|GrimHollowPG24",
+        "Blood Bond|GrimHollowPG24",
+        "Sanguine Poppet|GrimHollowPG24",
+        "Circle of Scarlet|GrimHollowPG24",
+        "Dark Sacrament|GrimHollowPG24",
+        "Dominate Person|XPHB",
+        "Mortality|GrimHollowPG24"
+      ],
+      "subclassFeatures": [
+        "Circle of Blood|Druid|XPHB|Blood|GrimHollowPG24|3",
+        "Blood Boon|Druid|XPHB|Blood|GrimHollowPG24|6",
+        "Blood Lust|Druid|XPHB|Blood|GrimHollowPG24|10",
+        "Exsanguinate|Druid|XPHB|Blood|GrimHollowPG24|14"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Circle of Entropy",
+      "shortName": "Entropy",
+      "source": "GrimHollowPG24",
+      "className": "Druid",
+      "classSource": "XPHB",
+      "page": 71,
+      "edition": "one",
+      "subclassFeatures": [
+        "Circle of Entropy|Druid|XPHB|Entropy|GrimHollowPG24|3",
+        "Many Roads to Ruin|Druid|XPHB|Entropy|GrimHollowPG24|6",
+        "Shake the Earth|Druid|XPHB|Entropy|GrimHollowPG24|10",
+        "Entropy's Apex|Druid|XPHB|Entropy|GrimHollowPG24|14"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Circle of Mutation",
+      "shortName": "Mutation",
+      "source": "GrimHollowPG24",
+      "className": "Druid",
+      "classSource": "XPHB",
+      "page": 72,
+      "edition": "one",
+      "subclassFeatures": [
+        "Circle of Mutation|Druid|XPHB|Mutation|GrimHollowPG24|3",
+        "Unnatural and Unnerving|Druid|XPHB|Mutation|GrimHollowPG24|6",
+        "Endless Evolution|Druid|XPHB|Mutation|GrimHollowPG24|10",
+        "Apex Predator|Druid|XPHB|Mutation|GrimHollowPG24|14"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "College of Adventurers",
+      "shortName": "Adventurers",
+      "source": "GrimHollowPG24",
+      "className": "Bard",
+      "classSource": "XPHB",
+      "page": 64,
+      "edition": "one",
+      "optionalfeatureProgression": [
+        {
+          "name": "Adventurer Talent",
+          "featureType": [
+            "CA:AT"
+          ],
+          "progression": {
+            "6": 1,
+            "14": 2
+          }
+        }
+      ],
+      "subclassFeatures": [
+        "College of Adventurers|Bard|XPHB|Adventurers|GrimHollowPG24|3",
+        "Well-Rounded|Bard|XPHB|Adventurers|GrimHollowPG24|6",
+        "Improvisational Talent|Bard|XPHB|Adventurers|GrimHollowPG24|14"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "College of Fools",
+      "shortName": "Fools",
+      "source": "GrimHollowPG24",
+      "className": "Bard",
+      "classSource": "XPHB",
+      "page": 65,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "known": {
+            "3": [
+              "Vicious Mockery|XPHB#c"
+            ]
+          },
+          "prepared": {
+            "3": [
+              "Dissonant Whispers|XPHB"
+            ]
+          }
+        }
+      ],
+      "subclassSpells": [
+        "Vicious Mockery|XPHB",
+        "Dissonant Whispers|XPHB"
+      ],
+      "subclassFeatures": [
+        "College of Fools|Bard|XPHB|Fools|GrimHollowPG24|3",
+        "Gallows Humor|Bard|XPHB|Fools|GrimHollowPG24|6",
+        "Last Laugh|Bard|XPHB|Fools|GrimHollowPG24|14"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "College of Requiems",
+      "shortName": "Requiems",
+      "source": "GrimHollowPG24",
+      "className": "Bard",
+      "classSource": "XPHB",
+      "page": 66,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "known": {
+            "3": [
+              {
+                "choose": "level=0|school=n",
+                "count": 2
+              }
+            ]
+          },
+          "prepared": {
+            "6": [
+              "Animate Dead|XPHB"
+            ]
+          }
+        }
+      ],
+      "subclassSpells": [
+        "Animate Dead|XPHB"
+      ],
+      "subclassFeatures": [
+        "College of Requiems|Bard|XPHB|Requiems|GrimHollowPG24|3",
+        "Stir the Bones|Bard|XPHB|Requiems|GrimHollowPG24|6",
+        "Dual Death|Bard|XPHB|Requiems|GrimHollowPG24|14"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Daemonologist",
+      "shortName": "Daemonologist",
+      "source": "GrimHollowPG24",
+      "className": "Wizard",
+      "classSource": "XPHB",
+      "page": 102,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "name": "Arch Daemon",
+          "prepared": {
+            "3": [
+              "Bane|XPHB",
+              "Toll the Dead|XPHB"
+            ],
+            "5": [
+              "Fear|XPHB"
+            ],
+            "7": [
+              "Dark Sacrament|GrimHollowPG24"
+            ],
+            "9": [
+              "Geas|XPHB"
+            ]
+          }
+        },
+        {
+          "name": "Arch Seraph",
+          "prepared": {
+            "3": [
+              "Aid|XPHB",
+              "Bless|XPHB",
+              "Word of Radiance|XPHB"
+            ],
+            "5": [
+              "Revivify|XPHB"
+            ],
+            "7": [
+              "Guardian of Faith|XPHB"
+            ],
+            "9": [
+              "Greater Restoration|XPHB"
+            ]
+          }
+        }
+      ],
+      "subSubclassSpells": {
+        "Arch Daemon": [
+          "Bane|XPHB",
+          "Toll the Dead|XPHB",
+          "Fear|XPHB",
+          "Dark Sacrament|GrimHollowPG24",
+          "Geas|XPHB"
+        ],
+        "Arch Seraph": [
+          "Aid|XPHB",
+          "Bless|XPHB",
+          "Word of Radiance|XPHB",
+          "Revivify|XPHB",
+          "Guardian of Faith|XPHB",
+          "Greater Restoration|XPHB"
+        ]
+      },
+      "optionalfeatureProgression": [
+        {
+          "name": "Eldritch Invocation",
+          "featureType": [
+            "EI"
+          ],
+          "progression": {
+            "3": 1,
+            "6": 2,
+            "14": 3
+          }
+        }
+      ],
+      "subclassFeatures": [
+        "Daemonologist|Wizard|XPHB|Daemonologist|GrimHollowPG24|3",
+        "Borrowed Tongues and Hides|Wizard|XPHB|Daemonologist|GrimHollowPG24|6",
+        "Unearthly Countenance|Wizard|XPHB|Daemonologist|GrimHollowPG24|10",
+        "Eternal War Eruption|Wizard|XPHB|Daemonologist|GrimHollowPG24|14"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Devourer Guild",
+      "shortName": "Devourer",
+      "source": "GrimHollowPG24",
+      "className": "Monster Hunter",
+      "classSource": "GrimHollowPG24",
+      "page": 55,
+      "edition": "one",
+      "subclassFeatures": [
+        "Devourer Guild|Monster Hunter|GrimHollowPG24|Devourer|GrimHollowPG24|3",
+        "Synchronized Response|Monster Hunter|GrimHollowPG24|Devourer|GrimHollowPG24|7",
+        "Gnawing Hunger|Monster Hunter|GrimHollowPG24|Devourer|GrimHollowPG24|10",
+        "Alchemical Decoctions|Monster Hunter|GrimHollowPG24|Devourer|GrimHollowPG24|15",
+        "Acquired Taste|Monster Hunter|GrimHollowPG24|Devourer|GrimHollowPG24|18"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Eldritch Domain",
+      "shortName": "Eldritch",
+      "source": "GrimHollowPG24",
+      "className": "Cleric",
+      "classSource": "XPHB",
+      "page": 67,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "prepared": {
+            "3": [
+              "Detect Thoughts|XPHB",
+              "Tasha's Hideous Laughter|XPHB",
+              "See Invisibility|XPHB",
+              "Sleep|XPHB"
+            ],
+            "5": [
+              "Fear|XPHB",
+              "Tongues|XPHB"
+            ],
+            "7": [
+              "Confusion|XPHB",
+              "Phantasmal Killer|XPHB"
+            ],
+            "9": [
+              "Contact Other Plane|XPHB",
+              "Dream|XPHB"
+            ]
+          }
+        }
+      ],
+      "subclassSpells": [
+        "Detect Thoughts|XPHB",
+        "Tasha's Hideous Laughter|XPHB",
+        "See Invisibility|XPHB",
+        "Sleep|XPHB",
+        "Fear|XPHB",
+        "Tongues|XPHB",
+        "Confusion|XPHB",
+        "Phantasmal Killer|XPHB",
+        "Contact Other Plane|XPHB",
+        "Dream|XPHB"
+      ],
+      "subclassFeatures": [
+        "Eldritch Domain|Cleric|XPHB|Eldritch|GrimHollowPG24|3",
+        "Otherworldly Calm|Cleric|XPHB|Eldritch|GrimHollowPG24|6",
+        "Sing the Song that Ends the World|Cleric|XPHB|Eldritch|GrimHollowPG24|17"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Green Reaper",
+      "shortName": "Green Reaper",
+      "source": "GrimHollowPG24",
+      "className": "Ranger",
+      "classSource": "XPHB",
+      "page": 84,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "prepared": {
+            "3": [
+              "Detect Poison and Disease|XPHB"
+            ],
+            "5": [
+              "Hold Person|XPHB"
+            ],
+            "9": [
+              "Bestow Curse|XPHB"
+            ],
+            "13": [
+              "Greater Invisibility|XPHB"
+            ],
+            "17": [
+              "Cloudkill|XPHB"
+            ]
+          }
+        }
+      ],
+      "subclassSpells": [
+        "Detect Poison and Disease|XPHB",
+        "Hold Person|XPHB",
+        "Bestow Curse|XPHB",
+        "Greater Invisibility|XPHB",
+        "Cloudkill|XPHB",
+        "Protection from Poison|XPHB"
+      ],
+      "subclassFeatures": [
+        "Green Reaper|Ranger|XPHB|Green Reaper|GrimHollowPG24|3",
+        "Poison Control|Ranger|XPHB|Green Reaper|GrimHollowPG24|7",
+        "Variegated Vexations|Ranger|XPHB|Green Reaper|GrimHollowPG24|11",
+        "Pain Tolerance|Ranger|XPHB|Green Reaper|GrimHollowPG24|15"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Haunted Sorcery",
+      "shortName": "Haunted",
+      "source": "GrimHollowPG24",
+      "className": "Sorcerer",
+      "classSource": "XPHB",
+      "page": 95,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "prepared": {
+            "3": [
+              "Bane|XPHB",
+              "Chill Touch|XPHB",
+              "Invisibility|XPHB",
+              "See Invisibility|XPHB",
+              "Unseen Servant|XPHB"
+            ],
+            "5": [
+              "Fly|XPHB",
+              "Speak with Dead|XPHB"
+            ],
+            "7": [
+              "Death Ward|XPHB",
+              "Greater Invisibility|XPHB"
+            ],
+            "9": [
+              "Little Death|GrimHollowPG24",
+              "Telekinesis|XPHB"
+            ]
+          },
+          "known": {
+            "3": {
+              "daily": {
+                "1e": [
+                  "Find Familiar|XPHB"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "subclassSpells": [
+        "Bane|XPHB",
+        "Chill Touch|XPHB",
+        "Invisibility|XPHB",
+        "See Invisibility|XPHB",
+        "Unseen Servant|XPHB",
+        "Fly|XPHB",
+        "Speak with Dead|XPHB",
+        "Death Ward|XPHB",
+        "Greater Invisibility|XPHB",
+        "Little Death|GrimHollowPG24",
+        "Telekinesis|XPHB",
+        "Find Familiar|XPHB"
+      ],
+      "subclassFeatures": [
+        "Haunted Sorcery|Sorcerer|XPHB|Haunted|GrimHollowPG24|3",
+        "Strength of Spirit|Sorcerer|XPHB|Haunted|GrimHollowPG24|6",
+        "Deathly Pallor|Sorcerer|XPHB|Haunted|GrimHollowPG24|6",
+        "Phantom Possession|Sorcerer|XPHB|Haunted|GrimHollowPG24|14",
+        "Become Death|Sorcerer|XPHB|Haunted|GrimHollowPG24|18"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Highway Rider",
+      "shortName": "Highway Rider",
+      "source": "GrimHollowPG24",
+      "className": "Rogue",
+      "classSource": "XPHB",
+      "page": 89,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "prepared": {
+            "3": {
+              "daily": {
+                "1e": [
+                  "Find Steed|XPHB"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "subclassSpells": [
+        "Find Steed|XPHB"
+      ],
+      "subclassFeatures": [
+        "Highway Rider|Rogue|XPHB|Highway Rider|GrimHollowPG24|3",
+        "Horse Lord|Rogue|XPHB|Highway Rider|GrimHollowPG24|9",
+        "True Grit|Rogue|XPHB|Highway Rider|GrimHollowPG24|13",
+        "Desperado|Rogue|XPHB|Highway Rider|GrimHollowPG24|17"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Inquisition Domain",
+      "shortName": "Inquisition",
+      "source": "GrimHollowPG24",
+      "className": "Cleric",
+      "classSource": "XPHB",
+      "page": 68,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "prepared": {
+            "3": [
+              "See Invisibility|XPHB",
+              "Silence|XPHB"
+            ],
+            "5": [
+              "Dispel Magic|XPHB",
+              "Remove Curse|XPHB"
+            ],
+            "7": [
+              "Arcane Eye|XPHB",
+              "Locate Creature|XPHB"
+            ],
+            "9": [
+              "Creation|XPHB",
+              "Hallow|XPHB"
+            ]
+          }
+        }
+      ],
+      "subclassSpells": [
+        "See Invisibility|XPHB",
+        "Silence|XPHB",
+        "Dispel Magic|XPHB",
+        "Remove Curse|XPHB",
+        "Arcane Eye|XPHB",
+        "Locate Creature|XPHB",
+        "Creation|XPHB",
+        "Hallow|XPHB"
+      ],
+      "subclassFeatures": [
+        "Inquisition Domain|Cleric|XPHB|Inquisition|GrimHollowPG24|3",
+        "Rebuke Invoker|Cleric|XPHB|Inquisition|GrimHollowPG24|6",
+        "Supernal Safeguard|Cleric|XPHB|Inquisition|GrimHollowPG24|17"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Living Crucible",
+      "shortName": "Living Crucible",
+      "source": "GrimHollowPG24",
+      "className": "Fighter",
+      "classSource": "XPHB",
+      "page": 75,
+      "edition": "one",
+      "optionalfeatureProgression": [
+        {
+          "name": "Compound Option",
+          "featureType": [
+            "LC:CO"
+          ],
+          "progression": {
+            "3": 3,
+            "7": 5,
+            "10": 7,
+            "15": 9
+          }
+        }
+      ],
+      "subclassFeatures": [
+        "Living Crucible|Fighter|XPHB|Living Crucible|GrimHollowPG24|3",
+        "Living Cauldron|Fighter|XPHB|Living Crucible|GrimHollowPG24|7",
+        "Rapid Consumption|Fighter|XPHB|Living Crucible|GrimHollowPG24|10",
+        "Toxin Transmutation|Fighter|XPHB|Living Crucible|GrimHollowPG24|15",
+        "Living Catalyst|Fighter|XPHB|Living Crucible|GrimHollowPG24|18"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Misfortune Bringer",
+      "shortName": "Misfortune Bringer",
+      "source": "GrimHollowPG24",
+      "className": "Rogue",
+      "classSource": "XPHB",
+      "page": 90,
+      "edition": "one",
+      "subclassSpells": [
+        "Bestow Curse|XPHB"
+      ],
+      "optionalfeatureProgression": [
+        {
+          "name": "Misfortune",
+          "featureType": [
+            "MB:M"
+          ],
+          "progression": {
+            "3": 2,
+            "9": 3,
+            "13": 4,
+            "17": 5
+          }
+        }
+      ],
+      "subclassFeatures": [
+        "Misfortune Bringer|Rogue|XPHB|Misfortune Bringer|GrimHollowPG24|3",
+        "Steal Luck|Rogue|XPHB|Misfortune Bringer|GrimHollowPG24|9",
+        "Curse Caster|Rogue|XPHB|Misfortune Bringer|GrimHollowPG24|13",
+        "Improved Steal Luck|Rogue|XPHB|Misfortune Bringer|GrimHollowPG24|17"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Nightwatcher",
+      "shortName": "Nightwatcher",
+      "source": "GrimHollowPG24",
+      "className": "Fighter",
+      "classSource": "XPHB",
+      "page": 76,
+      "edition": "one",
+      "subclassFeatures": [
+        "Nightwatcher|Fighter|XPHB|Nightwatcher|GrimHollowPG24|3",
+        "Size Up|Fighter|XPHB|Nightwatcher|GrimHollowPG24|7",
+        "Night Stalker|Fighter|XPHB|Nightwatcher|GrimHollowPG24|10",
+        "Ready for Action|Fighter|XPHB|Nightwatcher|GrimHollowPG24|15",
+        "Beat Down|Fighter|XPHB|Nightwatcher|GrimHollowPG24|18"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Oath of Pestilence",
+      "shortName": "Pestilence",
+      "source": "GrimHollowPG24",
+      "className": "Paladin",
+      "classSource": "XPHB",
+      "page": 80,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "prepared": {
+            "3": [
+              "Bane|XPHB",
+              "Inflict Wounds|XPHB"
+            ],
+            "5": [
+              "Melf's Acid Arrow|XPHB",
+              "Ray of Enfeeblement|XPHB"
+            ],
+            "9": [
+              "Flash Fever|GrimHollowPG24",
+              "Stinking Cloud|XPHB"
+            ],
+            "13": [
+              "Blight|XPHB",
+              "Confusion|XPHB"
+            ],
+            "17": [
+              "Contagion|XPHB",
+              "Insect Plague|XPHB"
+            ]
+          }
+        }
+      ],
+      "subclassSpells": [
+        "Bane|XPHB",
+        "Inflict Wounds|XPHB",
+        "Melf's Acid Arrow|XPHB",
+        "Ray of Enfeeblement|XPHB",
+        "Flash Fever|GrimHollowPG24",
+        "Stinking Cloud|XPHB",
+        "Blight|XPHB",
+        "Confusion|XPHB",
+        "Contagion|XPHB",
+        "Insect Plague|XPHB"
+      ],
+      "subclassFeatures": [
+        "Oath of Pestilence|Paladin|XPHB|Pestilence|GrimHollowPG24|3",
+        "Aura of Rampant Sickness|Paladin|XPHB|Pestilence|GrimHollowPG24|7",
+        "Disgusting Resilience|Paladin|XPHB|Pestilence|GrimHollowPG24|15",
+        "Plaguebringer|Paladin|XPHB|Pestilence|GrimHollowPG24|20"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Oath of Slaughter",
+      "shortName": "Slaughter",
+      "source": "GrimHollowPG24",
+      "className": "Paladin",
+      "classSource": "XPHB",
+      "page": 81,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "prepared": {
+            "3": [
+              "Crimson Lash|GrimHollowPG24",
+              "Inflict Wounds|XPHB"
+            ],
+            "5": [
+              "Bloodletter|GrimHollowPG24",
+              "Shatter|XPHB"
+            ],
+            "9": [
+              "Fear|XPHB",
+              "Suffocate|GrimHollowPG24"
+            ],
+            "13": [
+              "Consume Mind|GrimHollowPG24",
+              "Supernal Smite|GrimHollowPG24"
+            ],
+            "17": [
+              "Destructive Wave|XPHB",
+              "Incite Riot|GrimHollowPG24"
+            ]
+          }
+        }
+      ],
+      "subclassSpells": [
+        "Crimson Lash|GrimHollowPG24",
+        "Inflict Wounds|XPHB",
+        "Bloodletter|GrimHollowPG24",
+        "Shatter|XPHB",
+        "Fear|XPHB",
+        "Suffocate|GrimHollowPG24",
+        "Consume Mind|GrimHollowPG24",
+        "Supernal Smite|GrimHollowPG24",
+        "Destructive Wave|XPHB",
+        "Incite Riot|GrimHollowPG24"
+      ],
+      "subclassFeatures": [
+        "Oath of Slaughter|Paladin|XPHB|Slaughter|GrimHollowPG24|3",
+        "Bloodthirst Aura|Paladin|XPHB|Slaughter|GrimHollowPG24|7",
+        "Follow Through|Paladin|XPHB|Slaughter|GrimHollowPG24|15",
+        "Blood Knight|Paladin|XPHB|Slaughter|GrimHollowPG24|20"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Oath of Zeal",
+      "shortName": "Zeal",
+      "source": "GrimHollowPG24",
+      "className": "Paladin",
+      "classSource": "XPHB",
+      "page": 82,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "prepared": {
+            "3": [
+              "Detect Evil and Good|XPHB",
+              "Hunter's Mark|XPHB"
+            ],
+            "5": [
+              "Detect Thoughts|XPHB",
+              "Knock|XPHB"
+            ],
+            "9": [
+              "Fear|XPHB",
+              "Tongues|XPHB"
+            ],
+            "13": [
+              "Divination|XPHB",
+              "Locate Creature|XPHB"
+            ],
+            "17": [
+              "Insect Plague|XPHB",
+              "Scrying|XPHB"
+            ]
+          },
+          "known": {
+            "15": [
+              "Zone of Truth|XPHB"
+            ]
+          }
+        }
+      ],
+      "subclassSpells": [
+        "Detect Evil and Good|XPHB",
+        "Hunter's Mark|XPHB",
+        "Detect Thoughts|XPHB",
+        "Knock|XPHB",
+        "Fear|XPHB",
+        "Tongues|XPHB",
+        "Divination|XPHB",
+        "Locate Creature|XPHB",
+        "Insect Plague|XPHB",
+        "Scrying|XPHB",
+        "Zone of Truth|XPHB"
+      ],
+      "subclassFeatures": [
+        "Oath of Zeal|Paladin|XPHB|Zeal|GrimHollowPG24|3",
+        "Aura of Clarity|Paladin|XPHB|Zeal|GrimHollowPG24|7",
+        "Compel Confession|Paladin|XPHB|Zeal|GrimHollowPG24|15",
+        "Apocalyptic Revelation|Paladin|XPHB|Zeal|GrimHollowPG24|20"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Occultist Guild",
+      "shortName": "Occultist",
+      "source": "GrimHollowPG24",
+      "className": "Monster Hunter",
+      "classSource": "GrimHollowPG24",
+      "page": 56,
+      "edition": "one",
+      "spellcastingAbility": "int",
+      "casterProgression": "1/3",
+      "preparedSpellsProgression": [
+        0,
+        0,
+        3,
+        4,
+        4,
+        4,
+        5,
+        6,
+        6,
+        7,
+        8,
+        8,
+        9,
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        13
+      ],
+      "preparedSpellsChange": "level",
+      "cantripProgression": [
+        0,
+        0,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "additionalSpells": [
+        {
+          "expanded": {
+            "3": [
+              {
+                "all": "level=0|class=Wizard"
+              },
+              {
+                "all": "level=1|class=Wizard"
+              }
+            ],
+            "7": [
+              {
+                "all": "level=2|class=Wizard"
+              }
+            ],
+            "13": [
+              {
+                "all": "level=3|class=Wizard"
+              }
+            ],
+            "19": [
+              {
+                "all": "level=4|class=Wizard"
+              }
+            ]
+          },
+          "prepared": {
+            "15": {
+              "daily": {
+                "1e": [
+                  "counterspell|xphb"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "subclassSpells": [
+        {
+          "className": "Wizard",
+          "classSource": "XPHB"
+        }
+      ],
+      "subclassTableGroups": [
+        {
+          "subclasses": [
+            {
+              "name": "Occultist Guild",
+              "source": "GrimHollowPG24"
+            }
+          ],
+          "colLabels": [
+            "{@filter Prepared Spells|spells|subclass=Monster Hunter: Occultist (GH:PG'24)}"
+          ],
+          "rows": [
+            [
+              0
+            ],
+            [
+              0
+            ],
+            [
+              3
+            ],
+            [
+              4
+            ],
+            [
+              4
+            ],
+            [
+              4
+            ],
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              6
+            ],
+            [
+              7
+            ],
+            [
+              8
+            ],
+            [
+              8
+            ],
+            [
+              9
+            ],
+            [
+              10
+            ],
+            [
+              10
+            ],
+            [
+              11
+            ],
+            [
+              11
+            ],
+            [
+              11
+            ],
+            [
+              12
+            ],
+            [
+              13
+            ]
+          ]
+        },
+        {
+          "title": "Spell Slots per Spell Level",
+          "subclasses": [
+            {
+              "name": "Occultist Guild",
+              "source": "GrimHollowPG24"
+            }
+          ],
+          "colLabels": [
+            "{@filter 1st|spells|level=1|subclass=Monster Hunter: Occultist (GH:PG'24)}",
+            "{@filter 2nd|spells|level=2|subclass=Monster Hunter: Occultist (GH:PG'24)}",
+            "{@filter 3rd|spells|level=3|subclass=Monster Hunter: Occultist (GH:PG'24)}",
+            "{@filter 4th|spells|level=4|subclass=Monster Hunter: Occultist (GH:PG'24)}"
+          ],
+          "rowsSpellProgression": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              0,
+              0,
+              0
+            ],
+            [
+              4,
+              2,
+              0,
+              0
+            ],
+            [
+              4,
+              2,
+              0,
+              0
+            ],
+            [
+              4,
+              2,
+              0,
+              0
+            ],
+            [
+              4,
+              3,
+              0,
+              0
+            ],
+            [
+              4,
+              3,
+              0,
+              0
+            ],
+            [
+              4,
+              3,
+              0,
+              0
+            ],
+            [
+              4,
+              3,
+              2,
+              0
+            ],
+            [
+              4,
+              3,
+              2,
+              0
+            ],
+            [
+              4,
+              3,
+              2,
+              0
+            ],
+            [
+              4,
+              3,
+              3,
+              0
+            ],
+            [
+              4,
+              3,
+              3,
+              0
+            ],
+            [
+              4,
+              3,
+              3,
+              0
+            ],
+            [
+              4,
+              3,
+              3,
+              1
+            ],
+            [
+              4,
+              3,
+              3,
+              1
+            ]
+          ]
+        }
+      ],
+      "subclassFeatures": [
+        "Occultist Guild|Monster Hunter|GrimHollowPG24|Occultist|GrimHollowPG24|3",
+        "Mage Hunter|Monster Hunter|GrimHollowPG24|Occultist|GrimHollowPG24|7",
+        "Occult Knowledge|Monster Hunter|GrimHollowPG24|Occultist|GrimHollowPG24|10",
+        "Magical Aegis|Monster Hunter|GrimHollowPG24|Occultist|GrimHollowPG24|15",
+        "Arcane Response|Monster Hunter|GrimHollowPG24|Occultist|GrimHollowPG24|18"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Path of the Fractured",
+      "shortName": "Fractured",
+      "source": "GrimHollowPG24",
+      "className": "Barbarian",
+      "classSource": "XPHB",
+      "page": 60,
+      "edition": "one",
+      "subclassFeatures": [
+        "Path of the Fractured|Barbarian|XPHB|Fractured|GrimHollowPG24|3",
+        "Brains and Brawn|Barbarian|XPHB|Fractured|GrimHollowPG24|6",
+        "Cunning and Brutal|Barbarian|XPHB|Fractured|GrimHollowPG24|10",
+        "Better Half|Barbarian|XPHB|Fractured|GrimHollowPG24|14"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Path of the Primal Spirit",
+      "shortName": "Primal Spirit",
+      "source": "GrimHollowPG24",
+      "className": "Barbarian",
+      "classSource": "XPHB",
+      "page": 61,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "prepared": {
+            "6": {
+              "daily": {
+                "1e": [
+                  "Animal Friendship|XPHB",
+                  "Speak with Animals|XPHB"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "subclassSpells": [
+        "Animal Friendship|XPHB",
+        "Speak with Animals|XPHB"
+      ],
+      "subclassFeatures": [
+        "Path of the Primal Spirit|Barbarian|XPHB|Primal Spirit|GrimHollowPG24|3",
+        "Kin to Beasts|Barbarian|XPHB|Primal Spirit|GrimHollowPG24|6",
+        "Skinrider's Trance|Barbarian|XPHB|Primal Spirit|GrimHollowPG24|10",
+        "Shape of the Wild|Barbarian|XPHB|Primal Spirit|GrimHollowPG24|14"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Path of the Wrathful Dead",
+      "shortName": "Wrathful Dead",
+      "source": "GrimHollowPG24",
+      "className": "Barbarian",
+      "classSource": "XPHB",
+      "page": 62,
+      "edition": "one",
+      "subclassFeatures": [
+        "Path of the Wrathful Dead|Barbarian|XPHB|Wrathful Dead|GrimHollowPG24|3",
+        "Dark Doom Revisited|Barbarian|XPHB|Wrathful Dead|GrimHollowPG24|6",
+        "Death Is but a Door|Barbarian|XPHB|Wrathful Dead|GrimHollowPG24|10",
+        "Powered by Pathos|Barbarian|XPHB|Wrathful Dead|GrimHollowPG24|14"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Plague Doctor",
+      "shortName": "Plague Doctor",
+      "source": "GrimHollowPG24",
+      "className": "Wizard",
+      "classSource": "XPHB",
+      "page": 104,
+      "edition": "one",
+      "subclassFeatures": [
+        "Plague Doctor|Wizard|XPHB|Plague Doctor|GrimHollowPG24|3",
+        "Bad Medicine|Wizard|XPHB|Plague Doctor|GrimHollowPG24|6",
+        "Breathe It In|Wizard|XPHB|Plague Doctor|GrimHollowPG24|10",
+        "Medicinal Master|Wizard|XPHB|Plague Doctor|GrimHollowPG24|14"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Primordial Archer",
+      "shortName": "Primordial Archer",
+      "source": "GrimHollowPG24",
+      "className": "Ranger",
+      "classSource": "XPHB",
+      "page": 86,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "prepared": {
+            "3": [
+              "Hex|XPHB"
+            ],
+            "5": [
+              "Blindness/Deafness|XPHB"
+            ],
+            "9": [
+              "Call Lightning|XPHB"
+            ],
+            "13": [
+              "Polymorph|XPHB"
+            ],
+            "17": [
+              "Wall of Stone|XPHB"
+            ]
+          }
+        }
+      ],
+      "subclassSpells": [
+        "Hex|XPHB",
+        "Blindness/Deafness|XPHB",
+        "Call Lightning|XPHB",
+        "Polymorph|XPHB",
+        "Wall of Stone|XPHB"
+      ],
+      "subclassFeatures": [
+        "Primordial Archer|Ranger|XPHB|Primordial Archer|GrimHollowPG24|3",
+        "Weave the Elements|Ranger|XPHB|Primordial Archer|GrimHollowPG24|7",
+        "Witching Arrows|Ranger|XPHB|Primordial Archer|GrimHollowPG24|11",
+        "Primordial Magic|Ranger|XPHB|Primordial Archer|GrimHollowPG24|15"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Purification Domain",
+      "shortName": "Purification",
+      "source": "GrimHollowPG24",
+      "className": "Cleric",
+      "classSource": "XPHB",
+      "page": 69,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "prepared": {
+            "3": [
+              "Detect Poison and Disease|XPHB",
+              "Flame Blade|XPHB"
+            ],
+            "5": [
+              "Fear|XPHB",
+              "Flash Fever|GrimHollowPG24"
+            ],
+            "7": [
+              "Aura of Purity|XPHB",
+              "Wall of Fire|XPHB"
+            ],
+            "9": [
+              "Flame Strike|XPHB",
+              "Hold Monster|XPHB"
+            ]
+          }
+        }
+      ],
+      "subclassSpells": [
+        "Detect Poison and Disease|XPHB",
+        "Flame Blade|XPHB",
+        "Fear|XPHB",
+        "Flash Fever|GrimHollowPG24",
+        "Aura of Purity|XPHB",
+        "Wall of Fire|XPHB",
+        "Flame Strike|XPHB",
+        "Hold Monster|XPHB"
+      ],
+      "subclassFeatures": [
+        "Purification Domain|Cleric|XPHB|Purification|GrimHollowPG24|3",
+        "Ward Against Corruption|Cleric|XPHB|Purification|GrimHollowPG24|6",
+        "Sear Imperfections|Cleric|XPHB|Purification|GrimHollowPG24|17"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Sangromancer",
+      "shortName": "Sangromancer",
+      "source": "GrimHollowPG24",
+      "className": "Wizard",
+      "classSource": "XPHB",
+      "page": 105,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "known": {
+            "3": [
+              {
+                "choose": "level=0;1;2|subschool=sangromancy"
+              },
+              {
+                "choose": "level=0;1;2|subschool=sangromancy"
+              }
+            ],
+            "5": [
+              {
+                "choose": "level=0;1;2;3|subschool=sangromancy"
+              }
+            ],
+            "7": [
+              {
+                "choose": "level=0;1;2;3;4|subschool=sangromancy"
+              }
+            ],
+            "9": [
+              {
+                "choose": "level=0;1;2;3;4;5|subschool=sangromancy"
+              }
+            ],
+            "11": [
+              {
+                "choose": "level=0;1;2;3;4;5;6|subschool=sangromancy"
+              }
+            ],
+            "13": [
+              {
+                "choose": "level=0;1;2;3;4;5;6;7|subschool=sangromancy"
+              }
+            ],
+            "15": [
+              {
+                "choose": "level=0;1;2;3;4;5;6;7;8|subschool=sangromancy"
+              }
+            ],
+            "17": [
+              {
+                "choose": "level=0;1;2;3;4;5;6;7;8;9|subschool=sangromancy"
+              }
+            ]
+          }
+        }
+      ],
+      "subclassSpells": [
+        "Blood Bond|GrimHollowPG24",
+        "Blood Rush|GrimHollowPG24",
+        "Blood Tide|GrimHollowPG24",
+        "Blood Wisp|GrimHollowPG24",
+        "Bloodbane Rune|GrimHollowPG24",
+        "Boil Blood|GrimHollowPG24",
+        "Burst Forth|GrimHollowPG24",
+        "Circle of Scarlet|GrimHollowPG24",
+        "Consumption|GrimHollowPG24",
+        "Creeping Death|GrimHollowPG24",
+        "Crimson Lash|GrimHollowPG24",
+        "Dark Sacrament|GrimHollowPG24",
+        "Extract Iron|GrimHollowPG24",
+        "Heartseeker|GrimHollowPG24",
+        "Mortality|GrimHollowPG24",
+        "Reanimate|GrimHollowPG24",
+        "Red Rain|GrimHollowPG24",
+        "Sanguine Fusillade|GrimHollowPG24",
+        "Sanguine Poppet|GrimHollowPG24",
+        "Sanguine Shield|GrimHollowPG24",
+        "Sense Lifeblood|GrimHollowPG24",
+        "Shroud Blood|GrimHollowPG24",
+        "Somnolence|GrimHollowPG24",
+        "Splattering Smite|GrimHollowPG24",
+        "Steal Immortality|GrimHollowPG24",
+        "Theft of Vitae|GrimHollowPG24",
+        "Vibrating Humors|GrimHollowPG24",
+        "Viscous Sheath|GrimHollowPG24",
+        "Wilting Smite|GrimHollowPG24"
+      ],
+      "subclassFeatures": [
+        "Sangromancer|Wizard|XPHB|Sangromancer|GrimHollowPG24|3",
+        "Sanguine Vigor|Wizard|XPHB|Sangromancer|GrimHollowPG24|6",
+        "Blood for Blood|Wizard|XPHB|Sangromancer|GrimHollowPG24|10",
+        "Red Renewal|Wizard|XPHB|Sangromancer|GrimHollowPG24|14"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Sanguine Thief",
+      "shortName": "Sanguine Thief",
+      "source": "GrimHollowPG24",
+      "className": "Rogue",
+      "classSource": "XPHB",
+      "page": 91,
+      "edition": "one",
+      "spellcastingAbility": "int",
+      "casterProgression": "1/3",
+      "preparedSpellsProgression": [
+        0,
+        0,
+        3,
+        4,
+        4,
+        4,
+        5,
+        6,
+        6,
+        7,
+        8,
+        8,
+        9,
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        13
+      ],
+      "preparedSpellsChange": "level",
+      "cantripProgression": [
+        0,
+        0,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "additionalSpells": [
+        {
+          "expanded": {
+            "3": [
+              {
+                "all": "level=0|class=Wizard"
+              },
+              {
+                "all": "level=1|class=Wizard"
+              },
+              {
+                "all": "level=1|subschool=sangromancy"
+              }
+            ],
+            "7": [
+              {
+                "all": "level=2|class=Wizard"
+              },
+              {
+                "all": "level=2|subschool=sangromancy"
+              }
+            ],
+            "13": [
+              {
+                "all": "level=3|class=Wizard"
+              },
+              {
+                "all": "level=3|subschool=sangromancy"
+              }
+            ],
+            "19": [
+              {
+                "all": "level=4|class=Wizard"
+              },
+              {
+                "all": "level=4|subschool=sangromancy"
+              }
+            ]
+          }
+        }
+      ],
+      "subclassSpells": [
+        {
+          "className": "Wizard",
+          "classSource": "XPHB"
+        },
+        "Blood Bond|GrimHollowPG24",
+        "Blood Rush|GrimHollowPG24",
+        "Bloodbane Rune|GrimHollowPG24",
+        "Boil Blood|GrimHollowPG24",
+        "Circle of Scarlet|GrimHollowPG24",
+        "Mortality|GrimHollowPG24",
+        "Reanimate|GrimHollowPG24",
+        "Red Rain|GrimHollowPG24",
+        "Sanguine Poppet|GrimHollowPG24",
+        "Sense Lifeblood|GrimHollowPG24",
+        "Somnolence|GrimHollowPG24",
+        "Splattering Smite|GrimHollowPG24",
+        "Steal Immortality|GrimHollowPG24",
+        "Wilting Smite|GrimHollowPG24"
+      ],
+      "subclassTableGroups": [
+        {
+          "subclasses": [
+            {
+              "name": "Sanguine Thief",
+              "source": "XPHB"
+            }
+          ],
+          "colLabels": [
+            "{@filter Prepared Spells|spells|subclass=Rogue: Sanguine Thief (GH:PG'24)}"
+          ],
+          "rows": [
+            [
+              0
+            ],
+            [
+              0
+            ],
+            [
+              3
+            ],
+            [
+              4
+            ],
+            [
+              4
+            ],
+            [
+              4
+            ],
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              6
+            ],
+            [
+              7
+            ],
+            [
+              8
+            ],
+            [
+              8
+            ],
+            [
+              9
+            ],
+            [
+              10
+            ],
+            [
+              10
+            ],
+            [
+              11
+            ],
+            [
+              11
+            ],
+            [
+              11
+            ],
+            [
+              12
+            ],
+            [
+              13
+            ]
+          ]
+        },
+        {
+          "title": "Spell Slots per Spell Level",
+          "subclasses": [
+            {
+              "name": "Sanguine Thief",
+              "source": "XPHB"
+            }
+          ],
+          "colLabels": [
+            "{@filter 1st|spells|level=1|subclass=Rogue: Sanguine Thief (GH:PG'24)}",
+            "{@filter 2nd|spells|level=2|subclass=Rogue: Sanguine Thief (GH:PG'24)}",
+            "{@filter 3rd|spells|level=3|subclass=Rogue: Sanguine Thief (GH:PG'24)}",
+            "{@filter 4th|spells|level=4|subclass=Rogue: Sanguine Thief (GH:PG'24)}"
+          ],
+          "rowsSpellProgression": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              0,
+              0,
+              0
+            ],
+            [
+              4,
+              2,
+              0,
+              0
+            ],
+            [
+              4,
+              2,
+              0,
+              0
+            ],
+            [
+              4,
+              2,
+              0,
+              0
+            ],
+            [
+              4,
+              3,
+              0,
+              0
+            ],
+            [
+              4,
+              3,
+              0,
+              0
+            ],
+            [
+              4,
+              3,
+              0,
+              0
+            ],
+            [
+              4,
+              3,
+              2,
+              0
+            ],
+            [
+              4,
+              3,
+              2,
+              0
+            ],
+            [
+              4,
+              3,
+              2,
+              0
+            ],
+            [
+              4,
+              3,
+              3,
+              0
+            ],
+            [
+              4,
+              3,
+              3,
+              0
+            ],
+            [
+              4,
+              3,
+              3,
+              0
+            ],
+            [
+              4,
+              3,
+              3,
+              1
+            ],
+            [
+              4,
+              3,
+              3,
+              1
+            ]
+          ]
+        }
+      ],
+      "subclassFeatures": [
+        "Sanguine Thief|Rogue|XPHB|Sanguine Thief|GrimHollowPG24|3",
+        "Bloody Blades|Rogue|XPHB|Sanguine Thief|GrimHollowPG24|9",
+        "Bloodstitch|Rogue|XPHB|Sanguine Thief|GrimHollowPG24|13",
+        "Bloody Exit|Rogue|XPHB|Sanguine Thief|GrimHollowPG24|17"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "The Coven",
+      "shortName": "Coven",
+      "source": "GrimHollowPG24",
+      "className": "Warlock",
+      "classSource": "XPHB",
+      "page": 99,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "known": {
+            "6": [
+              "Minor Illusion|XPHB#c"
+            ]
+          },
+          "prepared": {
+            "3": [
+              "Hold Person|XPHB",
+              "Identify|XPHB",
+              "Locate Object|XPHB",
+              "Ray of Sickness|XPHB"
+            ],
+            "5": [
+              "Bestow Curse|XPHB",
+              "Counterspell|XPHB"
+            ],
+            "7": [
+              "Phantasmal Killer|XPHB",
+              "Polymorph|XPHB"
+            ],
+            "9": [
+              "Divination|XPHB",
+              "Locate Creature|XPHB"
+            ],
+            "17": [
+              "Contact Other Plane|XPHB",
+              "Scrying|XPHB"
+            ]
+          }
+        }
+      ],
+      "subclassSpells": [
+        "Hold Person|XPHB",
+        "Identify|XPHB",
+        "Locate Object|XPHB",
+        "Ray of Sickness|XPHB",
+        "Bestow Curse|XPHB",
+        "Counterspell|XPHB",
+        "Phantasmal Killer|XPHB",
+        "Polymorph|XPHB",
+        "Divination|XPHB",
+        "Locate Creature|XPHB",
+        "Contact Other Plane|XPHB",
+        "Scrying|XPHB",
+        "Minor Illusion|XPHB"
+      ],
+      "subclassFeatures": [
+        "The Coven|Warlock|XPHB|Coven|GrimHollowPG24|3",
+        "Hag's Guile|Warlock|XPHB|Coven|GrimHollowPG24|6",
+        "Hag's Visage|Warlock|XPHB|Coven|GrimHollowPG24|10",
+        "Hag's Craft|Warlock|XPHB|Coven|GrimHollowPG24|14"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "The First Vampire Patron",
+      "shortName": "First Vampire",
+      "source": "GrimHollowPG24",
+      "className": "Warlock",
+      "classSource": "XPHB",
+      "page": 99,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "prepared": {
+            "3": [
+              "Bane|XPHB",
+              "Command|XPHB",
+              "False Life|XPHB",
+              "Fog Cloud|XPHB"
+            ],
+            "5": [
+              "Conjure Animals|XPHB",
+              "Gaseous Form|XPHB"
+            ],
+            "6": [
+              "Polymorph|XPHB"
+            ],
+            "7": [
+              "Dominate Person|XPHB",
+              "Seeming|XPHB"
+            ],
+            "9": [
+              "Little Death|GrimHollowPG24",
+              "Telekinesis|XPHB"
+            ]
+          }
+        }
+      ],
+      "subclassSpells": [
+        "Bane|XPHB",
+        "Command|XPHB",
+        "False Life|XPHB",
+        "Fog Cloud|XPHB",
+        "Conjure Animals|XPHB",
+        "Gaseous Form|XPHB",
+        "Dominate Person|XPHB",
+        "Seeming|XPHB",
+        "Little Death|GrimHollowPG24",
+        "Telekinesis|XPHB",
+        "Polymorph|XPHB"
+      ],
+      "subclassFeatures": [
+        "The First Vampire Patron|Warlock|XPHB|First Vampire|GrimHollowPG24|3",
+        "Creature of the Night|Warlock|XPHB|First Vampire|GrimHollowPG24|6",
+        "Eldritch Appetite|Warlock|XPHB|First Vampire|GrimHollowPG24|10",
+        "Eternal Night|Warlock|XPHB|First Vampire|GrimHollowPG24|14"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "The Parasite Patron",
+      "shortName": "Parasite",
+      "source": "GrimHollowPG24",
+      "className": "Warlock",
+      "classSource": "XPHB",
+      "page": 100,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "prepared": {
+            "10": {
+              "daily": {
+                "1e": [
+                  "Dominate Person|XPHB"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "subclassSpells": [
+        "Dominate Person|XPHB"
+      ],
+      "subclassFeatures": [
+        "The Parasite Patron|Warlock|XPHB|Parasite|GrimHollowPG24|3",
+        "Symbiotic Sentinel|Warlock|XPHB|Parasite|GrimHollowPG24|6",
+        "Spawn Pawn|Warlock|XPHB|Parasite|GrimHollowPG24|10",
+        "Larval Regeneration|Warlock|XPHB|Parasite|GrimHollowPG24|14"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Trapper Guild",
+      "shortName": "Trapper",
+      "source": "GrimHollowPG24",
+      "className": "Monster Hunter",
+      "classSource": "GrimHollowPG24",
+      "page": 58,
+      "edition": "one",
+      "subclassFeatures": [
+        "Trapper Guild|Monster Hunter|GrimHollowPG24|Trapper|GrimHollowPG24|3",
+        "Ambusher's Advantage|Monster Hunter|GrimHollowPG24|Trapper|GrimHollowPG24|7",
+        "Agile Response|Monster Hunter|GrimHollowPG24|Trapper|GrimHollowPG24|10",
+        "Monster-Hide Armor|Monster Hunter|GrimHollowPG24|Trapper|GrimHollowPG24|15",
+        "Rapid Tinkerer|Monster Hunter|GrimHollowPG24|Trapper|GrimHollowPG24|18"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Vermin Lord",
+      "shortName": "Vermin Lord",
+      "source": "GrimHollowPG24",
+      "className": "Ranger",
+      "classSource": "XPHB",
+      "page": 87,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "prepared": {
+            "3": [
+              "Consumption|GrimHollowPG24"
+            ],
+            "5": [
+              "Animal Messenger|XPHB"
+            ],
+            "9": [
+              "Flash Fever|GrimHollowPG24"
+            ],
+            "13": [
+              "Freedom of Movement|XPHB"
+            ],
+            "17": [
+              "Contagion|XPHB"
+            ]
+          }
+        }
+      ],
+      "subclassSpells": [
+        "Consumption|GrimHollowPG24",
+        "Animal Messenger|XPHB",
+        "Flash Fever|GrimHollowPG24",
+        "Freedom of Movement|XPHB",
+        "Contagion|XPHB"
+      ],
+      "subclassFeatures": [
+        "Vermin Lord|Ranger|XPHB|Vermin Lord|GrimHollowPG24|3",
+        "Filth and Fortitude|Ranger|XPHB|Vermin Lord|GrimHollowPG24|7",
+        "Infectious Spread|Ranger|XPHB|Vermin Lord|GrimHollowPG24|11",
+        "Strength of the Swarm|Ranger|XPHB|Vermin Lord|GrimHollowPG24|15"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Warrior of Pride",
+      "shortName": "Pride",
+      "source": "GrimHollowPG24",
+      "className": "Monk",
+      "classSource": "XPHB",
+      "page": 78,
+      "edition": "one",
+      "subclassFeatures": [
+        "Warrior of Pride|Monk|XPHB|Pride|GrimHollowPG24|3",
+        "Irrational Retaliation|Monk|XPHB|Pride|GrimHollowPG24|6",
+        "Redoubled Efforts|Monk|XPHB|Pride|GrimHollowPG24|6",
+        "Ever Prideful|Monk|XPHB|Pride|GrimHollowPG24|11",
+        "Egotistical|Monk|XPHB|Pride|GrimHollowPG24|17"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Warrior of Regret",
+      "shortName": "Regret",
+      "source": "GrimHollowPG24",
+      "className": "Monk",
+      "classSource": "XPHB",
+      "page": 79,
+      "edition": "one",
+      "subclassFeatures": [
+        "Warrior of Regret|Monk|XPHB|Regret|GrimHollowPG24|3",
+        "Aid Not Given|Monk|XPHB|Regret|GrimHollowPG24|6",
+        "Crushing Guilt|Monk|XPHB|Regret|GrimHollowPG24|11",
+        "Relive the Past|Monk|XPHB|Regret|GrimHollowPG24|17"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Warrior of the Leaden Crown",
+      "shortName": "Leaden Crown",
+      "source": "GrimHollowPG24",
+      "className": "Monk",
+      "classSource": "XPHB",
+      "page": 77,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "known": {
+            "3": [
+              "Mage Hand|XPHB#c"
+            ]
+          }
+        }
+      ],
+      "subclassSpells": [
+        "Mage Hand|XPHB",
+        "Detect Evil and Good|XPHB",
+        "Protection from Evil and Good|XPHB",
+        "Hold Person|XPHB",
+        "Levitate|XPHB",
+        "Shatter|XPHB",
+        "Dispel Evil and Good|XPHB",
+        "Hold Monster|XPHB",
+        "Telekinesis|XPHB",
+        "Wall of Force|XPHB"
+      ],
+      "subclassFeatures": [
+        "Warrior of the Leaden Crown|Monk|XPHB|Leaden Crown|GrimHollowPG24|3",
+        "Unsubtle Strike|Monk|XPHB|Leaden Crown|GrimHollowPG24|6",
+        "Psychic Crush|Monk|XPHB|Leaden Crown|GrimHollowPG24|11",
+        "Psionic Mastery|Monk|XPHB|Leaden Crown|GrimHollowPG24|17"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
+    },
+    {
+      "name": "Wretched Bloodline Sorcery",
+      "shortName": "Wretched",
+      "source": "GrimHollowPG24",
+      "className": "Sorcerer",
+      "classSource": "XPHB",
+      "page": 96,
+      "edition": "one",
+      "additionalSpells": [
+        {
+          "known": {
+            "3": [
+              "Detect Evil and Good|XPHB"
+            ]
+          }
+        },
+        {
+          "prepared": {
+            "6": [
+              "Bestow Curse|XPHB"
+            ]
+          }
+        }
+      ],
+      "subclassSpells": [
+        "Detect Evil and Good|XPHB",
+        "Bestow Curse|XPHB"
+      ],
+      "subclassFeatures": [
+        "Wretched Bloodline Sorcery|Sorcerer|XPHB|Wretched|GrimHollowPG24|3",
+        "Share the Burden|Sorcerer|XPHB|Wretched|GrimHollowPG24|6",
+        "Terrifying Visage|Sorcerer|XPHB|Wretched|GrimHollowPG24|14",
+        "Vengeful Summons|Sorcerer|XPHB|Wretched|GrimHollowPG24|18"
+      ],
+      "hasFluff": true,
+      "hasFluffImages": true
     }
   ],
-  "generatedAt": "2026-07-11T13:47:31.165Z",
+  "generatedAt": "2026-07-12T15:49:56.675Z",
   "source": "5etools-src (One/2024 edition, build-time pre-merged)",
   "edition": "one"
 }

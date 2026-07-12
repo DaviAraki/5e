@@ -199,6 +199,9 @@ const SOURCE_TO_DISPLAY: Record<string, string> = {
   XSAC: "SAC",
   EFA: "EFA",
   FRHoF: "FRHoF",
+  GrimHollowCG24: "GH:CG'24",
+  GrimHollowPG24: "GH:PG'24",
+  GrimHollowMG24: "GH:MG'24",
 };
 
 export function sourceToAbv(source: string): string {

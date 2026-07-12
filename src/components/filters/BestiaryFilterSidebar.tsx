@@ -13,6 +13,7 @@ import {
   type FilterDimension,
 } from "@/state/bestiaryFilters";
 import { PillFilter } from "./PillFilter";
+import { SourceExclusionFilter } from "./SourceExclusionFilter";
 
 /**
  * Filter sidebar for the bestiary. Reuses the same PillFilter components
@@ -53,6 +54,7 @@ export function BestiaryFilterSidebar({ monsters }: { monsters: Monster[] }) {
 
       <div className="flex-1 overflow-y-auto">
         <PillFilter title="Source" options={sourceOptions} selected={source} onToggle={toggle("source")} onClear={clear("source")} defaultOpen />
+        <SourceExclusionFilter category="bestiary" options={sourceOptions} />
         <PillFilter title="Size" options={SIZE_OPTIONS} selected={size} onToggle={toggle("size")} onClear={clear("size")} defaultOpen />
         <PillFilter title="Type" options={TYPE_OPTIONS} selected={type} onToggle={toggle("type")} onClear={clear("type")} />
         <PillFilter title="Challenge Rating" options={CR_OPTIONS} selected={cr} onToggle={toggle("cr")} onClear={clear("cr")} />

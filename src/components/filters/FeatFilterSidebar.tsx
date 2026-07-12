@@ -9,6 +9,7 @@ import {
   type FilterDimension,
 } from "@/state/featFilters";
 import { PillFilter } from "./PillFilter";
+import { SourceExclusionFilter } from "./SourceExclusionFilter";
 
 export function FeatFilterSidebar({ feats }: { feats: Feat[] }) {
   const f = useFeatFilters();
@@ -39,6 +40,7 @@ export function FeatFilterSidebar({ feats }: { feats: Feat[] }) {
         <PillFilter title="Ability Score" options={ABILITY_OPTIONS} selected={ability} onToggle={toggle("ability")} onClear={clear("ability")} />
         <PillFilter title="Special" options={MISC_OPTIONS} selected={misc} onToggle={toggle("misc")} onClear={clear("misc")} />
         <PillFilter title="Source" options={sourceOptions} selected={source} onToggle={toggle("source")} onClear={clear("source")} />
+        <SourceExclusionFilter category="feats" options={sourceOptions} />
       </div>
     </div>
   );

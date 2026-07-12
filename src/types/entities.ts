@@ -776,6 +776,151 @@ export interface VariantRule {
 }
 
 // ---------------------------------------------------------------------------
+// Condition
+// ---------------------------------------------------------------------------
+
+export interface Condition {
+  name: string;
+  source: SourceId;
+  page?: number;
+  entries: Entry[];
+  reprintedAs?: EntityRef[];
+  referenceSources?: SourceId[];
+  [k: string]: unknown;
+}
+
+// ---------------------------------------------------------------------------
+// Deity
+// ---------------------------------------------------------------------------
+
+export interface Deity {
+  name: string;
+  source: SourceId;
+  page?: number;
+  pantheon?: string;
+  /** Cleric domains / categories, e.g. ["War","Valor"]. */
+  domains?: string[];
+  category?: string;
+  symbolImg?: { type: string; path: string };
+  title?: string;
+  alignment?: string[];
+  entries: Entry[];
+  reprintedAs?: EntityRef[];
+  referenceSources?: SourceId[];
+  [k: string]: unknown;
+}
+
+// ---------------------------------------------------------------------------
+// Disease
+// ---------------------------------------------------------------------------
+
+export interface Disease {
+  name: string;
+  source: SourceId;
+  page?: number;
+  /** DC and saving-throw stat, e.g. { dc: 14, save: "con" }. */
+  dc?: number;
+  save?: string;
+  onset?: string;
+  duration?: string;
+  symptoms?: string[];
+  entries: Entry[];
+  hasFluffImages?: boolean;
+  reprintedAs?: EntityRef[];
+  referenceSources?: SourceId[];
+  [k: string]: unknown;
+}
+
+// ---------------------------------------------------------------------------
+// Language
+// ---------------------------------------------------------------------------
+
+export interface Language {
+  name: string;
+  source: SourceId;
+  page?: number;
+  /** "standard" | "exotic" | "secret" | string. */
+  type?: string;
+  typicalSpeakers?: unknown[];
+  script?: string;
+  entries: Entry[];
+  reprintedAs?: EntityRef[];
+  referenceSources?: SourceId[];
+  [k: string]: unknown;
+}
+
+// ---------------------------------------------------------------------------
+// Legendary Group (lair actions + regional effects for a monster/group)
+// ---------------------------------------------------------------------------
+
+export interface LegendaryGroup {
+  name: string;
+  source: SourceId;
+  page?: number;
+  lairActions?: Entry[] | unknown[];
+  regionalEffects?: Entry[] | unknown[];
+  reprintedAs?: EntityRef[];
+  referenceSources?: SourceId[];
+  [k: string]: unknown;
+}
+
+// ---------------------------------------------------------------------------
+// Table (generic dN lookup table; named GameTable to avoid JS reserved clash)
+// ---------------------------------------------------------------------------
+
+export interface GameTable {
+  name: string;
+  source: SourceId;
+  page?: number;
+  colLabels?: string[];
+  colStyles?: string[];
+  rows?: unknown[][];
+  tables?: unknown[];
+  caption?: Entry;
+  intro?: Entry[];
+  outro?: Entry[];
+  entries: Entry[];
+  reprintedAs?: EntityRef[];
+  referenceSources?: SourceId[];
+  [k: string]: unknown;
+}
+
+// ---------------------------------------------------------------------------
+// Transformation (Grim Hollow charoption: multi-stage transformation)
+// ---------------------------------------------------------------------------
+
+export interface Transformation {
+  name: string;
+  source: SourceId;
+  page?: number;
+  /** Category tags, e.g. ["Transformation"]. */
+  optionType?: string[];
+  entries: Entry[];
+  fluff?: unknown;
+  hasFluffImages?: boolean;
+  reprintedAs?: EntityRef[];
+  referenceSources?: SourceId[];
+  [k: string]: unknown;
+}
+
+// ---------------------------------------------------------------------------
+// Optional Feature (transformations boons/flaws, class features, etc.)
+// ---------------------------------------------------------------------------
+
+export interface OptionalFeature {
+  name: string;
+  source: SourceId;
+  page?: number;
+  /** Feature-type codes, e.g. ["AH:TB"], ["MGS"], ["FS"]. */
+  featureType?: string[];
+  prerequisite?: Record<string, unknown>[];
+  entries: Entry[];
+  reprintedAs?: EntityRef[];
+  referenceSources?: SourceId[];
+  [k: string]: unknown;
+}
+
+// ---------------------------------------------------------------------------
 // Book (source reference)
 // ---------------------------------------------------------------------------
 

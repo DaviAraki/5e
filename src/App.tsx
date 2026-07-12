@@ -7,6 +7,14 @@ import ItemsPage from "@/pages/ItemsPage";
 import BackgroundsPage from "@/pages/BackgroundsPage";
 import SpeciesPage from "@/pages/SpeciesPage";
 import FeatsPage from "@/pages/FeatsPage";
+import ConditionsPage from "@/pages/ConditionsPage";
+import DiseasesPage from "@/pages/DiseasesPage";
+import DeitiesPage from "@/pages/DeitiesPage";
+import LanguagesPage from "@/pages/LanguagesPage";
+import LegendaryGroupsPage from "@/pages/LegendaryGroupsPage";
+import TablesPage from "@/pages/TablesPage";
+import TransformationsPage from "@/pages/TransformationsPage";
+import OptionalFeaturesPage from "@/pages/OptionalFeaturesPage";
 import BooksPage from "@/pages/BooksPage";
 import SpellBookPage from "@/pages/SpellBookPage";
 import LootPage from "@/pages/LootPage";
@@ -23,6 +31,14 @@ const NAV_ITEMS: { to: string; label: string }[] = [
   { to: "/backgrounds", label: "Backgrounds" },
   { to: "/species", label: "Species" },
   { to: "/feats", label: "Feats" },
+  { to: "/transformations", label: "Transformations" },
+  { to: "/optional-features", label: "Optional Features" },
+  { to: "/conditions", label: "Conditions" },
+  { to: "/diseases", label: "Diseases" },
+  { to: "/deities", label: "Deities" },
+  { to: "/languages", label: "Languages" },
+  { to: "/tables", label: "Tables" },
+  { to: "/legendary-groups", label: "Legendary Groups" },
   { to: "/books", label: "Books" },
   { to: "/spellbook", label: "Spell Book" },
   { to: "/loot", label: "Loot" },
@@ -86,6 +102,14 @@ export default function App() {
           <Route path="/backgrounds" element={<BackgroundsPage />} />
           <Route path="/species" element={<SpeciesPage />} />
           <Route path="/feats" element={<FeatsPage />} />
+          <Route path="/transformations" element={<TransformationsPage />} />
+          <Route path="/optional-features" element={<OptionalFeaturesPage />} />
+          <Route path="/conditions" element={<ConditionsPage />} />
+          <Route path="/diseases" element={<DiseasesPage />} />
+          <Route path="/deities" element={<DeitiesPage />} />
+          <Route path="/languages" element={<LanguagesPage />} />
+          <Route path="/tables" element={<TablesPage />} />
+          <Route path="/legendary-groups" element={<LegendaryGroupsPage />} />
           <Route path="/books" element={<BooksPage />} />
           <Route path="/spellbook" element={<SpellBookPage />} />
           <Route path="/loot" element={<LootPage />} />

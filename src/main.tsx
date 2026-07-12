@@ -31,12 +31,23 @@ async function prefetch(url: string) {
 }
 
 (async () => {
-  const [spells, monsters, itemsData, feats, variantrules] = await Promise.all([
+  const [
+    spells, monsters, itemsData, feats, variantrules,
+    conditions, diseases, deities, languages, legendarygroups, tables, transformations, optionalfeatures,
+  ] = await Promise.all([
     prefetch(`${RESOLVED_BASE}/spells.json`),
     prefetch(`${RESOLVED_BASE}/bestiary.json`),
     prefetch(`${RESOLVED_BASE}/items.json`),
     prefetch(`${RESOLVED_BASE}/feats.json`),
     prefetch(`${RESOLVED_BASE}/variantrules.json`),
+    prefetch(`${RESOLVED_BASE}/conditions.json`),
+    prefetch(`${RESOLVED_BASE}/diseases.json`),
+    prefetch(`${RESOLVED_BASE}/deities.json`),
+    prefetch(`${RESOLVED_BASE}/languages.json`),
+    prefetch(`${RESOLVED_BASE}/legendarygroups.json`),
+    prefetch(`${RESOLVED_BASE}/tables.json`),
+    prefetch(`${RESOLVED_BASE}/transformations.json`),
+    prefetch(`${RESOLVED_BASE}/optionalfeatures.json`),
   ]);
   if (spells) queryClient.setQueryData(["spells"], spells);
   if (monsters) queryClient.setQueryData(["monsters"], monsters);
@@ -48,6 +59,14 @@ async function prefetch(url: string) {
   }
   if (feats) queryClient.setQueryData(["feats"], feats);
   if (variantrules) queryClient.setQueryData(["variantrules"], variantrules);
+  if (conditions) queryClient.setQueryData(["conditions"], conditions);
+  if (diseases) queryClient.setQueryData(["diseases"], diseases);
+  if (deities) queryClient.setQueryData(["deities"], deities);
+  if (languages) queryClient.setQueryData(["languages"], languages);
+  if (legendarygroups) queryClient.setQueryData(["legendarygroups"], legendarygroups);
+  if (tables) queryClient.setQueryData(["tables"], tables);
+  if (transformations) queryClient.setQueryData(["transformations"], transformations);
+  if (optionalfeatures) queryClient.setQueryData(["optionalfeatures"], optionalfeatures);
 })();
 
 createRoot(document.getElementById("root")!).render(

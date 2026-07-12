@@ -13595,9 +13595,280 @@
       "subclassTitle": "Wizard Subclass",
       "hasFluff": true,
       "hasFluffImages": true
+    },
+    {
+      "name": "Monster Hunter",
+      "source": "GrimHollowPG24",
+      "page": 51,
+      "edition": "one",
+      "primaryAbility": [
+        {
+          "str": true,
+          "int": true
+        },
+        {
+          "dex": true,
+          "int": true
+        }
+      ],
+      "hd": {
+        "number": 1,
+        "faces": 10
+      },
+      "proficiency": [
+        "dex",
+        "int"
+      ],
+      "featProgression": [
+        {
+          "name": "Fighting Style",
+          "category": [
+            "FS"
+          ],
+          "progression": {
+            "2": 1
+          }
+        },
+        {
+          "name": "Epic Boon",
+          "category": [
+            "EB"
+          ],
+          "progression": {
+            "19": 1
+          }
+        }
+      ],
+      "optionalfeatureProgression": [
+        {
+          "name": "Monster Grimoire Specialization",
+          "featureType": [
+            "MGS"
+          ],
+          "progression": {
+            "1": 2,
+            "6": 3,
+            "13": 4
+          }
+        }
+      ],
+      "startingProficiencies": {
+        "armor": [
+          "light",
+          "medium",
+          "shield"
+        ],
+        "weapons": [
+          "simple",
+          "martial"
+        ],
+        "skills": [
+          {
+            "choose": {
+              "from": [
+                "athletics",
+                "history",
+                "investigation",
+                "medicine",
+                "nature",
+                "perception",
+                "religion",
+                "survival"
+              ],
+              "count": 3
+            }
+          }
+        ]
+      },
+      "startingEquipment": {
+        "additionalFromBackground": true,
+        "defaultData": [
+          {
+            "A": [
+              {
+                "item": "scale mail|xphb"
+              },
+              {
+                "item": "longsword|xphb"
+              },
+              {
+                "item": "light crossbow|xphb"
+              },
+              {
+                "item": "bolt|xphb",
+                "quantity": 20
+              },
+              {
+                "item": "dungeoneer's pack|xphb"
+              },
+              {
+                "value": 500
+              }
+            ],
+            "B": [
+              {
+                "item": "studded leather armor|xphb"
+              },
+              {
+                "item": "scimitar|xphb"
+              },
+              {
+                "item": "shortsword|xphb"
+              },
+              {
+                "item": "longbow|xphb"
+              },
+              {
+                "item": "arrow|xphb",
+                "quantity": 20
+              },
+              {
+                "item": "quiver|xphb"
+              },
+              {
+                "item": "dungeoneer's pack|xphb"
+              },
+              {
+                "value": 1000
+              }
+            ],
+            "C": [
+              {
+                "value": 16000
+              }
+            ]
+          }
+        ],
+        "entries": [
+          "{@i Choose A, B, or C:} (A) {@item Scale Mail|XPHB}, {@item Longsword|XPHB}, {@item Light Crossbow|XPHB}, 20 {@item Bolt|XPHB|Bolts}, {@item Dungeoneer's Pack|XPHB}, and 5 GP; (B) {@item Studded Leather Armor|XPHB}, {@item Scimitar|XPHB}, {@item Shortsword|XPHB}, {@item Longbow|XPHB}, 20 {@item Arrow|XPHB|Arrows}, {@item Quiver|XPHB}, {@item Dungeoneer's Pack|XPHB}, and 10 GP; or (C) 160 GP"
+        ]
+      },
+      "multiclassing": {
+        "proficienciesGained": {
+          "weapons": [
+            "martial"
+          ],
+          "armor": [
+            "light",
+            "medium",
+            "shield"
+          ]
+        }
+      },
+      "classTableGroups": [
+        {
+          "colLabels": [
+            "Weapon Mastery"
+          ],
+          "rows": [
+            [
+              "2"
+            ],
+            [
+              "2"
+            ],
+            [
+              "2"
+            ],
+            [
+              "2"
+            ],
+            [
+              "3"
+            ],
+            [
+              "3"
+            ],
+            [
+              "3"
+            ],
+            [
+              "3"
+            ],
+            [
+              "3"
+            ],
+            [
+              "3"
+            ],
+            [
+              "4"
+            ],
+            [
+              "4"
+            ],
+            [
+              "4"
+            ],
+            [
+              "4"
+            ],
+            [
+              "4"
+            ],
+            [
+              "4"
+            ],
+            [
+              "5"
+            ],
+            [
+              "5"
+            ],
+            [
+              "5"
+            ],
+            [
+              "5"
+            ]
+          ]
+        }
+      ],
+      "classFeatures": [
+        "Monster Grimoire|Monster Hunter|GrimHollowPG24|1",
+        "Weapon Mastery|Monster Hunter|GrimHollowPG24|1",
+        "Fighting Style|Monster Hunter|GrimHollowPG24|2",
+        "Studied Response|Monster Hunter|GrimHollowPG24|2",
+        {
+          "classFeature": "Monster Hunter Subclass|Monster Hunter|GrimHollowPG24|3",
+          "gainSubclassFeature": true
+        },
+        "Ability Score Improvement|Monster Hunter|GrimHollowPG24|4",
+        "Expert Strike|Monster Hunter|GrimHollowPG24|5",
+        "Improved Monster Grimoire|Monster Hunter|GrimHollowPG24|6",
+        {
+          "classFeature": "Subclass Feature|Monster Hunter|GrimHollowPG24|7",
+          "gainSubclassFeature": true
+        },
+        "Ability Score Improvement|Monster Hunter|GrimHollowPG24|8",
+        "Knowledgeable Defense|Monster Hunter|GrimHollowPG24|9",
+        {
+          "classFeature": "Subclass Feature|Monster Hunter|GrimHollowPG24|10",
+          "gainSubclassFeature": true
+        },
+        "Extra Attack|Monster Hunter|GrimHollowPG24|11",
+        "Ability Score Improvement|Monster Hunter|GrimHollowPG24|12",
+        "Improved Monster Grimoire|Monster Hunter|GrimHollowPG24|13",
+        "Lair Sense|Monster Hunter|GrimHollowPG24|14",
+        {
+          "classFeature": "Subclass Feature|Monster Hunter|GrimHollowPG24|15",
+          "gainSubclassFeature": true
+        },
+        "Ability Score Improvement|Monster Hunter|GrimHollowPG24|16",
+        "Slayer's Aid|Monster Hunter|GrimHollowPG24|17",
+        {
+          "classFeature": "Subclass Feature|Monster Hunter|GrimHollowPG24|18",
+          "gainSubclassFeature": true
+        },
+        "Epic Boon|Monster Hunter|GrimHollowPG24|19",
+        "Grave Strike|Monster Hunter|GrimHollowPG24|20"
+      ],
+      "subclassTitle": "Subclass Feature",
+      "hasFluff": true,
+      "hasFluffImages": true
     }
   ],
-  "generatedAt": "2026-07-11T13:47:31.157Z",
+  "generatedAt": "2026-07-12T15:49:56.675Z",
   "source": "5etools-src (One/2024 edition, build-time pre-merged)",
   "edition": "one"
 }

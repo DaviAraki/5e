@@ -8885,9 +8885,849 @@
         }
       ],
       "isOneEdition": true
+    },
+    {
+      "name": "Grim Hollow: Campaign Guide (2024)",
+      "id": "GrimHollowCG24",
+      "source": "GrimHollowCG24",
+      "group": "supplement-alt",
+      "published": "2025-08-26",
+      "author": "Ghostfire Gaming",
+      "cover": {
+        "type": "internal",
+        "path": "covers/GrimHollowCG24.webp"
+      },
+      "contents": [
+        {
+          "name": "Introduction",
+          "headers": [
+            "Welcome to Grim Hollow!"
+          ]
+        },
+        {
+          "name": "World of Etharis",
+          "ordinal": {
+            "type": "part",
+            "identifier": 1
+          }
+        },
+        {
+          "name": "Realms of Etharis",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 1
+          },
+          "headers": [
+            "Dark Fantasy Stories",
+            "The Realms of Etharis",
+            "An Incomplete History"
+          ]
+        },
+        {
+          "name": "The Bürach Empire",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 2
+          },
+          "headers": [
+            "Geography",
+            "History",
+            "Provinces",
+            "Quest Hooks",
+            "The City of Stehlenwald"
+          ]
+        },
+        {
+          "name": "The Ostoyan Empire",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 3
+          },
+          "headers": [
+            "Geography",
+            "History",
+            "Provinces",
+            "Quest Hooks",
+            "The City of Fallowheart",
+            "The Free City of Malkovia"
+          ]
+        },
+        {
+          "name": "The Charneault Kingdom",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 4
+          },
+          "headers": [
+            "Geography",
+            "History",
+            "Provinces",
+            "Quest Hooks",
+            "Castle Lamesdhonneur",
+            "Tol Leyemil"
+          ]
+        },
+        {
+          "name": "The Castinellan Provinces",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 5
+          },
+          "headers": [
+            "Geography",
+            "History",
+            "Provinces",
+            "Other Locations of Interest",
+            "Quest Hooks",
+            "Ember Cairn"
+          ]
+        },
+        {
+          "name": "The Valikan Clans",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 6
+          },
+          "headers": [
+            "Geography",
+            "History",
+            "Provinces",
+            "Quest Hooks",
+            "Cold Iron Keep"
+          ]
+        },
+        {
+          "name": "The City of Liesech",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 7
+          },
+          "headers": [
+            "Geography",
+            "History",
+            "Districts",
+            "Important Individuals",
+            "Important Factions",
+            "Notable Locations",
+            "Quest Hooks"
+          ]
+        },
+        {
+          "name": "The City of Morencia",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 8
+          },
+          "headers": [
+            "Geography",
+            "History",
+            "Districts",
+            "Important Individuals",
+            "Important Factions",
+            "Notable Locations",
+            "Quest Hooks"
+          ]
+        },
+        {
+          "name": "Etharis Timeline",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 9
+          }
+        },
+        {
+          "name": "Denizens of Etharis",
+          "ordinal": {
+            "type": "part",
+            "identifier": 2
+          }
+        },
+        {
+          "name": "Folk of Etharis",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 10
+          }
+        },
+        {
+          "name": "Factions of Etharis",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 11
+          },
+          "headers": [
+            "Factions in Brief",
+            "Augustine Trading Company",
+            "Company of Free Swords",
+            "Ebon Syndicate",
+            "Thaumaturge",
+            "Watchers of the Faithful",
+            "Arcanist Inquisition",
+            "Crimson Court",
+            "Monster Hunter Guilds",
+            "Morbus Doctore",
+            "Order of Dawn",
+            "Prismatic Circle"
+          ]
+        },
+        {
+          "name": "Divinity & Magic",
+          "ordinal": {
+            "type": "part",
+            "identifier": 3
+          }
+        },
+        {
+          "name": "Magic in Etharis",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 12
+          },
+          "headers": [
+            "Arcane Magic in Etharis",
+            "Societal Mistrust",
+            "Regional Attitudes",
+            "Colleges of Magic",
+            "The Planes",
+            "Realm of Faerie",
+            "Ethereal Plane",
+            "Primordial Realms",
+            "Netherworld",
+            "The Heavens",
+            "Numena"
+          ]
+        },
+        {
+          "name": "Divinity in Etharis",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 13
+          },
+          "headers": [
+            "Divine Magic in Etharis",
+            "Primal Magic in Etharis"
+          ]
+        },
+        {
+          "name": "Magic Items",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 14
+          },
+          "headers": [
+            "Magic Items in Etharis",
+            "The Four Sacred Artifacts"
+          ]
+        },
+        {
+          "name": "Game Master's Guide",
+          "ordinal": {
+            "type": "part",
+            "identifier": 4
+          }
+        },
+        {
+          "name": "Guide to Dark Fantasy",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 15
+          },
+          "headers": [
+            "Dark Fantasy Styles",
+            "Conflict and Resolution",
+            "Conflict Scale",
+            "Progression",
+            "Encounter Difficulty"
+          ]
+        },
+        {
+          "name": "Dark Fantasy Rules",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 16
+          },
+          "headers": [
+            "Alternative Rest System",
+            "Grievous Wounds",
+            "Permanent Wounds",
+            "New Conditions",
+            "Great Beast Mutations",
+            "Diseases and Afflictions",
+            "Creating Legendary Foes",
+            "Heroism and Corruption"
+          ]
+        },
+        {
+          "name": "Curse Monsters",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 17
+          },
+          "headers": [
+            "Using Curse Monsters",
+            "Curse Monster Hooks",
+            "Avatar of Slaughter",
+            "Bloated Gastromorph",
+            "Body Snatcher",
+            "Dream Whisperer",
+            "Herald of Calamity",
+            "Mind Siphon",
+            "Plague Carrion",
+            "Sightless Agony",
+            "Verminous Abomination",
+            "Weeping Willow"
+          ]
+        },
+        {
+          "name": "Credits"
+        }
+      ],
+      "isOneEdition": true
+    },
+    {
+      "name": "Grim Hollow: Player's Guide (2024)",
+      "id": "GrimHollowPG24",
+      "source": "GrimHollowPG24",
+      "group": "supplement-alt",
+      "cover": {
+        "type": "internal",
+        "path": "covers/GrimHollowPG24.webp"
+      },
+      "published": "2025-08-26",
+      "author": "Ghostfire Gaming",
+      "contents": [
+        {
+          "name": "Introduction",
+          "headers": [
+            "Welcome to Grim Hollow!",
+            "Playing in a Dark Fantasy Campaign",
+            "The World is Broken",
+            "The Gods are Dead",
+            "Magic is Mistrusted",
+            "Humanity is Flawed",
+            "You Are the Hope Within the Darkness"
+          ]
+        },
+        {
+          "name": "Heritages & Traits",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 1
+          },
+          "headers": [
+            "Characters in a Grim Hollow Campaign",
+            "Grim Hollow Heritages",
+            {
+              "header": "Common Heritages",
+              "depth": 1
+            },
+            {
+              "header": "Rare Heritages",
+              "depth": 1
+            },
+            {
+              "header": "Eldritch Heritages",
+              "depth": 1
+            },
+            "Heritage Traits",
+            "Trait List",
+            {
+              "header": "Combat Traits",
+              "depth": 1
+            },
+            {
+              "header": "Exploration Traits",
+              "depth": 1
+            },
+            {
+              "header": "Roleplaying Traits",
+              "depth": 1
+            },
+            "Trait Descriptions"
+          ]
+        },
+        {
+          "name": "Classes & Subclasses",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 2
+          },
+          "headers": [
+            "Class & Subclass Overview",
+            "New Class: Monster Hunter",
+            {
+              "header": "Monster Hunter Guilds",
+              "depth": 1
+            },
+            "Core Subclasses",
+            {
+              "header": "Barbarian Subclasses",
+              "depth": 1
+            },
+            {
+              "header": "Bard Subclasses",
+              "depth": 1
+            },
+            {
+              "header": "Cleric Subclasses",
+              "depth": 1
+            },
+            {
+              "header": "Druid Subclasses",
+              "depth": 1
+            },
+            {
+              "header": "Fighter Subclasses",
+              "depth": 1
+            },
+            {
+              "header": "Monk Subclasses",
+              "depth": 1
+            },
+            {
+              "header": "Paladin Subclasses",
+              "depth": 1
+            },
+            {
+              "header": "Ranger Subclasses",
+              "depth": 1
+            },
+            {
+              "header": "Rogue Subclasses",
+              "depth": 1
+            },
+            {
+              "header": "Sorcerer Subclasses",
+              "depth": 1
+            },
+            {
+              "header": "Warlock Subclasses",
+              "depth": 1
+            },
+            {
+              "header": "Wizard Subclasses",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "name": "Backgrounds",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 3
+          },
+          "headers": [
+            "Grim Hollow Backgrounds"
+          ]
+        },
+        {
+          "name": "Character Feats",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 4
+          },
+          "headers": [
+            "Origin Feats",
+            "General Feats",
+            "Fighting Style Feats",
+            "Epic Boon Feats"
+          ]
+        },
+        {
+          "name": "Advanced Weapons & Equipment",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 5
+          },
+          "headers": [
+            "Advanced Weapon Training",
+            "Advanced Weapon Training: Ammunition",
+            "Advanced Equipment",
+            "Advanced Weapons & Equipment Tables"
+          ]
+        },
+        {
+          "name": "Transformations",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 6
+          },
+          "headers": [
+            "Why Transformations?",
+            "Aberrant Horror",
+            "Fey",
+            "Fiend",
+            "Hag",
+            "Lich",
+            "Lycanthrope",
+            "Ooze",
+            "Primordial",
+            "Seraph",
+            "Shadowsteel Ghoul",
+            "Specter",
+            "Vampire"
+          ]
+        },
+        {
+          "name": "Spells & Curses",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 7
+          },
+          "headers": [
+            "Spell List",
+            "Shadowsteel Curses",
+            "Curse Descriptions"
+          ]
+        },
+        {
+          "name": "Realms of Etharis",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 8
+          },
+          "headers": [
+            "Isolation and Travel",
+            "The Dangers of the Dark Wilderness",
+            "The Bürach Empire",
+            "The Ostoyan Empire",
+            "The Charneault Kingdom",
+            "The Castinellan Provinces",
+            "The Valikan Clans",
+            "The City of Liesech",
+            "The City of Morencia"
+          ]
+        },
+        {
+          "name": "Magic in Etharis",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 9
+          },
+          "headers": [
+            "Arcane Magic",
+            "Divine Magic",
+            "Primal Magic"
+          ]
+        },
+        {
+          "name": "Factions of Etharis",
+          "ordinal": {
+            "type": "chapter",
+            "identifier": 10
+          },
+          "headers": [
+            "The Arcanist Inquisition",
+            "The Augustine Trading Company",
+            "The Company of Free Swords",
+            "The Crimson Court",
+            "The Ebon Syndicate",
+            "Monster Hunter Guilds",
+            "Morbus Doctore",
+            "Order of Dawn",
+            "The Prismatic Circle",
+            "The Thaumaturge",
+            "The Watchers of the Faithful"
+          ]
+        },
+        {
+          "name": "Credits"
+        }
+      ],
+      "isOneEdition": true
+    },
+    {
+      "name": "Grim Hollow: The Monster Grimoire (2024)",
+      "id": "GrimHollowMG24",
+      "source": "GrimHollowMG24",
+      "group": "supplement-alt",
+      "cover": {
+        "type": "internal",
+        "path": "covers/GrimHollowMG24.webp"
+      },
+      "published": "2025-05-01",
+      "author": "Shawn Merwin",
+      "contents": [
+        {
+          "name": "Cover Page, Map & Credits"
+        },
+        {
+          "name": "Monsters of Etharis",
+          "ordinal": {
+            "identifier": 1,
+            "type": "chapter"
+          },
+          "headers": [
+            {
+              "depth": 1,
+              "header": "Introduction"
+            },
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            {
+              "depth": 1,
+              "header": "Etharis Companions"
+            },
+            "F",
+            "G",
+            "H",
+            "I",
+            "J",
+            "K",
+            "L",
+            "M",
+            "N",
+            "O",
+            "P",
+            "Q",
+            "R",
+            "S",
+            {
+              "depth": 1,
+              "header": "Steeds of Etharis"
+            },
+            "T",
+            "U",
+            {
+              "depth": 1,
+              "header": "Unusual Beasts"
+            },
+            "V",
+            "W",
+            "X",
+            "Y",
+            "Z"
+          ]
+        },
+        {
+          "name": "Vampires",
+          "ordinal": {
+            "identifier": 2,
+            "type": "chapter"
+          },
+          "headers": [
+            {
+              "depth": 1,
+              "header": "Vampiric Existence"
+            },
+            {
+              "depth": 1,
+              "header": "Curing Vampirism"
+            },
+            {
+              "depth": 1,
+              "header": "Vampire Ancestries"
+            },
+            {
+              "depth": 1,
+              "header": "Vampire Age"
+            },
+            {
+              "depth": 1,
+              "header": "Vampire Lairs"
+            },
+            {
+              "depth": 1,
+              "header": "Vampire Salvage"
+            },
+            {
+              "depth": 1,
+              "header": "Vampire Lore"
+            },
+            {
+              "depth": 1,
+              "header": "Building a Vampire"
+            },
+            {
+              "depth": 1,
+              "header": "Vampire Encounters"
+            },
+            "Vampire Statistics",
+            "Vampire Ancestry",
+            {
+              "depth": 1,
+              "header": "Bugbear Vampire"
+            },
+            {
+              "depth": 1,
+              "header": "Downcast Vampire"
+            },
+            {
+              "depth": 1,
+              "header": "Dragonborn Vampire"
+            },
+            {
+              "depth": 1,
+              "header": "Dreamer Vampire"
+            },
+            {
+              "depth": 1,
+              "header": "Dwarf Vampire"
+            },
+            {
+              "depth": 1,
+              "header": "Elf Vampire"
+            },
+            {
+              "depth": 1,
+              "header": "Gnome Vampire"
+            },
+            {
+              "depth": 1,
+              "header": "Halfling Vampire"
+            },
+            {
+              "depth": 1,
+              "header": "Laneshi Vampire"
+            },
+            {
+              "depth": 1,
+              "header": "Ogresh Vampire"
+            }
+          ]
+        },
+        {
+          "name": "Mastering Intelligent Monsters",
+          "ordinal": {
+            "identifier": 3,
+            "type": "chapter"
+          },
+          "headers": [
+            {
+              "depth": 1,
+              "header": "Advanced Tactics"
+            },
+            {
+              "depth": 1,
+              "header": "Nature and Intelligence"
+            },
+            {
+              "depth": 1,
+              "header": "Reading Stat Blocks"
+            },
+            {
+              "depth": 1,
+              "header": "What Does a Monster Want?"
+            },
+            {
+              "depth": 1,
+              "header": "Choosing the Battleground"
+            },
+            {
+              "depth": 1,
+              "header": "Thwarting the Party's Path"
+            },
+            {
+              "depth": 1,
+              "header": "Ambush and Surprise"
+            },
+            {
+              "depth": 1,
+              "header": "Movement and Cover"
+            },
+            {
+              "depth": 1,
+              "header": "Opportunity Attacks"
+            },
+            {
+              "depth": 1,
+              "header": "Ready Actions"
+            },
+            {
+              "depth": 1,
+              "header": "Choosing Targets"
+            },
+            {
+              "depth": 1,
+              "header": "Focusing Fire"
+            },
+            {
+              "depth": 1,
+              "header": "Dialog"
+            },
+            {
+              "depth": 1,
+              "header": "Dodge and Disengage"
+            },
+            {
+              "depth": 1,
+              "header": "Special Actions: Help, Grapple, Shove"
+            },
+            {
+              "depth": 1,
+              "header": "Area and Recharge Attacks"
+            },
+            {
+              "depth": 1,
+              "header": "Legendary and Lair Actions"
+            },
+            {
+              "depth": 1,
+              "header": "Narrative Advantages"
+            },
+            {
+              "depth": 1,
+              "header": "A Final Note"
+            }
+          ]
+        },
+        {
+          "name": "Magic Items and Salvage",
+          "ordinal": {
+            "identifier": 4,
+            "type": "chapter"
+          },
+          "headers": [
+            {
+              "depth": 1,
+              "header": "The Power of Salvage"
+            },
+            {
+              "depth": 1,
+              "header": "Overcoming Incredible Odds"
+            },
+            {
+              "depth": 1,
+              "header": "The Power of Survival in the Narrative"
+            },
+            {
+              "depth": 1,
+              "header": "Keeping Friends Close"
+            },
+            {
+              "depth": 1,
+              "header": "Salvage and Crafting Rules"
+            },
+            {
+              "depth": 1,
+              "header": "Crafting Time"
+            },
+            {
+              "depth": 1,
+              "header": "Necessary Proficiencies or Spells"
+            },
+            {
+              "depth": 1,
+              "header": "Ability Checks"
+            },
+            {
+              "depth": 1,
+              "header": "Alternative Failure System"
+            },
+            "New Magic Items"
+          ]
+        },
+        {
+          "name": "License, Map & Back Cover"
+        }
+      ],
+      "isOneEdition": true
     }
   ],
-  "generatedAt": "2026-07-11T13:47:31.236Z",
+  "generatedAt": "2026-07-12T15:49:56.675Z",
   "source": "5etools-src (all editions — source reference)",
   "edition": "all"
 }

@@ -198,6 +198,7 @@ function sourceLabel(code: string): string {
     XPHB: "Player's Handbook",
     FRHoF: "Forge of the Elemental Giants",
     EFA: "Eberron: Friends and Foes",
+    GrimHollowPG24: "Grim Hollow: Player's Guide (2024)",
   };
   return m[code] ?? code;
 }

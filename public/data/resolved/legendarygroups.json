@@ -1,0 +1,113 @@
+{
+  "entities": [
+    {
+      "name": "Blightscale Dragon",
+      "source": "GrimHollowMG24",
+      "page": 31,
+      "lairActions": [
+        "On {@variantrule Initiative|XPHB} count 20 (losing {@variantrule Initiative|XPHB} ties), an adult or ancient blightscale dragon takes a lair action to cause one of the following effects. The dragon can't use the same effect two rounds in a row.",
+        {
+          "type": "list",
+          "items": [
+            "Insects burst from a hive built on a surface that the dragon can see within 120 feet of it. Any creature within a 20-foot {@variantrule Emanation [Area of Effect]|XPHB|Emanation} centered on the hive must succeed on a {@dc 15} Constitution saving throw, taking 10 ({@damage 3d6}) Piercing damage on a failed save, or half as much damage on a successful one. A creature that ends its turn in the cloud takes 10 ({@damage 3d6}) Piercing damage. The insects disperse on {@variantrule Initiative|XPHB} count 20 of the next round. They disperse early if subjected to intense wind or a damaging area effect.",
+            "Puslike fluid erupts in a 20-foot radius {@variantrule Sphere [Area of Effect]|XPHB|Sphere} centered on a point on the ground the dragon can see within 120 feet of it. That area becomes {@variantrule Difficult Terrain|XPHB}, and a creature moving through this terrain must succeed on a {@dc 15} Strength saving throw or have the {@condition Grappled|XPHB} condition (escape {@dc 15}) and have the {@condition Restrained|XPHB} condition while grappled in this way. Another creature can pull a {@condition Restrained|XPHB} target free by taking an action and succeeding on a {@dc 15} Strength (Athletics) check. The ground dries sufficiently to return to normal on {@variantrule Initiative|XPHB} count 20 of the next round.",
+            "Foul gas belches forth in a 20-foot-radius {@variantrule Sphere [Area of Effect]|XPHB|Sphere} from a point the dragon can see within 120 feet of it. The cloud spreads around corners, and its area is {@variantrule Heavily Obscured|XPHB}. Each creature within the cloud at the start of its turn must make a {@dc 15} Constitution saving throw. On a failed save, the creature has the {@condition Poisoned|XPHB} condition. Creatures that don't need to breathe or are immune to Poison damage automatically succeed on this saving throw. This cloud disperses on {@variantrule Initiative|XPHB} count 20 of the next round. It disperses early if subjected to intense wind."
+          ]
+        }
+      ],
+      "regionalEffects": [
+        "An adult or ancient blightscale dragon's curse warps the land around the dragon's lair, creating one or more of the following effects.",
+        {
+          "type": "list",
+          "items": [
+            "The smell of decay can be detected 6 miles from the lair, growing stronger as one moves nearer.",
+            "Water sources within 1 mile of the lair have soured, and the water smells and tastes foul. Only the dragon can drink it safely. Any other creature that does so must succeed on a {@dc 15} Constitution saving throw 10 minutes later or have the {@condition Poisoned|XPHB} condition. A poisoned creature can repeat the saving throw every hour, ending the effect on itself on a success. A creature that succeeds on a {@dc 15} Wisdom ({@skill Medicine|XPHB}) check can cure this condition with 10 minutes of effort.",
+            "Vegetation within 1 mile of the lair is sickly and nasty. It provides no more than half its normal food value. Within 1,500 feet of the lair, plants are inedible, and no wildlife can be found.",
+            "Beasts and Plant creatures within 1 mile of the lair are aggressive and hard to reason with. In combat, at the start of its turn, such a creature gains {@variantrule Advantage|XPHB} on all melee attack rolls it makes during that turn, but attack rolls against it have {@variantrule Advantage|XPHB} until the start of its next turn. Effects that cure disease can end this effect for 1 day, but it returns if the creature remains in the area."
+          ]
+        },
+        "If the dragon dies, these effects fade over {@dice 2d4} days. Signs of environmental damage remain indefinitely."
+      ]
+    },
+    {
+      "name": "Gegazol",
+      "source": "GrimHollowMG24",
+      "page": 130,
+      "lairActions": [
+        "Gegazol's lair has gained a life of its own, thanks in part to the influence of the daemon that corrupts her mind and spirit. Once per round, the daemonic presence in the lair causes an effect from the list below.",
+        {
+          "type": "list",
+          "items": [
+            "Tendrils of necrotic power rise and reach for living creatures within the lair. Each living creature in the lair must attempt a {@dc 21} Constitution saving throw or take 13 ({@damage 3d8}) Necrotic damage and gain one {@condition Exhaustion|XPHB} level until {@variantrule Initiative|XPHB} count 20 on the next round.",
+            "Gegazol crashes her wings upon the ground, and rime spreads in a sphere with a 120-foot radius around her. This sphere spreads around corners and creates {@variantrule Difficult Terrain|XPHB} made of ice. Creatures in that area must make a {@dc 21} Constitution saving throw. Those who fail take 18 ({@damage 4d8}) Cold damage and have the {@condition Grappled|XPHB} condition (escape {@dc 21}). On a success, the creature takes half the damage and isn't grappled. The {@variantrule Difficult Terrain|XPHB} disappears on {@variantrule Initiative|XPHB} count 20 on the next round.",
+            "Gegazol creates an opaque wall of black ice on a solid surface she can see within 120 feet of her. The wall is made up of twenty contiguous 10-foot square panels that are each 2 feet thick. When the wall appears, each creature in its area is pushed 5 feet out of the wall's space, appearing on whichever side of the wall the creature wants. Each 10-foot section of the wall has {@variantrule Armor Class|XPHB|AC} 5, 60 {@variantrule Hit Points|XPHB}, {@variantrule Vulnerability|XPHB} to Fire damage, and {@variantrule Immunity|XPHB} to Acid, Cold, Necrotic, Poison, and Psychic damage. The wall disappears when Gegazol uses this Lair Action again or when she dies."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Memori Lich",
+      "source": "GrimHollowMG24",
+      "page": 214,
+      "regionalEffects": [
+        "The region containing a memori lich's lair takes on the horrible and powerful essence of its master, creating the following effects:",
+        {
+          "type": "list",
+          "items": [
+            "When the memori lich become {@status Bloodied|XPHB}, the ground within 120 feet of the creature shakes violently. Each creature on the memori lich's choice in that area must succeed on a {@dc 20} Strength saving throw or have the {@condition Prone|XPHB} condition.",
+            "All creatures within a mile of the lair only regain half as many {@variantrule Hit Points|XPHB} from magical healing.",
+            "When a creature of the memori lich's choice becomes {@status Bloodied|XPHB}, ghostly hands emerge from the ground. The creature must succeed on a {@dc 20} Strength saving throw or have the {@condition Grappled|XPHB} condition (escape {@dc 18}). Once the creature succeeds on the saving throw or escapes, the hands disappear."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Puck",
+      "source": "GrimHollowMG24",
+      "page": 269,
+      "regionalEffects": [
+        "A natural environment containing a puck's lair is warped by the puck's presence, which creates one or more of the following effects:",
+        {
+          "type": "list",
+          "items": [
+            "Plants within 1 mile of the lair darken in hue and look underwatered. Sap from these plants has a bloodlike tinge. This sap seeps from oddly shaped holes that resemble parts of despairing faces or wounds. Fruits are deformed and oddly colored but are otherwise normal in taste and nutrition. Traversing this area is hard and time consuming—roots trip, vines block the way, underbrush is dense and thorny.",
+            "Animals and other wild creatures within 1 mile of the lair are unnaturally aggressive, especially toward creatures hostile to the puck. However, animals are absent within 600 feet of the lair. The puck uses them to fertilize the grove",
+            "Creatures that spend 10 minutes or more within this area feel their negative emotions heightened. Effects that cause debilitating negative emotions double in duration. Effects that provide bravery, joy, hope, and similar emotions, such as the spells {@spell Aid|XPHB} or {@spell Heroism|XPHB}, halve in duration. A {@spell Calm Emotions|XPHB} spell ends either effect for that spell's normal duration."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Vampires",
+      "source": "GrimHollowMG24",
+      "page": 377,
+      "lairActions": [
+        "Adult and ancient vampires form a supernatural bond with their lair, allowing them lair actions. On initiative count 20 (losing initiative ties), such vampires can take a lair action to cause one of the following effects. The vampire can't use the same effect two rounds in a row:",
+        {
+          "type": "list",
+          "items": [
+            "A {@creature Swarm of Insects|XMM} forms within 60 feet of the vampire. The vampire commands the swarm, which takes its turn just after the vampire. The swarm of insects remains until it is dispersed or until the vampire drops to 0 {@variantrule Hit Points|XPHB}.",
+            "Thorny vines or bloody tenatcles erupt from the ground in a 30-foot radius {@variantrule Sphere [Area of Effect]|XPHB|Sphere} centered on a point the vampire chooses within 120 feet of the vampire. This area is {@variantrule Difficult Terrain|XPHB} for creatures of the vampire's choice. When the impediments appear, each creature of the vampire's choice in the area must succeed on a {@dc 15} Strength saving throw or gain the {@condition Grappled|XPHB} condition (escape {@dc 15}) and {@condition Restrained|XPHB} while grappled in this way. The plants or tentacles retreat into the ground when the vampire drops to 0 {@variantrule Hit Points|XPHB}.",
+            "30-foot-radius {@variantrule Emanation [Area of Effect]|XPHB|Emanation}. The mist spreads around corners, and its area is {@variantrule Heavily Obscured|XPHB} for all creatures except the vampire. It lasts until the vampire uses a {@variantrule Bonus Action|XPHB} to dismiss it, the vampire drops to 0 {@variantrule Hit Points|XPHB}, or a wind of moderate or greater speed (at least {@dice 1d4 * 10} miles per hour) disperses it."
+          ]
+        }
+      ],
+      "regionalEffects": [
+        "The power of an adult or ancient vampire's curse changes the region surrounding the vampire's lair, creating any of the following effects:",
+        {
+          "type": "list",
+          "items": [
+            "Biting insects and their larvae increase noticeably in population within 1 mile of the lair.",
+            "Unnerving natural sounds—twigs breaking, leaves crunching, trees creaking, and so on—are louder within 1 mile of the lair.",
+            "Plants within 500 feet of the lair are tougher, twisted, and any thorns or thistles they have are longer and more painful when they prick.",
+            "The air within 500 feet of the lair is noticeably colder and smells faintly of blood. This cooling of the air makes mist more likely around the lair."
+          ]
+        },
+        "If the vampire dies, these effects linger for one week, then dissipate over {@dice 1d6} days."
+      ]
+    }
+  ],
+  "generatedAt": "2026-07-12T15:49:56.675Z",
+  "source": "5etools-src (One/2024 edition, build-time pre-merged)",
+  "edition": "one"
+}

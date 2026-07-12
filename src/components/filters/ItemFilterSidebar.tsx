@@ -9,6 +9,7 @@ import {
   type FilterDimension,
 } from "@/state/itemFilters";
 import { PillFilter } from "./PillFilter";
+import { SourceExclusionFilter } from "./SourceExclusionFilter";
 
 export function ItemFilterSidebar({ items }: { items: Item[] }) {
   const f = useItemFilters();
@@ -41,6 +42,7 @@ export function ItemFilterSidebar({ items }: { items: Item[] }) {
 
       <div className="flex-1 overflow-y-auto">
         <PillFilter title="Source" options={sourceOptions} selected={source} onToggle={toggle("source")} onClear={clear("source")} defaultOpen />
+        <SourceExclusionFilter category="items" options={sourceOptions} />
         <PillFilter title="Rarity" options={RARITY_OPTIONS} selected={rarity} onToggle={toggle("rarity")} onClear={clear("rarity")} defaultOpen />
         <PillFilter title="Type" options={TYPE_OPTIONS} selected={type} onToggle={toggle("type")} onClear={clear("type")} />
         <PillFilter title="Special" options={MISC_OPTIONS} selected={misc} onToggle={toggle("misc")} onClear={clear("misc")} />

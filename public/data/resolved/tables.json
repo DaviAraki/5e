@@ -1,0 +1,905 @@
+{
+  "entities": [
+    {
+      "name": "Lost Memories",
+      "source": "GrimHollowCG24",
+      "page": 303,
+      "caption": "Lost Memories",
+      "colLabels": [
+        "d6",
+        "Effect"
+      ],
+      "colStyles": [
+        "col-1 text-center",
+        "col-5 text-left"
+      ],
+      "outro": [
+        "A {@spell Remove Curse|XPHB} spell reverses this effect and restores the victim's memory."
+      ],
+      "rows": [
+        [
+          "1",
+          "The target becomes deeply suspicious of a character or NPC of the GM's choice. They gain the following flaw: \"I know they are seeking to betray me. I have to act first—it's me or them!\""
+        ],
+        [
+          "2",
+          "The target forgets all memories of a loved one of the GM's choice. The next time the target sees them, it's as if they are meeting them for the first time."
+        ],
+        [
+          "3",
+          "The target becomes stricken with doubt and gains the following flaw: \"The world is out to get me, and I can't win. I may as well give up now.\""
+        ],
+        [
+          "4",
+          "The target forgets how to speak in one language known, decided by the GM."
+        ],
+        [
+          "5",
+          "The target forgets the location of something important to them, of the GM's choice. It may be the location of a goal, their home settlement, or a hidden treasure."
+        ],
+        [
+          "6",
+          "The target loses an inconsequential memory such as what they ate a few nights ago or the name of an unimportant NPC."
+        ]
+      ]
+    },
+    {
+      "name": "Grievous Wounds",
+      "source": "GrimHollowCG24",
+      "page": 288,
+      "caption": "Grievous Wounds",
+      "colLabels": [
+        "2d10",
+        "Grievous Wound"
+      ],
+      "colStyles": [
+        "col-1 text-center",
+        "col-11 text-left "
+      ],
+      "rows": [
+        [
+          "2-3",
+          {
+            "type": "item",
+            "name": "Permanent Wound",
+            "entries": [
+              "You sustain a grisly wound that may haunt you forever. Roll 1d10 on the {@table Permanent Wounds|GrimHollowCG24} table and apply the result."
+            ]
+          }
+        ],
+        [
+          "4",
+          {
+            "type": "item",
+            "name": "Festering Wound",
+            "entries": [
+              "Your injury becomes infected, causing a fever. You have the {@condition Poisoned|XPHB} condition. While {@condition Poisoned|XPHB}, you have {@variantrule Disadvantage|XPHB} on Constitution saving throws. A creature cannot ignore this instance of the {@condition Poisoned|XPHB} condition through {@variantrule Immunity|XPHB}."
+            ]
+          }
+        ],
+        [
+          "5",
+          {
+            "type": "item",
+            "name": "Internal Bleeding{@sup *}",
+            "entries": [
+              "You suffer an internal hemorrhage and bruising. Your {@variantrule Hit Points|XPHB|Hit Point} maximum is reduced by three times your character level."
+            ]
+          }
+        ],
+        [
+          "6",
+          {
+            "type": "item",
+            "name": "Wracked With Pain",
+            "entries": [
+              "Your injury causes intense pain that limits your agility. You have {@variantrule Disadvantage|XPHB} on Dexterity saving throws."
+            ]
+          }
+        ],
+        [
+          "7",
+          {
+            "type": "item",
+            "name": "Concussion",
+            "entries": [
+              "A brain contusion leaves you struggling to focus. You gain the {@condition Dazed|GrimHollowCG24} condition."
+            ]
+          }
+        ],
+        [
+          "8",
+          {
+            "type": "item",
+            "name": "Laceration",
+            "entries": [
+              "lood wells unabaited from a deep injury. You gain the {@condition Bleeding|GrimHollowCG24} condition."
+            ]
+          }
+        ],
+        [
+          "9",
+          {
+            "type": "item",
+            "name": "Deep Wound{@sup *}",
+            "entries": [
+              "You endure a blow that would kill many, but merely staggers you. When you are reduced to 0 {@variantrule Hit Points|XPHB}, you start with one failed {@variantrule Death Saving Throw|XPHB}."
+            ]
+          }
+        ],
+        [
+          "10",
+          {
+            "type": "item",
+            "name": "Battered{@sup *}",
+            "entries": [
+              "Your muscles ache and you have had the wind knocked out of you. You gain 1 {@condition Exhaustion|XPHB} level."
+            ]
+          }
+        ],
+        [
+          "11",
+          {
+            "type": "item",
+            "name": "Injured Wrist{@sup *}",
+            "entries": [
+              "You have badly sprained your wrist or fractured a bone in your arm and are unable to use it effectively. You are unable to hold objects in one of your hands and you cannot take actions that require that arm."
+            ]
+          }
+        ],
+        [
+          "12",
+          {
+            "type": "item",
+            "name": "Damaged Eardrum",
+            "entries": [
+              "A blow to your head impairs your hearing. You have the {@condition Deafened|XPHB} condition."
+            ]
+          }
+        ],
+        [
+          "13",
+          {
+            "type": "item",
+            "name": "System Shock",
+            "entries": [
+              "You suffer a severe nervous shock. You have {@variantrule Disadvantage|XPHB} on {@variantrule Initiative|XPHB} rolls."
+            ]
+          }
+        ],
+        [
+          "14",
+          {
+            "type": "item",
+            "name": "Injured Leg{@sup *}",
+            "entries": [
+              "An injury to your leg or foot slows your movement. Reduce your {@variantrule Speed|XPHB} by 10 feet, to a minimum of 5 feet. Your {@variantrule Speed|XPHB} can't be increased, and you can't take the {@action Dash|XPHB} action."
+            ]
+          }
+        ],
+        [
+          "15",
+          {
+            "type": "item",
+            "name": "Torn Muscle{@sup *}",
+            "entries": [
+              "This injury reduces your combat prowess. When you deal damage with a Weapon Attack or an {@variantrule Unarmed Strike|XPHB}, roll {@dice 1d4;1d6;1d8;1d10;1d12|1d4} and subtract the result from the damage dealt. Each additional time you receive this wound, increase the size of the die rolled (to 1d6, 1d8, 1d10, and 1d12). After reaching the maximum die size listed, replace further Torn Muscle results with Injured Leg."
+            ]
+          }
+        ],
+        [
+          "16",
+          {
+            "type": "item",
+            "name": "Stymied Recovery",
+            "entries": [
+              "Your injury slows your overall recovery. The total number of {@variantrule Hit Point Dice|XPHB} you can spend during a {@variantrule Short Rest|XPHB|Short} or {@variantrule Alternative Rest System|GrimHollowCG24|Quick Rest} is equal to your Constitution modifier (minimum of 1)."
+            ]
+          }
+        ],
+        [
+          "17",
+          {
+            "type": "item",
+            "name": "Severe Swelling",
+            "entries": [
+              "Your swollen injuries give you an uncouth appearance. You have {@variantrule Disadvantage|XPHB} on Charisma ({@skill Performance|XPHB}) and Charisma ({@skill Persuasion|XPHB}) checks."
+            ]
+          }
+        ],
+        [
+          "18-20",
+          {
+            "type": "item",
+            "name": "Close Call{@sup *}",
+            "entries": [
+              "You narrowly miss an otherwise dangerous blow. Instead of being reduced to 0 {@variantrule Hit Points|XPHB}, you have 1 {@variantrule Hit Points|XPHB|Hit Point} and have the {@condition Prone|XPHB} condition."
+            ]
+          }
+        ]
+      ],
+      "footnotes": [
+        "Results with a {@sup *} next to them can be taken more than once"
+      ]
+    },
+    {
+      "name": "Permanent Wounds",
+      "source": "GrimHollowCG24",
+      "page": 289,
+      "caption": "Permanent Wounds",
+      "colLabels": [
+        "1d10",
+        "Permanent Wound"
+      ],
+      "colStyles": [
+        "col-1 text-center",
+        "col-11 text-left "
+      ],
+      "rows": [
+        [
+          "1",
+          {
+            "type": "item",
+            "name": "Fatal Wound",
+            "entries": [
+              "Through an unrecoverable injury, you have been fatally wounded. You are now dead but can be brought back through normal methods."
+            ]
+          }
+        ],
+        [
+          "2",
+          {
+            "type": "item",
+            "name": "Lost Arm{@sup *}",
+            "entries": [
+              "A serious injury disables or destroys one of your arms. You can't use that arm to wield a weapon or a shield, or to perform the Somatic component of a spell."
+            ]
+          }
+        ],
+        [
+          "3",
+          {
+            "type": "item",
+            "name": "Lost Leg{@sup *}",
+            "entries": [
+              "A serious injury disables or destroys one of your legs. Reduce your {@variantrule Speed|XPHB} by 15 feet, to a minimum of 5 feet. Your {@variantrule Speed|XPHB} can't be increased, and you can't take the {@action Dash|XPHB} action. If you receive this result again your {@variantrule Speed|XPHB} is reduced by another 15 feet (to a minimum of 5 feet)."
+            ]
+          }
+        ],
+        [
+          "4",
+          {
+            "type": "item",
+            "name": "Lost Eye{@sup *}",
+            "entries": [
+              "You lose an eye. You have {@variantrule Disadvantage|XPHB} on Wisdom ({@skill Perception|XPHB}) and Intelligence ({@skill Investigation|XPHB}) checks that rely on sight. If you receive this result again, you gain the {@condition Blinded|XPHB} condition."
+            ]
+          }
+        ],
+        [
+          "5",
+          {
+            "type": "item",
+            "name": "Dizzy Spells",
+            "entries": [
+              "Undertaking vigorous activities leaves you addled. On odd numbered combat rounds, if you take an action, you cannot take a {@variantrule Bonus Action|XPHB} until the start of your next turn. If you take a {@variantrule Bonus Action|XPHB}, you cannot take an action until the start of your next turn."
+            ]
+          }
+        ],
+        [
+          "6",
+          {
+            "type": "item",
+            "name": "Scarred Lungs",
+            "entries": [
+              "Your injury makes it a struggle to breathe. Your {@variantrule Hit Points|XPHB} maximum is permanently reduced by 1 for each of your character levels. Additionally, when you gain a level, your {@variantrule Hit Points|XPHB|Hit Point} maximum is reduced by 1."
+            ]
+          }
+        ],
+        [
+          "7",
+          {
+            "type": "item",
+            "name": "Hideous Scar",
+            "entries": [
+              "You are horribly and visibly scarred. You have {@variantrule Disadvantage|XPHB} on Charisma ({@skill Performance|XPHB}) and Charisma ({@skill Persuasion|XPHB}) checks and {@variantrule Advantage|XPHB} on Charisma ({@skill Intimidation|XPHB}) checks."
+            ]
+          }
+        ],
+        [
+          "8",
+          {
+            "type": "item",
+            "name": "Adrenaline Rush",
+            "entries": [
+              "Your injuries make you vulnerable to further damage, but your survival instincts are heightened in moments of danger. If you are {@status Bloodied|XPHB}, any {@variantrule Critical Hit|XPHB} against you becomes a normal hit. If you are not {@status Bloodied|XPHB}, attack rolls made against you score a {@variantrule Critical Hit|XPHB} on a roll of 19 or 20 on the d20."
+            ]
+          }
+        ],
+        [
+          "9",
+          {
+            "type": "item",
+            "name": "Hesitant",
+            "entries": [
+              "Your psyche has been scarred more than your body. The first time after a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB} that you have to make a saving throw to avoid the {@condition Frightened|XPHB} condition, you are {@condition Frightened|XPHB} even if you succeed on the saving throw."
+            ]
+          }
+        ],
+        [
+          "10",
+          {
+            "type": "item",
+            "name": "Old Pain",
+            "entries": [
+              "This lingering injury causes you intense pain when it flares up. When you roll a natural 1 on any {@variantrule D20 Test|XPHB}, you have the {@condition Incapacitated|XPHB} condition until the end of your next turn."
+            ]
+          }
+        ]
+      ],
+      "footnotes": [
+        "Results with a {@sup *} next to them can be taken more than once"
+      ]
+    },
+    {
+      "name": "Great Beast Mutations",
+      "source": "GrimHollowCG24",
+      "page": 292,
+      "caption": "Great Beast Mutations",
+      "colLabels": [
+        "1d20",
+        "Mutations"
+      ],
+      "colStyles": [
+        "col-1 text-center",
+        "col-11 text-left"
+      ],
+      "rows": [
+        [
+          "1",
+          "Roll twice on the table, ignoring this result if rolled again."
+        ],
+        [
+          "2",
+          {
+            "type": "item",
+            "name": "Spawning Pit",
+            "entries": [
+              "Your skin begins to crawl moments before vermin chew through your flesh and erupt from your body. {@dice 1d3} {@variantrule Hostile [Attitude]|XPHB|Hostile} {@creature Swarm of Crawling Claws|XMM|Swarms of Crawling Claws}, {@creature Swarm of Insects|XMM|Insects}, or {@creature Swarm of Rats|XMM|Rats} appear in unoccupied spaces within 10 feet of you. This also happens the first time you are {@status Bloodied|XPHB} after an {@variantrule Initiative|XPHB} check."
+            ]
+          }
+        ],
+        [
+          "3",
+          {
+            "type": "item",
+            "name": "Bloodless",
+            "entries": [
+              "You cannot spend {@variantrule Hit Point Dice|XPHB} for any reason, including as the result of a spell or other {@variantrule Magical Effect|XPHB}."
+            ]
+          }
+        ],
+        [
+          "4",
+          {
+            "type": "item",
+            "name": "Corporeal Decay",
+            "entries": [
+              "Your body begins to rapidly decay, giving you a corpselike appearance. When you gain this mutation, roll a number of {@dice 1d8;2d8;3d8;4d8;5d8;6d8;7d8;8d8;9d8;10d8;11d8;12d8;13d8;14d8;15d8;16d8;17d8;18d8;19d8;20d8;|d8s} equal to your character level and take Necrotic damage equal to the result. You have the Undead type in addition to other creature types."
+            ]
+          }
+        ],
+        [
+          "5",
+          {
+            "type": "item",
+            "name": "Lignify",
+            "entries": [
+              "Your limbs stiffen and woody tree shoots pierce from beneath your skin. You have {@variantrule Vulnerability|XPHB} to Fire damage and your {@variantrule Speed|XPHB} (all movement types) is reduced by 5 feet per your level of {@condition Corruption|GrimHollowCG24}."
+            ]
+          }
+        ],
+        [
+          "6",
+          {
+            "type": "item",
+            "name": "Scion of the Beast",
+            "entries": [
+              "You carry some of the Great Beast's corruptive nature. As a {@action Magic|XPHB} action on your turn, you and another creature of your choice you can see within 60 feet of you each make a {@adventure Mutation check|GrimHollowCG24|20|Great Beast Mutations}."
+            ]
+          }
+        ],
+        [
+          "7",
+          {
+            "type": "item",
+            "name": "Third Eye",
+            "entries": [
+              "You grow a third eye. You have {@variantrule Advantage|XPHB} on saving throws to avoid or remove the {@condition Blinded|XPHB} condition, but you have {@variantrule Disadvantage|XPHB} on Wisdom ({@skill Perception|XPHB}) checks."
+            ]
+          }
+        ],
+        [
+          "8",
+          {
+            "type": "item",
+            "name": "Extra Digits",
+            "entries": [
+              "Your grow several extra fingers. You have {@variantrule Advantage|XPHB} on checks to avoid being disarmed, but you have {@variantrule Disadvantage|XPHB} on Dexterity ({@skill Sleight of Hand|XPHB}) checks."
+            ]
+          }
+        ],
+        [
+          "9",
+          {
+            "type": "item",
+            "name": "Chameleon",
+            "entries": [
+              "Your skin changes color in stressful situations. You have {@variantrule Advantage|XPHB} on Dexterity ({@skill Stealth|XPHB}) checks, but {@variantrule Disadvantage|XPHB} on Charisma checks."
+            ]
+          }
+        ],
+        [
+          "10",
+          {
+            "type": "item",
+            "name": "Oily Skin",
+            "entries": [
+              "You have {@variantrule Advantage|XPHB} on checks made to escape a {@condition Grappled|XPHB|Grapple}, but you have {@variantrule Vulnerability|XPHB} to Cold and Fire damage."
+            ]
+          }
+        ],
+        [
+          "11",
+          {
+            "type": "item",
+            "name": "Corrosive Blood",
+            "entries": [
+              "When you become {@status Bloodied|XPHB} for the first time after an {@variantrule Initiative|XPHB} roll, creatures within 5 feet of you take Acid damage equal to your character level."
+            ]
+          }
+        ],
+        [
+          "12",
+          {
+            "type": "item",
+            "name": "Sticky feet",
+            "entries": [
+              "You gain a {@variantrule Climb Speed|XPHB} of 15 feet, but your {@variantrule Speed|XPHB} is reduced by 10 feet."
+            ]
+          }
+        ],
+        [
+          "13",
+          {
+            "type": "item",
+            "name": "Luminescent",
+            "entries": [
+              "You glow with {@variantrule Dim Light|XPHB} to a range of 30 feet. You have {@variantrule Disadvantage|XPHB} on Dexterity ({@skill Stealth|XPHB}) checks."
+            ]
+          }
+        ],
+        [
+          "14",
+          {
+            "type": "item",
+            "name": "Thinning Blood",
+            "entries": [
+              "Your bodily fluids become thin and watery. You have the {@condition Bleeding|GrimHollowCG24} condition."
+            ]
+          }
+        ],
+        [
+          "15",
+          {
+            "type": "item",
+            "name": "Stone Shell",
+            "entries": [
+              "Your skin swells and hardens into a tumorous rocky texture. You gain {@variantrule Resistance|XPHB} to Piercing and Slashing damage, and {@variantrule Vulnerability|XPHB} to Acid and Thunder damage."
+            ]
+          }
+        ],
+        [
+          "16",
+          {
+            "type": "item",
+            "name": "Arcane Conduit",
+            "entries": [
+              "Your body becomes a conduit of magic. Add your current {@condition Corruption|GrimHollowCG24} level to your spell save DC and your spell attack rolls. When you cast a spell using a spell slot, make a {@adventure Mutation check|GrimHollowCG24|20|Great Beast Mutations}."
+            ]
+          }
+        ],
+        [
+          "17",
+          {
+            "type": "item",
+            "name": "Malformed Wings",
+            "entries": [
+              "Spiny, tattered wings burst painfully from your back, giving you a {@variantrule Fly Speed|XPHB} of 20 feet. You cannot move by any other means."
+            ]
+          }
+        ],
+        [
+          "18",
+          {
+            "type": "item",
+            "name": "Blood-Fueled Frenzy",
+            "entries": [
+              "If you are Bloodied, you have {@variantrule Advantage|XPHB} on melee attack rolls, and attack rolls against you have {@variantrule Advantage|XPHB}. On each of your turns, you must first move as far as possible toward the nearest {@status Bloodied|XPHB} creature you can see. If you are within 5 feet of it after moving, you must take the {@action Attack|XPHB} action to attack that creature with a melee weapon or an {@variantrule Unarmed Strike|XPHB}."
+            ]
+          }
+        ],
+        [
+          "19",
+          {
+            "type": "item",
+            "name": "Eldritch Combustion",
+            "entries": [
+              "Your body fills with unStable eldritch power. If you are reduced to 0 {@variantrule Hit Points|XPHB} you die instantly, and each creature within 20 feet of you must make a {@adventure Mutation check|GrimHollowCG24|20|Great Beast Mutations}."
+            ]
+          }
+        ],
+        [
+          "20",
+          {
+            "type": "item",
+            "name": "Permanent Transformation",
+            "entries": [
+              "You gain the {@charoption Aberrant Horror|GrimHollowPG24|Aberrant Horror Transformation}. If you already have this or another Transformation, you move to the next stage of that Transformation instead."
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "name": "Unstable Form",
+      "source": "GrimHollowPG24",
+      "page": 137,
+      "colLabels": [
+        "Stage 1",
+        "Stage 2",
+        "Stage 3",
+        "Stage 4",
+        "Effect"
+      ],
+      "colStyles": [
+        "col-1 text-center",
+        "col-1 text-center",
+        "col-1 text-center",
+        "col-1 text-center",
+        "col-10"
+      ],
+      "rows": [
+        [
+          "",
+          "",
+          "",
+          "01-02",
+          "The stress of your Transformation becomes too much. You die. You cannot be restored to life by any spell below level 5."
+        ],
+        [
+          "",
+          "",
+          "01",
+          "03-04",
+          "Your form becomes fragile. Your Hit Point Maximum is half your normal maximum."
+        ],
+        [
+          "",
+          "01",
+          "02-03",
+          "05-06",
+          "Your body starts to lose cohesion. You have {@variantrule Disadvantage|XPHB} on all {@variantrule D20 Test|XPHB|D20 Tests}."
+        ],
+        [
+          "01-05",
+          "02-03",
+          "04-06",
+          "07-24",
+          "Your body's metabolism quickly drains your energy. You gain 2 {@condition Exhaustion|XPHB} levels."
+        ],
+        [
+          "06-10",
+          "04-06",
+          "07-24",
+          "25-32",
+          "You have trouble processing what is happening. After rolling {@variantrule Initiative|XPHB}, you have the {@condition Stunned|XPHB} condition until the end of your first turn."
+        ],
+        [
+          "11-15",
+          "07-24",
+          "25-32",
+          "33-40",
+          "Your limbs weaken. Your {@variantrule Speed|XPHB} (in all modes of movement) decreases by 15 feet and cannot be increased."
+        ],
+        [
+          "16-24",
+          "25-32",
+          "33-40",
+          "41-48",
+          "Your body does not react quickly to mental commands. You cannot take {@variantrule Reaction|XPHB|Reactions}."
+        ],
+        [
+          "25-32",
+          "33-40",
+          "41-48",
+          "49-56",
+          "You are distracted by your changing form. You have {@variantrule Disadvantage|XPHB} on Wisdom ({@skill Perception|XPHB}) checks."
+        ],
+        [
+          "33-40",
+          "41-48",
+          "49-56",
+          "57-64",
+          "Your body becomes unable to fight off attacks. You have {@variantrule Disadvantage|XPHB} on Constitution saving throws."
+        ],
+        [
+          "41-48",
+          "49-56",
+          "57-64",
+          "65-79",
+          "You become clumsy. You have {@variantrule Disadvantage|XPHB} on Dexterity saving throws and Dexterity ability checks."
+        ],
+        [
+          "49-56",
+          "57-64",
+          "65-79",
+          "80-87",
+          "You lose blood or other vital fluids during your mutations. You cannot add your Constitution modifier to any {@variantrule Hit Point Dice|XPHB} spent to regain {@variantrule Hit Points|XPHB}."
+        ],
+        [
+          "57-64",
+          "65-79",
+          "80-87",
+          "88-93",
+          "Speaking is difficult. You can only utter one word during each turn. This does not hamper spellcasting."
+        ],
+        [
+          "65-79",
+          "80-87",
+          "88-93",
+          "94-100",
+          "No effect."
+        ],
+        [
+          "80-87",
+          "88-93",
+          "94-100",
+          "",
+          "Your lower limbs become more powerful. Your {@variantrule Speed|XPHB} increases by 5 feet."
+        ],
+        [
+          "88-93",
+          "94-100",
+          "",
+          "",
+          "Your flesh becomes more hardy. You start the day with 4 {@variantrule Temporary Hit Points|XPHB} per Transformation Stage."
+        ],
+        [
+          "94-100",
+          "",
+          "",
+          "",
+          "Your body's systems are enhanced. You have {@variantrule Advantage|XPHB} on {@variantrule Death Saving Throw|XPHB|Death Saving Throws}."
+        ]
+      ]
+    },
+    {
+      "name": "Beast Mutations",
+      "source": "GrimHollowMG24",
+      "page": 23,
+      "colLabels": [
+        "1d20",
+        "Mutation"
+      ],
+      "colStyles": [
+        "col-2 text-center",
+        "col-10"
+      ],
+      "rows": [
+        [
+          "1",
+          "Roll twice on the table, ignoring this result if rolled again."
+        ],
+        [
+          "2",
+          "{@b Spawning Pit.} Your skin begins to crawl moments before vermin chew through your flesh and erupt from your body. {@dice 1d3} hostile {@creature Swarm of Crawling Claws|XMM|Swarms of Crawling Claws}, {@creature Swarm of Insects|XMM|Insects}, or {@creature Swarm of Rats|XMM|Rats} appear in unoccupied spaces within 10 feet of you. This also happens the first time you are {@status Bloodied|XPHB} after an {@variantrule Initiative|XPHB} check."
+        ],
+        [
+          "3",
+          "{@b Bloodless.} You cannot spend {@variantrule Hit Point Dice|XPHB|Hit Dice} for any reason, including as the result of a spell or other magical effect."
+        ],
+        [
+          "4",
+          "{@b Corporeal Decay.} Your body begins to rapidly decay, giving you a corpselike appearance. When you gain this mutation, roll a number of {@dice d8|d8s} equal to your character level and take Necrotic damage equal to the result. You have the Undead type in addition to other creature types."
+        ],
+        [
+          "5",
+          "{@b Lignify.} Your limbs stiffen and woody tree shoots pierce from beneath your skin. You have {@variantrule Vulnerability|XPHB} to Fire damage and your {@variantrule Speed|XPHB} (all movement types) is reduced by 5 feet per your level of Corruption."
+        ],
+        [
+          "6",
+          "{@b Scion of the Beast.} You carry some of the Great Beast's corruptive nature. As a {@action Magic|XPHB} action on your turn, you and another creature of your choice you can see within 60 feet of you each make a Mutation check."
+        ],
+        [
+          "7",
+          "{@b Third Eye.} You grow a third eye. You have {@variantrule Advantage|XPHB} on saving throws to avoid or remove the {@condition blinded} condition, but you have {@variantrule Disadvantage|XPHB} on Wisdom ({@skill Perception}) checks."
+        ],
+        [
+          "8",
+          "{@b Extra Digits.} You grow several extra fingers. You have {@variantrule Advantage|XPHB} on checks to avoid being disarmed, but you have {@variantrule Disadvantage|XPHB} on Dexterity ({@skill Sleight of Hand}) checks."
+        ],
+        [
+          "9",
+          "{@b Chameleon.} Your skin changes color in stressful situations. You have {@variantrule Advantage|XPHB} on Dexterity ({@skill Stealth}) checks, but {@variantrule Disadvantage|XPHB} on Charisma checks."
+        ],
+        [
+          "10",
+          "{@b Oily Skin.} You have {@variantrule Advantage|XPHB} on checks made to {@action Escape a Grapple|XPHB}, but you have {@variantrule Vulnerability|XPHB} to Cold and Fire damage."
+        ],
+        [
+          "11",
+          "{@b Corrosive Blood.} When you become {@status Bloodied|XPHB} for the first time after an {@variantrule Initiative|XPHB} roll, creatures within 5 feet of you take Acid damage equal to your character level."
+        ],
+        [
+          "12",
+          "{@b Sticky Feet.} You gain a {@variantrule Climb Speed|XPHB} of 15 feet, but your {@variantrule Speed|XPHB} is reduced by 10 feet."
+        ],
+        [
+          "13",
+          "{@b Luminescent.} You glow with {@variantrule Dim Light|XPHB} to a range of 30 feet. You have {@variantrule Disadvantage|XPHB} on Dexterity ({@skill Stealth}) checks."
+        ],
+        [
+          "14",
+          "{@b Thinning Blood.} Your bodily fluids become thin and watery. You have the {@condition Bleeding|GrimHollowPG24} condition."
+        ],
+        [
+          "15",
+          "{@b Stone Shell.} Your skin swells and hardens into a tumorous rocky texture. You gain {@variantrule Resistance|XPHB} to Piercing and Slashing damage, and {@variantrule Vulnerability|XPHB} to Acid and Thunder damage."
+        ],
+        [
+          "16",
+          "{@b Arcane Conduit.} Your body becomes a conduit of magic. Add your current Corruption level to your spell save {@variantrule Difficulty Class|XPHB|DC} and your spell attack rolls. When you cast a spell using a spell slot, make a Mutation check."
+        ],
+        [
+          "17",
+          "{@b Malformed Wings.} Spiny, tattered wings burst painfully from your back, giving you a Fly {@variantrule Speed|XPHB} of 20 feet. You cannot move by any other means."
+        ],
+        [
+          "18",
+          "{@b Blood-Fueled Frenzy.} If you are {@status Bloodied|XPHB}, you have {@variantrule Advantage|XPHB} on melee attack rolls, and attack rolls against you have {@variantrule Advantage|XPHB}. On each of your turns, you must first move as far as possible toward the nearest {@status Bloodied|XPHB} creature you can see. If you are within 5 feet of it after moving, you must take the {@action Attack} action to attack that creature with a melee weapon or an {@variantrule Unarmed Strike|XPHB}."
+        ],
+        [
+          "19",
+          "{@b Eldritch Combustion.} Your body fills with unstable eldritch power. If you are reduced to 0 {@variantrule Hit Points|XPHB} you die instantly, and each creature within 20 feet of you must make a Mutation check."
+        ],
+        [
+          "20",
+          "{@b Permanent Transformation.} You gain the {@charoption Aberrant Horror|GrimHollowPG24|Aberrant Horror Transformation}. If you already have this or another Transformation, you move to the next stage of that Transformation instead."
+        ]
+      ]
+    },
+    {
+      "name": "Eldritch Effects",
+      "source": "GrimHollowMG24",
+      "page": 107,
+      "colLabels": [
+        "d8",
+        "Effect"
+      ],
+      "colStyles": [
+        "col-2 text-center",
+        "col-10"
+      ],
+      "rows": [
+        [
+          "1",
+          "The creature can't speak."
+        ],
+        [
+          "2",
+          "The creature takes 4 ({@damage 1d8}) Psychic damage at the start of each of its turns."
+        ],
+        [
+          "3",
+          "The creature is disoriented. It has the {@condition Prone|XPHB} condition and gets the condition again at the end of any turn it moves 5 feet or more."
+        ],
+        [
+          "4",
+          "The creature is distracted by visions and voices, and has {@variantrule Disadvantage|XPHB} on attack rolls and Wisdom ({@skill Perception}) checks."
+        ],
+        [
+          "5",
+          "The creature is unsure of itself. It can move or take an action on its turn, but not both, and it can't use {@variantrule Reaction|XPHB|Reactions}."
+        ],
+        [
+          "6",
+          "The creature is reckless. It has {@variantrule Advantage|XPHB} on attack rolls and attack rolls against it have {@variantrule Advantage|XPHB}."
+        ],
+        [
+          "7",
+          "The creature has the {@condition Deafened|XPHB} condition and can't see more than 30 feet away."
+        ],
+        [
+          "8",
+          "The creature has the {@condition Frightened|XPHB} condition. If the source of the condition can't be sensed, the target considers a random creature it can sense as the source of its fear."
+        ]
+      ]
+    },
+    {
+      "name": "Quake Drake Hoard",
+      "source": "GrimHollowMG24",
+      "page": 274,
+      "colLabels": [
+        "2d6",
+        "Item",
+        "Value (gp)"
+      ],
+      "colStyles": [
+        "col-2 text-center",
+        "col-5",
+        "col-5"
+      ],
+      "rows": [
+        [
+          "2",
+          "Adamantine",
+          "5000"
+        ],
+        [
+          "3",
+          "Diamonds",
+          "3000"
+        ],
+        [
+          "4",
+          "Platinum",
+          "1500"
+        ],
+        [
+          "5",
+          "Silver",
+          "500"
+        ],
+        [
+          "6",
+          "Quartz",
+          "250"
+        ],
+        [
+          "7",
+          "Copper",
+          "100"
+        ],
+        [
+          "8",
+          "Ruby",
+          "250"
+        ],
+        [
+          "9",
+          "Electrum",
+          "750"
+        ],
+        [
+          "10",
+          "Gold",
+          "1000"
+        ],
+        [
+          "11",
+          "Mithril",
+          "2000"
+        ],
+        [
+          "12",
+          "Vault Room Key",
+          "—"
+        ]
+      ]
+    }
+  ],
+  "generatedAt": "2026-07-12T15:49:56.675Z",
+  "source": "5etools-src (One/2024 edition, build-time pre-merged)",
+  "edition": "one"
+}

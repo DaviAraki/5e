@@ -10,6 +10,7 @@ import {
   type FilterDimension,
 } from "@/state/speciesFilters";
 import { PillFilter } from "./PillFilter";
+import { SourceExclusionFilter } from "./SourceExclusionFilter";
 
 export function SpeciesFilterSidebar({ species }: { species: Species[] }) {
   const f = useSpeciesFilters();
@@ -42,6 +43,7 @@ export function SpeciesFilterSidebar({ species }: { species: Species[] }) {
         <PillFilter title="Darkvision" options={DARKVISION_OPTIONS} selected={darkvision} onToggle={toggle("darkvision")} onClear={clear("darkvision")} />
         <PillFilter title="Damage Resistance" options={RESIST_OPTIONS} selected={resist} onToggle={toggle("resist")} onClear={clear("resist")} />
         <PillFilter title="Source" options={sourceOptions} selected={source} onToggle={toggle("source")} onClear={clear("source")} />
+        <SourceExclusionFilter category="species" options={sourceOptions} />
       </div>
     </div>
   );

@@ -80,6 +80,7 @@ function sourceLabel(code: string): string {
     NF: "Nightfall",
     ABH: "Ancient Blood & Honor",
     FRHoF: "Forge of the Elemental Giants",
+    GrimHollowPG24: "Grim Hollow: Player's Guide (2024)",
   };
   return map[code] ?? code;
 }

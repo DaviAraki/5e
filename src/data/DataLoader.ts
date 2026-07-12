@@ -3,14 +3,22 @@ import type {
   Background,
   Book,
   Class,
+  Condition,
+  Deity,
+  Disease,
   Feat,
+  GameTable,
   Item,
   ItemGroup,
+  Language,
+  LegendaryGroup,
   Monster,
+  OptionalFeature,
   ResolvedData,
   Species,
   Spell,
   Subclass,
+  Transformation,
   VariantRule,
 } from "@/types/entities";
 
@@ -128,5 +136,75 @@ export function useBooks() {
     queryKey: ["books"],
     queryFn: () =>
       fetchJson<ResolvedData<Book>>(`${RESOLVED_BASE}/books.json`),
+  });
+}
+
+export function useConditions() {
+  return useQuery({
+    queryKey: ["conditions"],
+    queryFn: () =>
+      fetchJson<ResolvedData<Condition>>(`${RESOLVED_BASE}/conditions.json`),
+  });
+}
+
+export function useDeities() {
+  return useQuery({
+    queryKey: ["deities"],
+    queryFn: () =>
+      fetchJson<ResolvedData<Deity>>(`${RESOLVED_BASE}/deities.json`),
+  });
+}
+
+export function useDiseases() {
+  return useQuery({
+    queryKey: ["diseases"],
+    queryFn: () =>
+      fetchJson<ResolvedData<Disease>>(`${RESOLVED_BASE}/diseases.json`),
+  });
+}
+
+export function useLanguages() {
+  return useQuery({
+    queryKey: ["languages"],
+    queryFn: () =>
+      fetchJson<ResolvedData<Language>>(`${RESOLVED_BASE}/languages.json`),
+  });
+}
+
+export function useLegendaryGroups() {
+  return useQuery({
+    queryKey: ["legendarygroups"],
+    queryFn: () =>
+      fetchJson<ResolvedData<LegendaryGroup>>(
+        `${RESOLVED_BASE}/legendarygroups.json`,
+      ),
+  });
+}
+
+export function useTables() {
+  return useQuery({
+    queryKey: ["tables"],
+    queryFn: () =>
+      fetchJson<ResolvedData<GameTable>>(`${RESOLVED_BASE}/tables.json`),
+  });
+}
+
+export function useTransformations() {
+  return useQuery({
+    queryKey: ["transformations"],
+    queryFn: () =>
+      fetchJson<ResolvedData<Transformation>>(
+        `${RESOLVED_BASE}/transformations.json`,
+      ),
+  });
+}
+
+export function useOptionalFeatures() {
+  return useQuery({
+    queryKey: ["optionalfeatures"],
+    queryFn: () =>
+      fetchJson<ResolvedData<OptionalFeature>>(
+        `${RESOLVED_BASE}/optionalfeatures.json`,
+      ),
   });
 }

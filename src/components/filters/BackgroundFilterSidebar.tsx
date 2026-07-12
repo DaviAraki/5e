@@ -8,6 +8,7 @@ import {
   type FilterDimension,
 } from "@/state/backgroundFilters";
 import { PillFilter } from "./PillFilter";
+import { SourceExclusionFilter } from "./SourceExclusionFilter";
 
 export function BackgroundFilterSidebar({ backgrounds }: { backgrounds: Background[] }) {
   const f = useBackgroundFilters();
@@ -41,6 +42,7 @@ export function BackgroundFilterSidebar({ backgrounds }: { backgrounds: Backgrou
         <PillFilter title="Skill Proficiency" options={SKILL_OPTIONS} selected={skill} onToggle={toggle("skill")} onClear={clear("skill")} defaultOpen />
         <PillFilter title="Ability Score" options={ABILITY_OPTIONS} selected={ability} onToggle={toggle("ability")} onClear={clear("ability")} defaultOpen />
         <PillFilter title="Source" options={sourceOptions} selected={source} onToggle={toggle("source")} onClear={clear("source")} />
+        <SourceExclusionFilter category="backgrounds" options={sourceOptions} />
       </div>
     </div>
   );

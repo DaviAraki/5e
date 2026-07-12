@@ -80,6 +80,8 @@ function sourceLabel(code: string): string {
     FRAiF: "Forge of the Elemental Giants",
     WttHC: "Welcome to the Hidden City",
     FRHoF: "Forge of the Elemental Giants",
+    GrimHollowPG24: "Grim Hollow: Player's Guide (2024)",
+    GrimHollowMG24: "Grim Hollow: Monster Grimoire (2024)",
   };
   return map[code] ?? code;
 }

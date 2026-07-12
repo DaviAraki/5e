@@ -1,0 +1,67 @@
+{
+  "entities": [
+    {
+      "name": "Bleeding",
+      "source": "GrimHollowCG24",
+      "page": 290,
+      "entries": [
+        "If you have the Bleeding condition, you cannot regain {@variantrule Hit Points|XPHB} except by spending {@variantrule Hit Point Dice|XPHB} or completing a {@variantrule Long Rest|XPHB}. The condition ends when a creature finishes a {@variantrule Alternative Rest System|GrimHollowCG24|Quick}, {@variantrule Short Rest|XPHB|Short}, or {@variantrule Long Rest|XPHB}"
+      ]
+    },
+    {
+      "name": "Corruption",
+      "source": "GrimHollowCG24",
+      "page": 290,
+      "entries": [
+        "While you have the Corruption condition, you experience the following effects.",
+        {
+          "type": "entries",
+          "entries": [
+            {
+              "type": "entries",
+              "name": "Heroic Corruption",
+              "entries": [
+                "You cannot have {@variantrule Heroic Inspiration|XPHB} or give it to another player character who lacks it."
+              ]
+            }
+          ]
+        },
+        {
+          "type": "entries",
+          "entries": [
+            {
+              "type": "entries",
+              "name": "Corruption Levels",
+              "entries": [
+                "This condition is cumulative. Each time you receive it, you gain 1 Corruption level. If your Corruption level is 6, you either die or transform into a creature of the GM's choosing, under their control."
+              ]
+            }
+          ]
+        },
+        {
+          "type": "entries",
+          "entries": [
+            {
+              "type": "entries",
+              "name": "Removing Corruption Levels",
+              "entries": [
+                "The {@spell Greater Restoration|XPHB}, {@spell Heal|XPHB}, or {@spell Wish|XPHB} spell removes all of your Corruption levels and ends the condition."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Dazed",
+      "source": "GrimHollowCG24",
+      "page": 290,
+      "entries": [
+        "If you have the Dazed condition, you cannot maintain {@condition Concentration|XPHB}."
+      ]
+    }
+  ],
+  "generatedAt": "2026-07-12T15:49:56.675Z",
+  "source": "5etools-src (One/2024 edition, build-time pre-merged)",
+  "edition": "one"
+}

@@ -4,6 +4,7 @@ import { makeRef } from "@/data/entityRefs";
 import SpeciesStatBlock from "@/components/StatBlock/SpeciesStatBlock";
 import { SpeciesFilterSidebar, speciesMatchesFilters } from "@/components/filters/SpeciesFilterSidebar";
 import { useSpeciesFilters } from "@/state/speciesFilters";
+import { useExcludedSources } from "@/state/sourceExclusions";
 import { sourceToAbv } from "@/lib/spellFormatters";
 import Centered from "@/components/layout/Centered";
 import MasterDetailLayout from "@/components/layout/MasterDetailLayout";
@@ -23,16 +24,18 @@ export default function SpeciesPage() {
   const species = data?.entities ?? [];
   const filterSnapshot = useSpeciesFilters();
   const filterActive = filterSnapshot.activeCount();
+  const excludedSources = useExcludedSources("species");
 
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase();
     const out = species.filter((s) => {
       if (!speciesMatchesFilters(s, filterSnapshot)) return false;
+      if (excludedSources.has(s.source)) return false;
       if (q && !s.name.toLowerCase().includes(q)) return false;
       return true;
     });
     return out.sort((a, b) => a.name.localeCompare(b.name));
-  }, [species, search, filterSnapshot]);
+  }, [species, search, filterSnapshot, excludedSources]);
 
   const selected = useMemo(
     () => species.find((s) => makeRef(s.name, s.source) === selectedKey) ?? null,

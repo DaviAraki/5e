@@ -96,6 +96,9 @@ function sourceLabel(code: string): string {
     LFL: "Legends of the Forgotten Lands",
     NF: "Nightfall",
     ABH: "Ancient Blood & Honor",
+    GrimHollowCG24: "Grim Hollow: Campaign Guide (2024)",
+    GrimHollowPG24: "Grim Hollow: Player's Guide (2024)",
+    GrimHollowMG24: "Grim Hollow: Monster Grimoire (2024)",
   };
   return map[code] ?? code;
 }

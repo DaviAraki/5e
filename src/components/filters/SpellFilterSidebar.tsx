@@ -16,6 +16,7 @@ import {
   type FilterDimension,
 } from "@/state/spellFilters";
 import { PillFilter } from "./PillFilter";
+import { SourceExclusionFilter } from "./SourceExclusionFilter";
 
 /**
  * The filter sidebar for the spells page. Renders all filter dimensions as
@@ -70,6 +71,7 @@ export function SpellFilterSidebar({ spells }: { spells: Spell[] }) {
           onClear={clear("source")}
           defaultOpen
         />
+        <SourceExclusionFilter category="spells" options={sourceOptions} />
         <PillFilter
           title="Level"
           options={LEVEL_OPTIONS}

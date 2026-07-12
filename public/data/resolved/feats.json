@@ -8897,9 +8897,1562 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Advanced Weapon Proficiency (FS)",
+      "source": "GrimHollowPG24",
+      "page": 118,
+      "category": "FS",
+      "prerequisite": [
+        {
+          "feature": [
+            "Fighting Style"
+          ]
+        }
+      ],
+      "entries": [
+        "You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Weapon Proficiency",
+          "entries": [
+            "You have proficiency with {@filter Advanced weapons|items|type=advanced weapon}, and your training allows you to use the mastery properties of those weapons."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Advanced Weapon Proficiency (G)",
+      "source": "GrimHollowPG24",
+      "page": 118,
+      "category": "G",
+      "prerequisite": [
+        {
+          "level": 8
+        }
+      ],
+      "entries": [
+        "You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Weapon Proficiency",
+          "entries": [
+            "You have proficiency with {@filter Advanced weapons|items|type=advanced weapon}, and your training allows you to use the mastery properties of those weapons."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Blackpowder Pistol Expert",
+      "source": "GrimHollowPG24",
+      "page": 116,
+      "category": "G",
+      "prerequisite": [
+        {
+          "level": 4
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "dex",
+              "con",
+              "int"
+            ]
+          }
+        }
+      ],
+      "entries": [
+        "You have become practiced with the use of {@item Blackpowder Pistol|GrimHollowPG24|Blackpowder Pistols}. You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Deadeye",
+          "entries": [
+            "Attacking at long range doesn't impose {@variantrule Disadvantage|XPHB} on your attack rolls with a {@item Blackpowder Pistol|GrimHollowPG24}."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Quick Load",
+          "entries": [
+            "You ignore {@itemProperty LD|XPHB|Loading} of the {@item Blackpowder Pistol|GrimHollowPG24}."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Trick Shot",
+          "entries": [
+            "Immediately after a creature within 5 feet of you moves, you can take a {@variantrule Reaction|XPHB} to make a ranged attack with a {@item Blackpowder Pistol|GrimHollowPG24} against that creature."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Blood Hound",
+      "source": "GrimHollowPG24",
+      "page": 114,
+      "category": "O",
+      "entries": [
+        "Your senses are heightened beyond those of most folk. Whether these senses were strengthened through training or the loss of other senses, or they simply matured as you did, you are a master of finding those whom you seek. You  gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Motion Sensor",
+          "entries": [
+            "Whenever a creature that is Small or larger moves within 10 feet of you while you do not have the {@condition Unconscious|XPHB} condition, you immediately become aware of its presence."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "No Hiding",
+          "entries": [
+            "You have {@variantrule Advantage|XPHB} on Wisdom ({@skill Perception|XPHB}) checks that rely on sound or smell."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Boon of Magic Resistance",
+      "source": "GrimHollowPG24",
+      "page": 121,
+      "category": "EB",
+      "prerequisite": [
+        {
+          "level": 19
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "int",
+              "wis"
+            ]
+          },
+          "max": 30
+        }
+      ],
+      "entries": [
+        "You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Heroic Resistance",
+          "entries": [
+            "If you fail a saving throw, you can cause yourself to succeed instead. Once you use this benefit, you can't use it again until you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Boon of Perfect Flight",
+      "source": "GrimHollowPG24",
+      "page": 121,
+      "category": "EB",
+      "traitTags": [
+        "Speed"
+      ],
+      "prerequisite": [
+        {
+          "level": 19
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "str",
+              "dex"
+            ]
+          },
+          "max": 30
+        }
+      ],
+      "entries": [
+        "You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Flying",
+          "entries": [
+            "You have a {@variantrule Fly Speed|XPHB} of 40 feet and can hover."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Graceful Fall",
+          "entries": [
+            "If you fall more than 5 feet, your rate of descent slows to 60 feet per round until you land."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Boon of Shadowsteel Mastery",
+      "source": "GrimHollowPG24",
+      "page": 121,
+      "category": "EB",
+      "prerequisite": [
+        {
+          "level": 19,
+          "other": "{@charoption Shadowsteel Ghoul|GrimHollowPG24|Shadowsteel Ghoul Transformation}"
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "str",
+              "dex",
+              "con",
+              "int",
+              "wis",
+              "cha"
+            ]
+          },
+          "max": 30
+        }
+      ],
+      "entries": [
+        "You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Strange Bedfellows",
+          "entries": [
+            "You are no longer affected by the {@optfeature Friendless|GrimHollowPG24|Friendless Transformation Flaw}."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Boon of the Archlich",
+      "source": "GrimHollowPG24",
+      "page": 120,
+      "category": "EB",
+      "prerequisite": [
+        {
+          "level": 19,
+          "other": "{@charoption Lich|GrimHollowPG24|Lich Transformation}"
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "str",
+              "dex",
+              "con",
+              "int",
+              "wis",
+              "cha"
+            ]
+          },
+          "max": 30
+        }
+      ],
+      "entries": [
+        "You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Vessel of Vitality",
+          "entries": [
+            "Whenever you finish a {@variantrule Long Rest|XPHB}, if your {@optfeature Soul Vessel|GrimHollowPG24} is not charged, it gains a soul and becomes charged."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Boon of the Ascended Vampire",
+      "source": "GrimHollowPG24",
+      "page": 120,
+      "category": "EB",
+      "prerequisite": [
+        {
+          "level": 19,
+          "other": "{@charoption Vampire|GrimHollowPG24|Vampire Transformation}"
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "str",
+              "dex",
+              "con",
+              "int",
+              "wis",
+              "cha"
+            ]
+          },
+          "max": 30
+        }
+      ],
+      "entries": [
+        "You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Inured to Sunlight",
+          "entries": [
+            "You are no longer affected by sunlight."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Boon of the Earthly Tether",
+      "source": "GrimHollowPG24",
+      "page": 120,
+      "category": "EB",
+      "prerequisite": [
+        {
+          "level": 19,
+          "other": "{@charoption Specter|GrimHollowPG24|Specter Transformation}"
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "str",
+              "dex",
+              "con",
+              "int",
+              "wis",
+              "cha"
+            ]
+          },
+          "max": 30
+        }
+      ],
+      "entries": [
+        "You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Persistent Haunter",
+          "entries": [
+            "You are no longer affected by the {@optfeature Fraying Reality|GrimHollowPG24|Fraying Reality Transformation Flaw}."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Divergent Growth",
+          "entries": [
+            "Choose any {@filter Specter Transformation Boon|optionalfeatures|source=grimhollowpg24|feature type=spec:tb|miscellaneous=} that you don't already have but meet the prerequisites for. You gain that Boon."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Boon of the Elder Fey",
+      "source": "GrimHollowPG24",
+      "page": 120,
+      "category": "EB",
+      "prerequisite": [
+        {
+          "level": 19,
+          "other": "{@charoption Fey|GrimHollowPG24|Fey Transformation}"
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "str",
+              "dex",
+              "con",
+              "int",
+              "wis",
+              "cha"
+            ]
+          },
+          "max": 30
+        }
+      ],
+      "entries": [
+        "You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Fey Bulwark",
+          "entries": [
+            "You are no longer affected by the {@optfeature Weakened Constitution|GrimHollowPG24|Weakened Constitution Transformation Flaw}."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Divergent Growth",
+          "entries": [
+            "Choose any {@filter Fey Transformation Boon|optionalfeatures|source=grimhollowpg24|feature type=f:tb|miscellaneous=} that you don't already have but meet the prerequisites for. You gain that Boon."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Boon of the Elder Fiend",
+      "source": "GrimHollowPG24",
+      "page": 120,
+      "category": "EB",
+      "prerequisite": [
+        {
+          "level": 19,
+          "other": "{@charoption Fiend|GrimHollowPG24|Fiend Transformation}"
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "str",
+              "dex",
+              "con",
+              "int",
+              "wis",
+              "cha"
+            ]
+          },
+          "max": 30
+        }
+      ],
+      "entries": [
+        {
+          "type": "entries",
+          "name": "Free Agent",
+          "entries": [
+            "You are no longer affected by the {@optfeature Pull of the Netherworld|GrimHollowPG24|Pull of the Netherworld Transformation Flaw}."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Divergent Growth",
+          "entries": [
+            "Choose any {@filter Fiend Transformation Boon|optionalfeatures|source=grimhollowpg24|feature type=fi:tb|miscellaneous=} that you don't already have but meet the prerequisites for. You gain that Boon."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Boon of the Elder Horror",
+      "source": "GrimHollowPG24",
+      "page": 120,
+      "category": "EB",
+      "prerequisite": [
+        {
+          "level": 19,
+          "other": "{@charoption Aberrant Horror|GrimHollowPG24|Aberrant Horror Transformation}"
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "str",
+              "dex",
+              "con",
+              "int",
+              "wis",
+              "cha"
+            ]
+          },
+          "max": 30
+        }
+      ],
+      "entries": [
+        "You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Stabilizing Form",
+          "entries": [
+            "When you roll a 25 or lower on the {@table Unstable Form|GrimHollowPG24|Unstable Form table}, you can choose to roll again. You must use the new result. Once you use this benefit, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Divergent Growth",
+          "entries": [
+            "Choose any {@filter Aberrant Horror Transformation Boon|optionalfeatures|source=grimhollowpg24|feature type=ah:tb|miscellaneous=} that you don't already have but meet the prerequisites for. You gain that Boon."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Boon of the Elemental Temperance",
+      "source": "GrimHollowPG24",
+      "page": 120,
+      "category": "EB",
+      "prerequisite": [
+        {
+          "level": 19,
+          "other": "{@charoption Primordial|GrimHollowPG24|Primordial Transformation}"
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "str",
+              "dex",
+              "con",
+              "int",
+              "wis",
+              "cha"
+            ]
+          },
+          "max": 30
+        }
+      ],
+      "entries": [
+        "You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Controlled Chaos",
+          "entries": [
+            "You are no longer affected by the {@optfeature Primordial Chaos|GrimHollowPG24|Primordial Chaos Transformation Flaw}."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Boon of the High Seraph",
+      "source": "GrimHollowPG24",
+      "page": 120,
+      "category": "EB",
+      "prerequisite": [
+        {
+          "level": 19,
+          "other": "{@charoption Seraph|GrimHollowPG24|Seraph Transformation}"
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "str",
+              "dex",
+              "con",
+              "int",
+              "wis",
+              "cha"
+            ]
+          },
+          "max": 30
+        }
+      ],
+      "entries": [
+        "You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Absolution",
+          "entries": [
+            "You are no longer affected by the {@optfeature Seraph Corruption|GrimHollowPG24|Seraph Corruption Transformation Flaw}."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Divergent Growth",
+          "entries": [
+            "Choose any {@filter Seraph Transformation Boon|optionalfeatures|source=grimhollowpg24|feature type=ser:tb|miscellaneous=} that you don't already have but meet the prerequisites for. You gain that Boon."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Boon of the Wilds",
+      "source": "GrimHollowPG24",
+      "page": 121,
+      "category": "EB",
+      "prerequisite": [
+        {
+          "level": 19,
+          "other": "{@charoption Lycanthrope|GrimHollowPG24|Lycanthrope Transformation}"
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "str",
+              "dex",
+              "con",
+              "int",
+              "wis",
+              "cha"
+            ]
+          },
+          "max": 30
+        }
+      ],
+      "entries": [
+        "You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Apex Predator",
+          "entries": [
+            "When you enter your Hybrid Form, you gain 25 {@variantrule Temporary Hit Points|XPHB}. At the end of each of your turns while in Hybrid Form, if you have no {@variantrule Temporary Hit Points|XPHB}, you gain 10 {@variantrule Temporary Hit Points|XPHB}. While you are in your Hybrid Form and have no {@variantrule Temporary Hit Points|XPHB}, you have {@variantrule Advantage|XPHB} on attack rolls."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Close Combat Artillerist",
+      "source": "GrimHollowPG24",
+      "page": 118,
+      "category": "FS",
+      "prerequisite": [
+        {
+          "feature": [
+            "Fighting Style"
+          ]
+        }
+      ],
+      "entries": [
+        "You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Firing in Melee",
+          "entries": [
+            "Being within 5 feet of an enemy doesn't impose {@variantrule Disadvantage|XPHB} on your attack rolls with Ranged weapons."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Point Blank",
+          "entries": [
+            "When you hit a creature that is within 5 feet of you with a ranged attack, you gain a +2 bonus to the damage roll."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Convincing Inquisitor",
+      "source": "GrimHollowPG24",
+      "page": 114,
+      "category": "O",
+      "entries": [
+        "You know how to spot a liar, and you can get people to see your way, whether through charm, reasonable arguments, or force of will. You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Charming Presence",
+          "entries": [
+            "When you take the {@action Influence|XPHB} action, you don't have {@variantrule Disadvantage|XPHB} on checks to influence {@variantrule Hostile [Attitude]|XPHB|Hostile} creatures, and you have {@variantrule Advantage|XPHB} on checks to influence {@variantrule Indifferent [Attitude]|XPHB|Indifferent} creatures."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Multiple Paths",
+          "entries": [
+            "You can use any ability modifier when you take the {@action Influence|XPHB} action to make an {@skill Intimidation|XPHB} or  {@skill Persuasion|XPHB} check."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Zealous Insight",
+          "entries": [
+            "When you succeed on a {@action Search|XPHB} action's Wisdom ({@skill Insight|XPHB}) check to detect lies or evasive answers, you have {@variantrule Advantage|XPHB} on {@variantrule Initiative|XPHB} rolls involving combat against that creature for 1 hour."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Deathbound",
+      "source": "GrimHollowPG24",
+      "page": 115,
+      "category": "O",
+      "entries": [
+        "You have seen death many times, up close and personal, and sometimes at your own hand. These experiences have affected you deeply, teaching you about life and death. You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "One Last Breath",
+          "entries": [
+            "If you have two {@variantrule Death Saving Throw|XPHB} failures, you have {@variantrule Advantage|XPHB} on {@variantrule Death Saving Throw|XPHB|Death Saving Throws} until you are no longer at 0 {@variantrule Hit Points|XPHB}."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Recuperation",
+          "entries": [
+            "When you spend a {@variantrule Hit Point Dice|XPHB|Hit Point Die} during a {@variantrule Short Rest|XPHB} to recover {@variantrule Hit Points|XPHB}, you can roll the {@variantrule Hit Point Dice|XPHB|Hit Point Die} twice and use the higher roll."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Dual Shot",
+      "source": "GrimHollowPG24",
+      "page": 119,
+      "category": "FS",
+      "prerequisite": [
+        {
+          "feature": [
+            "Fighting Style"
+          ]
+        }
+      ],
+      "entries": [
+        "You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Dual Shot",
+          "entries": [
+            "When you take the {@action Attack|XPHB} action on your turn and attack with a bow or crossbow, you can make one extra attack as part of the same action against a creature that is within 10 feet of the original target that is within the weapon's range. If you do so, both attacks are made with {@variantrule Disadvantage|XPHB}."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Expanded Grip",
+      "source": "GrimHollowPG24",
+      "page": 116,
+      "category": "G",
+      "prerequisite": [
+        {
+          "level": 4,
+          "ability": [
+            {
+              "str": 13
+            }
+          ]
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "str",
+              "dex",
+              "con"
+            ]
+          }
+        }
+      ],
+      "entries": [
+        "Your natural ability with larger weapons lets you use them in a way others can't. You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "One-Handed Grip",
+          "entries": [
+            "When you use a {@itemProperty V|XPHB|Versatile} weapon with one hand, the weapon deals the damage in parentheses when used to make a melee attack."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Zealous Grasp",
+          "entries": [
+            "If an effect forces you to drop what you are holding, you can make a DC 15 Strength saving throw to maintain your grip. When you are subjected to an effect that allows you to make a saving throw to maintain your grip, you have {@variantrule Advantage|XPHB} on the saving throw."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Flurry",
+      "source": "GrimHollowPG24",
+      "page": 119,
+      "category": "FS",
+      "prerequisite": [
+        {
+          "feature": [
+            "Fighting Style"
+          ]
+        }
+      ],
+      "entries": [
+        "You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Quick Strike",
+          "entries": [
+            "Once on each of your turns when you make an attack roll with a weapon or an {@variantrule Unarmed Strike|XPHB} and have {@variantrule Advantage|XPHB} on the roll, you can forgo {@variantrule Advantage|XPHB} on that attack roll. After resolving that attack, you can then make another attack with the same weapon or {@variantrule Unarmed Strike|XPHB} against a different creature. The new target must be within 5 feet of the first target and within the weapon's reach."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fortune of the Thaumaturge",
+      "source": "GrimHollowPG24",
+      "page": 115,
+      "category": "O",
+      "entries": [
+        "Your connection to the Thaumaturge puts you in touch with forces outside mortal understanding, making others think you were born under a fortunate moon. You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Fortune's Fortitude",
+          "entries": [
+            "When you fail a {@variantrule D20 Test|XPHB}, you can expend and roll one {@variantrule Hit Point Dice|XPHB|Hit Point Die}, adding that number to your result. You can do this only once per {@variantrule D20 Test|XPHB}.",
+            "You can use this benefit a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all uses of this ability when you finish a {@variantrule Long Rest|XPHB}."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Fortune of the Unknown",
+          "entries": [
+            "When using the Fortune's Fortitude benefit, if you roll the highest or lowest number on the {@variantrule Hit Point Dice|XPHB|Hit Point Die}, you regain that {@variantrule Hit Point Dice|XPHB|Hit Point Die}. It still counts as a use of Fortune's Fortitude."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Free Sword Mercenary's Will",
+      "source": "GrimHollowPG24",
+      "page": 115,
+      "category": "O",
+      "entries": [
+        "Your training with the Company of Free Swords has given you an increased stamina and an attitude that make you less likely to succumb to hardships. You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Hold the Ground",
+          "entries": [
+            "When you are moved without using your movement by a creature, you can take a {@variantrule Reaction|XPHB} to reduce the distance you are moved by up to your {@variantrule Speed|XPHB}."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Resolute",
+          "entries": [
+            "You have {@variantrule Advantage|XPHB} on saving throws that would apply a condition."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Hulking Figure",
+      "source": "GrimHollowPG24",
+      "page": 116,
+      "category": "G",
+      "prerequisite": [
+        {
+          "level": 4,
+          "ability": [
+            {
+              "str": 13
+            }
+          ]
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "str",
+              "con"
+            ]
+          }
+        }
+      ],
+      "entries": [
+        "Either from extensive training or a natural build, you have a broad and formidable size for your species. You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Brutal",
+          "entries": [
+            "Once per turn, you can deal an extra {@damage 1d4} Bludgeoning damage to a target you hit with an {@variantrule Unarmed Strike|XPHB}."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Intimidating",
+          "entries": [
+            "When you make a Charisma ({@skill Intimidation|XPHB}, {@skill Performance|XPHB}, or {@skill Persuasion|XPHB}) check, you can also add your Strength modifier to the roll."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Powerful",
+          "entries": [
+            "You count as one size larger (to a maximum size of Large) when determining your carrying capacity."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Insightful Collector",
+      "source": "GrimHollowPG24",
+      "page": 115,
+      "category": "O",
+      "entries": [
+        "Your expeditions, transactions, and mercantile activities on behalf of the Augustine Trading Company have put you in contact with collectors of historical artifacts, relics, and tomes. You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Object Intuition",
+          "entries": [
+            "You can take a {@action Study|XPHB} action to examine one magical object and learn its properties and how to use it without attuning to it or taking a {@variantrule Short Rest|XPHB} in physical contact with it, but you don't learn any curse the item might bear. There is a cumulative 5% chance for every rarity above Common that you misidentify the nature and the power of the object."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Rare Find",
+          "entries": [
+            "You begin play in possession of a Common magic item. Work with your GM to decide on which object fits your character and the campaign."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Iron Gut",
+      "source": "GrimHollowPG24",
+      "page": 116,
+      "category": "G",
+      "prerequisite": [
+        {
+          "level": 4,
+          "ability": [
+            {
+              "con": 13
+            }
+          ]
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "str",
+              "con",
+              "cha"
+            ]
+          }
+        }
+      ],
+      "entries": [
+        "You can eat like a hill giant and drink like a fish. Years of punishing your stomach and liver have led to a powerful fortitude. You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Inured to Poison",
+          "entries": [
+            "You have {@variantrule Advantage|XPHB} on saving throws you make to avoid or end the {@condition Poisoned|XPHB} condition."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Everything Looks Delicious",
+          "entries": [
+            "You have {@variantrule Advantage|XPHB} on Wisdom ({@skill Survival|XPHB}) checks to forage for food."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Quick to Recover",
+          "entries": [
+            "As a {@variantrule Bonus Action|XPHB}, you can expend one of your {@variantrule Hit Point Dice|XPHB}, roll the die and add your Constitution modifier, and regain a number of {@variantrule Hit Points|XPHB} equal to the roll's total. Once you use this benefit, you can't use it again until you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Lightning Caster",
+      "source": "GrimHollowPG24",
+      "page": 116,
+      "category": "G",
+      "prerequisite": [
+        {
+          "level": 4,
+          "spellcasting2020": true
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "int",
+              "wis",
+              "cha"
+            ]
+          }
+        }
+      ],
+      "entries": [
+        "Your rapid-fire style of casting cantrips allows you to weave magic with uncanny speed. You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Dual Target",
+          "entries": [
+            "When you cast a cantrip with a casting time of an action that targets a single creature, you can use a {@variantrule Bonus Action|XPHB} to target a second creature within the cantrip's range."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Immediate Response",
+          "entries": [
+            "When you cast a spell as a {@variantrule Reaction|XPHB}, that spell doesn't expend a spell slot. Once you use this benefit, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Medician of the Morbus Doctore",
+      "source": "GrimHollowPG24",
+      "page": 116,
+      "category": "G",
+      "prerequisite": [
+        {
+          "level": 4,
+          "feat": [
+            "triage expert|grimhollowpg24"
+          ]
+        }
+      ],
+      "entries": [
+        "You are a master of the medical sciences because of your association with a medical institute. You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Adept Medic",
+          "entries": [
+            "When you use the Blood and Bone benefit of the Triage Expert feat, the creature can spend up to three {@variantrule Hit Point Dice|XPHB} instead of one."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Battle Surgeon",
+          "entries": [
+            "When you use the Blood and Bone benefit of the Triage Expert feat, the creature can spend three {@variantrule Hit Point Dice|XPHB} to end one of the following conditions on itself instead of regaining {@variantrule Hit Points|XPHB}: {@condition Blinded|XPHB}, {@condition Deafened|XPHB}, {@condition Paralyzed|XPHB}, {@condition Poisoned|XPHB}, or {@condition Stunned|XPHB}.",
+            "Alternatively, you can cure one {@variantrule Grievous Wounds|GrimHollowCG24|Grievous Wound} affecting the creature."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mobile Combatant",
+      "source": "GrimHollowPG24",
+      "page": 119,
+      "category": "FS",
+      "prerequisite": [
+        {
+          "feature": [
+            "Fighting Style"
+          ]
+        }
+      ],
+      "entries": [
+        "You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Slippery",
+          "entries": [
+            "When you take the {@action Attack|XPHB} action, your {@variantrule Speed|XPHB} increases by 10 feet and {@action Opportunity Attack|XPHB|Opportunity Attacks} have {@variantrule Disadvantage|XPHB} against you until the end of your turn."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Nimble Physique",
+      "source": "GrimHollowPG24",
+      "page": 116,
+      "category": "G",
+      "prerequisite": [
+        {
+          "level": 4,
+          "ability": [
+            {
+              "dex": 13
+            }
+          ]
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "str",
+              "dex",
+              "con"
+            ],
+            "amount": 1
+          }
+        }
+      ],
+      "entries": [
+        "You are small and thin for your species. You have a mysterious and consistent ability to avoid danger. You gain the following benefits:",
+        {
+          "type": "list",
+          "style": "list-hang-notitle",
+          "items": [
+            {
+              "type": "item",
+              "name": "Dodgy",
+              "entries": [
+                "While you aren't wearing armor or wielding a {@item Shield|XPHB}, you can take the {@action Dodge|XPHB} action as a {@variantrule Bonus Action|XPHB}."
+              ]
+            },
+            {
+              "type": "item",
+              "name": "Slippery",
+              "entries": [
+                "While you are {@condition Grappled|XPHB} or {@condition Restrained|XPHB}, your attacks don't have {@variantrule Disadvantage|XPHB} and attacks against you don't have {@variantrule Advantage|XPHB}."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Opportunist",
+      "source": "GrimHollowPG24",
+      "page": 119,
+      "category": "FS",
+      "prerequisite": [
+        {
+          "feature": [
+            "Fighting Style"
+          ]
+        }
+      ],
+      "entries": [
+        "You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Exploit Weakness",
+          "entries": [
+            "Whenever you make an attack as part of a {@variantrule Reaction|XPHB}, you gain a +2 bonus to the attack and damage rolls."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Prone Defense",
+      "source": "GrimHollowPG24",
+      "page": 119,
+      "category": "FS",
+      "prerequisite": [
+        {
+          "feature": [
+            "Fighting Style"
+          ]
+        }
+      ],
+      "entries": [
+        "You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Defensive",
+          "entries": [
+            "When you have the {@condition Prone|XPHB} condition, you don't have {@variantrule Disadvantage|XPHB} on attack rolls. {@action Attack|XPHB} rolls against you don't have {@variantrule Advantage|XPHB} because of the {@condition Prone|XPHB} condition."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Hop Up",
+          "entries": [
+            "When you have the {@condition Prone|XPHB} condition, you can right yourself with only 5 feet of movement."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Resolution of the Syndicate",
+      "source": "GrimHollowPG24",
+      "page": 115,
+      "category": "O",
+      "entries": [
+        "Membership in the Ebon Syndicate provides perks—one of which is the motivation that comes with the understanding that the Syndicate kills those who fail too often. You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Quick Strike",
+          "entries": [
+            "On your first turn after an {@variantrule Initiative|XPHB} roll, add {@dice 1d4} to the first damage roll you make. This extra damage increases to {@dice 2d4} at character level 9, and to {@dice 4d4} at character level 16."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Resilient",
+          "entries": [
+            "Your {@variantrule Hit Points|XPHB|Hit Point} maximum increases by an amount equal to your character level when you gain this feat. Whenever you gain a character level thereafter, your {@variantrule Hit Points|XPHB|Hit Point} maximum increases by an additional 1 {@variantrule Hit Points|XPHB|Hit Point}."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sangromantic Initiate",
+      "source": "GrimHollowPG24",
+      "page": 117,
+      "category": "G",
+      "prerequisite": [
+        {
+          "level": 4,
+          "spellcasting2020": true
+        }
+      ],
+      "entries": [
+        "You have become adept enough with weaving blood magic to mitigate some of the harm of Sangromancy. You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Blood Magic",
+          "entries": [
+            "Choose a {@filter Sangromancy spell|spells|subschool=sangromancy} from any spell list of a level for which you have spell slots. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slot you have."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Sanguine Potency",
+          "entries": [
+            "You have a pool of two d12s that you can expend instead of {@variantrule Hit Point Dice|XPHB} when you cast {@filter Sangromancy spells|spells|subschool=sangromancy}. Your pool regains all expended dice when you finish a {@variantrule Long Rest|XPHB}."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Shadowsteel Adept",
+      "source": "GrimHollowPG24",
+      "page": 117,
+      "category": "G",
+      "prerequisite": [
+        {
+          "level": 4,
+          "spellcasting2020": true
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "int",
+              "wis",
+              "cha"
+            ]
+          }
+        }
+      ],
+      "additionalSpells": [
+        {
+          "prepared": {
+            "_": [
+              "Curse of Conceited Obsession|GrimHollowPG24",
+              "Curse of Crushing Sensation|GrimHollowPG24",
+              "Curse of Damned Aging|GrimHollowPG24",
+              "Curse of Fastidious Pride|GrimHollowPG24",
+              "Curse of Foul Blight|GrimHollowPG24",
+              "Curse of Ill-Fated Fortune|GrimHollowPG24",
+              "Curse of Insatiable Greed|GrimHollowPG24",
+              "Curse of Lost Sentiment|GrimHollowPG24",
+              "Curse of Ravenous Hunger|GrimHollowPG24",
+              "Curse of Uncontrollable Wrath|GrimHollowPG24"
+            ]
+          }
+        }
+      ],
+      "entries": [
+        "You have learned to tap into the dangerous but powerful art of Shadowsteel casting. You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Curse Caster",
+          "entries": [
+            "You always have {@filter Shadowsteel curses|spells|subschool=shadowsteel curse} prepared, and you can cast them with any spell slots you have."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Shadowsteel's Bite",
+          "entries": [
+            "While holding your {@item Shadowsteel Focus|GrimHollowPG24}, you gain a +1 bonus to spell attack rolls and to the saving throw DCs of your spells."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Shadowsteel Weapon",
+          "entries": [
+            "If your {@item Shadowsteel Focus|GrimHollowPG24} is also a weapon, that weapon has a +1 bonus to weapon attack rolls and damage rolls."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Shadowsteel Master",
+      "source": "GrimHollowPG24",
+      "page": 117,
+      "category": "G",
+      "prerequisite": [
+        {
+          "level": 8,
+          "feat": [
+            "shadowsteel adept|grimhollowpg24"
+          ]
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "int",
+              "wis",
+              "cha"
+            ]
+          }
+        }
+      ],
+      "entries": [
+        "Your mastery over Shadowsteel grows stronger. You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Necrotic Harmony",
+          "entries": [
+            "While holding your {@item Shadowsteel Focus|GrimHollowPG24}, when you cast a spell that targets one or more creatures and requires an attack roll or saving throw, you can choose one target you hit or who failed the saving throw to also take {@damage 1d4} Necrotic damage for each spell slot level expended to cast the spell."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Necrotic Weapon",
+          "entries": [
+            "If your {@item Shadowsteel Focus|GrimHollowPG24} is also a weapon, that weapon has a +2 bonus to weapon attack rolls and damage rolls. Additionally, once on each of your turns, when you hit a creature with a weapon attack roll using your {@item Shadowsteel Focus|GrimHollowPG24}, you can cause the target to take an extra {@damage 2d8} Necrotic damage."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Survivor",
+      "source": "GrimHollowPG24",
+      "page": 115,
+      "category": "O",
+      "entries": [
+        "Your ability to make the best out of a bad situation has served you well. You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Hardy",
+          "entries": [
+            "You need half the amount of food per day based on your size."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Intuitive",
+          "entries": [
+            "When you take the {@action Study|XPHB} action, you have {@variantrule Advantage|XPHB} on Intelligence checks made when taking the {@action Study|XPHB} action."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Shake It Off",
+          "entries": [
+            "Whenever you finish a {@variantrule Short Rest|XPHB}, your {@condition Exhaustion|XPHB} level, if any, decreases by 1. Additionally, when you finish a {@variantrule Long Rest|XPHB}, your {@condition Exhaustion|XPHB} level decreases by 2."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Syndicate Spy",
+      "source": "GrimHollowPG24",
+      "page": 118,
+      "category": "G",
+      "prerequisite": [
+        {
+          "level": 4,
+          "background": [
+            {
+              "name": "Syndicate Smuggler",
+              "displayEntry": "{@background Syndicate Smuggler|GrimHollowPG24}"
+            }
+          ]
+        }
+      ],
+      "toolProficiencies": [
+        {
+          "thieves' tools": true,
+          "disguise kit": true
+        }
+      ],
+      "entries": [
+        "Rising in the ranks of the Ebon Syndicate has taught you the clandestine skills of spycraft, valuable in your trade as a racketeer. You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Locksmith",
+          "entries": [
+            "You have proficiency with {@item Thieves' Tools|XPHB}. While holding {@item Thieves' Tools|XPHB}, you can craft a key to a lock by spending 10 minutes with that lock."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Master of Disguise",
+          "entries": [
+            "You have proficiency with a {@item Disguise Kit|XPHB}. If you spend 10 minutes donning a {@item Costume|XPHB},  you decide what you look like, including your height, weight, facial features, sound of your voice, hair length, coloration, and other distinguishing characteristics. You can make yourself appear as a member of another species, though none of your statistics change. You can't appear as a creature of a different size, and your basic shape stays the same; if you're bipedal, you can't use this benefit to become quadrupedal, for instance."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Master Calligrapher",
+          "entries": [
+            "You have proficiency with a {@item Forgery Kit|XPHB}. You aren't limited to 10 or fewer words when mimicking someone else's handwriting."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Blending In",
+          "entries": [
+            "When using the {@action Hide|XPHB} action to conceal yourself from creatures that aren't {@variantrule Hostile [Attitude]|XPHB|Hostile} to you, you need only be {@variantrule Lightly Obscured|XPHB} and you may use Charisma instead of Dexterity for the check."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Thrown Weapon Master",
+      "source": "GrimHollowPG24",
+      "page": 118,
+      "category": "G",
+      "prerequisite": [
+        {
+          "level": 4,
+          "ability": [
+            {
+              "str": 13
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "ability": [
+            {
+              "dex": 13
+            }
+          ]
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "str",
+              "dex"
+            ]
+          }
+        }
+      ],
+      "entries": [
+        "You excel at thrown weapons. You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Multithrow",
+          "entries": [
+            "After you take the {@action Attack|XPHB} action to make a ranged attack roll using a Simple weapon that has {@itemProperty T|XPHB|Thrown}, you can make two additional ranged attacks using Simple weapons that have {@itemProperty T|XPHB|Thrown} as a {@variantrule Bonus Action|XPHB}."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Quick Hands",
+          "entries": [
+            "As a {@variantrule Bonus Action|XPHB}, you can retrieve and stow or wield all Simple weapons with {@itemProperty T|XPHB|Thrown} that are within 5 feet of you. You need a free hand to perform this maneuver."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Returning",
+          "entries": [
+            "Simple weapons with {@itemProperty T|XPHB|Thrown} that you are proficient with also have the {@itemMastery Returning|GrimHollowPG24} mastery property."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Triage Expert",
+      "source": "GrimHollowPG24",
+      "page": 115,
+      "category": "O",
+      "entries": [
+        "You are trained in dealing with injuries on the battlefield, and with the saving of lives afterward. You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Bedside Manner",
+          "entries": [
+            "Whenever you cause a creature to regain {@variantrule Hit Points|XPHB} or the Blood and Bone benefit, you can roll one extra die and discard the lowest die."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Blood and Bone",
+          "entries": [
+            "Taking the {@action Utilize|XPHB} action and expending the use of a {@item Healer's Kit|XPHB} lets you heal a creature within 5 feet of you. The creature can expend and roll a {@variantrule Hit Point Dice|XPHB|Hit Point Die} and regain that number of {@variantrule Hit Points|XPHB}."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Witch Hunter",
+      "source": "GrimHollowPG24",
+      "page": 118,
+      "category": "G",
+      "prerequisite": [
+        {
+          "level": 4
+        }
+      ],
+      "ability": [
+        {
+          "choose": {
+            "from": [
+              "str",
+              "con",
+              "wis"
+            ]
+          }
+        }
+      ],
+      "entries": [
+        "You have honed and perfected your skills fighting against spellcasters, possibly from your background hunting mages as part of the Arcanist Inquisition. You gain the following benefits.",
+        {
+          "type": "entries",
+          "name": "Dodge Spells",
+          "entries": [
+            "You can take a {@variantrule Reaction|XPHB} to avoid a spell that is targeting only you and doesn't create an area of effect. Make a Wisdom saving throw against the spellcaster's spell save DC. On a successful save, the creature must choose a new target or the spell is canceled. A canceled spell dissipates with no effect, and any resources used to cast it are wasted."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Keep Your Enemies Close",
+          "entries": [
+            "When you hit a target that can cast spells with an attack roll using a Melee weapon or an {@variantrule Unarmed Strike|XPHB}, you can reduce its {@variantrule Speed|XPHB} by 15 feet until the start of your next turn."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Resist Curses",
+          "entries": [
+            "You have {@variantrule Advantage|XPHB} on saving throws against all Shadowsteel curses, and also against spells with a duration of more than 10 minutes."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Adroit Crafter",
+      "source": "GrimHollowMG24",
+      "page": 411,
+      "prerequisite": [
+        {
+          "otherSummary": {
+            "entry": "Proficiency in a skill or tool",
+            "entrySummary": "Skill or Tool Proficiency"
+          }
+        }
+      ],
+      "entries": [
+        "You've trained in crafting items using a skill or tool that you're proficient with, and the steps in crafting have become second nature to you. You gain the following benefits:",
+        {
+          "type": "list",
+          "page": 411,
+          "items": [
+            "The time it takes to create an item using your proficient skills or tools is halved.",
+            "If you fail to successfully craft the item and would lose the components, you retain the components instead."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Careful Crafter",
+      "source": "GrimHollowMG24",
+      "page": 411,
+      "prerequisite": [
+        {
+          "otherSummary": {
+            "entry": "Proficiency in a skill or tool",
+            "entrySummary": "Skill or Tool Proficiency"
+          }
+        }
+      ],
+      "entries": [
+        "You've trained in crafting items using a skill or tool that you're proficient with, and your creations are known for being well made and reliable. You gain the following benefits:",
+        {
+          "type": "list",
+          "page": 411,
+          "items": [
+            "You make all ability checks for crafting with {@variantrule Advantage|XPHB}.",
+            "Anyone assisting you in crafting an item gains {@variantrule Advantage|XPHB} on their ability checks for crafting.",
+            "If you fail to successfully craft the item, the amount of time it took to complete the process is halved."
+          ]
+        }
+      ]
     }
   ],
-  "generatedAt": "2026-07-11T13:47:31.219Z",
+  "generatedAt": "2026-07-12T15:49:56.675Z",
   "source": "5etools-src (One/2024 edition, build-time pre-merged)",
   "edition": "one"
 }

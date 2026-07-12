@@ -4,6 +4,7 @@ import { makeRef } from "@/data/entityRefs";
 import FeatStatBlock from "@/components/StatBlock/FeatStatBlock";
 import { FeatFilterSidebar, featMatchesFilters } from "@/components/filters/FeatFilterSidebar";
 import { useFeatFilters } from "@/state/featFilters";
+import { useExcludedSources } from "@/state/sourceExclusions";
 import { categoryToFull } from "@/lib/featFormatters";
 import { sourceToAbv } from "@/lib/spellFormatters";
 import Centered from "@/components/layout/Centered";
@@ -24,16 +25,18 @@ export default function FeatsPage() {
   const feats = data?.entities ?? [];
   const filterSnapshot = useFeatFilters();
   const filterActive = filterSnapshot.activeCount();
+  const excludedSources = useExcludedSources("feats");
 
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase();
     const out = feats.filter((f) => {
       if (!featMatchesFilters(f, filterSnapshot)) return false;
+      if (excludedSources.has(f.source)) return false;
       if (q && !f.name.toLowerCase().includes(q)) return false;
       return true;
     });
     return out.sort((a, b) => a.name.localeCompare(b.name));
-  }, [feats, search, filterSnapshot]);
+  }, [feats, search, filterSnapshot, excludedSources]);
 
   const selected = useMemo(
     () => feats.find((f) => makeRef(f.name, f.source) === selectedKey) ?? null,
