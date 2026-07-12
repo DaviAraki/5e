@@ -16,7 +16,7 @@
  */
 
 import { readFile, writeFile, mkdir } from "node:fs/promises";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -122,6 +122,133 @@ function withProp(entities, prop) {
 
 // ---------- main ----------
 
+/**
+ * Resolve classFeatures/subclassFeatures UID references into ClassFeature[][]
+ * for every Grim Hollow class and subclass in the resolved files.
+ *
+ * Upstream format: `classFeatures` is a flat array of strings
+ *   "FeatureName|ClassName|ClassSource|Level"
+ * and objects `{ classFeature: "...", gainSubclassFeature: true }`.
+ *
+ * Target format: `ClassFeature[][]` indexed by [level-1], each element the
+ * full feature object (looked up from the upstream classFeature array).
+ *
+ * @param {Record<string, any>} brews
+ */
+function resolveClassFeatures(brews) {
+  // Build lookup indexes from the upstream feature arrays.
+  // classFeature key: "Name|ClassName|ClassSource|Level"
+  // subclassFeature key: "Name|ClassName|ClassSource|SubclassShortName|SubclassSource|Level"
+  /** @type {Map<string, any>} */
+  const classFeatureIndex = new Map();
+  /** @type {Map<string, any>} */
+  const subclassFeatureIndex = new Map();
+  let cfCount = 0;
+  let sfCount = 0;
+
+  for (const brew of Object.values(brews)) {
+    for (const cf of brew.classFeature ?? []) {
+      const key = `${cf.name}|${cf.className}|${cf.classSource}|${cf.level}`;
+      classFeatureIndex.set(key, cf);
+      cfCount++;
+    }
+    for (const sf of brew.subclassFeature ?? []) {
+      const key = `${sf.name}|${sf.className}|${sf.classSource}|${sf.subclassShortName}|${sf.subclassSource}|${sf.level}`;
+      subclassFeatureIndex.set(key, sf);
+      sfCount++;
+    }
+  }
+
+  if (cfCount === 0 && sfCount === 0) {
+    console.log("  no classFeature/subclassFeature entries to resolve");
+    return;
+  }
+
+  // Helper: resolve a single reference entry (string or {classFeature, gainSubclassFeature}).
+  function resolveRef(ref) {
+    const uid = typeof ref === "string" ? ref : ref?.classFeature;
+    if (!uid) return null;
+    const feature = classFeatureIndex.get(uid);
+    if (!feature) return null;
+    if (typeof ref === "object" && ref.gainSubclassFeature) {
+      return { ...feature, gainSubclassFeature: true };
+    }
+    return feature;
+  }
+
+  function resolveSubclassRef(ref) {
+    const uid = typeof ref === "string" ? ref : ref?.subclassFeature;
+    if (!uid) return null;
+    const feature = subclassFeatureIndex.get(uid);
+    if (!feature) return null;
+    if (typeof ref === "object" && ref.gainSubclassFeature) {
+      return { ...feature, gainSubclassFeature: true };
+    }
+    return feature;
+  }
+
+  /**
+   * Convert a flat reference array into ClassFeature[][] grouped by level.
+   * @param {any[]} refs - flat array of UID strings / objects
+   * @param {(ref: any) => any | null} resolver
+   * @returns {any[][]} 2D array indexed [level-1]
+   */
+  function toLevelGroups(refs, resolver) {
+    /** @type {any[][]} */
+    const groups = [];
+    for (const ref of refs) {
+      const feature = resolver(ref);
+      if (!feature) continue;
+      const lvl = feature.level;
+      const idx = lvl - 1;
+      if (idx < 0) continue;
+      if (!groups[idx]) groups[idx] = [];
+      groups[idx].push(feature);
+    }
+    // Fill missing levels with empty arrays so groups[level-1] always exists.
+    for (let i = 0; i < groups.length; i++) {
+      if (!groups[i]) groups[i] = [];
+    }
+    return groups;
+  }
+
+  // Patch classes.json
+  const classesPath = join(RESOLVED_DIR, "classes.json");
+  const classes = readJsonSync(classesPath);
+  let classCount = 0;
+  for (const entity of classes.entities) {
+    if (typeof entity.source !== "string" || !entity.source.startsWith(SOURCE_PREFIX)) continue;
+    if (!Array.isArray(entity.classFeatures)) continue;
+    entity.classFeatures = toLevelGroups(entity.classFeatures, resolveRef);
+    classCount++;
+  }
+  writeJsonSync(classesPath, classes);
+  console.log(`  classes.json: resolved classFeatures for ${classCount} Grim Hollow class(es)`);
+
+  // Patch subclasses.json
+  const subclassesPath = join(RESOLVED_DIR, "subclasses.json");
+  const subclasses = readJsonSync(subclassesPath);
+  let subclassCount = 0;
+  for (const entity of subclasses.entities) {
+    if (typeof entity.source !== "string" || !entity.source.startsWith(SOURCE_PREFIX)) continue;
+    if (!Array.isArray(entity.subclassFeatures)) continue;
+    entity.subclassFeatures = toLevelGroups(entity.subclassFeatures, resolveSubclassRef);
+    subclassCount++;
+  }
+  writeJsonSync(subclassesPath, subclasses);
+  console.log(`  subclasses.json: resolved subclassFeatures for ${subclassCount} Grim Hollow subclass(es)`);
+
+  console.log(`  (index: ${cfCount} classFeatures, ${sfCount} subclassFeatures)`);
+}
+
+/** Synchronous JSON read/write (used by resolveClassFeatures after initial load). */
+function readJsonSync(p) {
+  return JSON.parse(readFileSync(p, "utf8"));
+}
+function writeJsonSync(p, v) {
+  writeFileSync(p, JSON.stringify(v, null, 2) + "\n", "utf8");
+}
+
 async function fetchVendor() {
   console.log("→ Fetching vendor files…");
   await mkdir(VENDOR_DIR, { recursive: true });
@@ -188,6 +315,14 @@ async function main() {
     touchedFiles.push(basename);
     console.log(`  ${basename}: kept ${kept.length}, added ${added.length} → ${data.entities.length}`);
   }
+
+  // 3b. Resolve class/subclass feature references.
+  // Upstream homebrew ships classFeatures/subclassFeatures as flat arrays of
+  // UID reference strings ("Name|Class|Source|Level"). The app's renderer
+  // expects ClassFeature[][] — a 2D array indexed by [level-1] of fully
+  // expanded feature objects. Build a lookup index from the upstream
+  // classFeature/subclassFeature arrays, then resolve each entity's references.
+  resolveClassFeatures(brews);
 
   // 4. Books: append book metadata + write per-book readable content files.
   await mergeBooks(brews);

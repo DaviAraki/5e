@@ -4,7 +4,6 @@ import { makeRef } from "@/data/entityRefs";
 import LegendaryGroupStatBlock from "@/components/StatBlock/LegendaryGroupStatBlock";
 import { LegendaryGroupFilterSidebar, legendaryGroupMatchesFilters } from "@/components/filters/LegendaryGroupFilterSidebar";
 import { useLegendaryGroupFilters } from "@/state/legendaryGroupFilters";
-import { useExcludedSources } from "@/state/sourceExclusions";
 import { sourceToAbv } from "@/lib/spellFormatters";
 import Centered from "@/components/layout/Centered";
 import MasterDetailLayout from "@/components/layout/MasterDetailLayout";
@@ -24,18 +23,16 @@ export default function LegendaryGroupsPage() {
   const groups = data?.entities ?? [];
   const filterSnapshot = useLegendaryGroupFilters();
   const filterActive = filterSnapshot.activeCount();
-  const excludedSources = useExcludedSources("legendarygroups");
 
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase();
     const out = groups.filter((g) => {
       if (!legendaryGroupMatchesFilters(g, filterSnapshot)) return false;
-      if (excludedSources.has(g.source)) return false;
       if (q && !g.name.toLowerCase().includes(q)) return false;
       return true;
     });
     return out.sort((a, b) => a.name.localeCompare(b.name));
-  }, [groups, search, filterSnapshot, excludedSources]);
+  }, [groups, search, filterSnapshot]);
 
   const selected = useMemo(
     () => groups.find((g) => makeRef(g.name, g.source) === selectedKey) ?? null,

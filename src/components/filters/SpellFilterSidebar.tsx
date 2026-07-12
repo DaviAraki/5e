@@ -13,10 +13,9 @@ import {
   SAVE_OPTIONS,
   CONDITION_OPTIONS,
   MISC_OPTIONS,
-  type FilterDimension,
+  type TriDimension,
 } from "@/state/spellFilters";
 import { PillFilter } from "./PillFilter";
-import { SourceExclusionFilter } from "./SourceExclusionFilter";
 
 /**
  * The filter sidebar for the spells page. Renders all filter dimensions as
@@ -41,8 +40,8 @@ export function SpellFilterSidebar({ spells }: { spells: Spell[] }) {
   const sourceOptions = deriveSourceOptions(spells);
   const activeCount = f.activeCount();
 
-  const toggle = (dim: FilterDimension) => (value: string) => f.toggle(dim, value);
-  const clear = (dim: FilterDimension) => () => f.clearDimension(dim);
+  const cycle = (dim: TriDimension) => (value: string) => f.cycle(dim, value);
+  const clear = (dim: TriDimension | "misc") => () => f.clearDimension(dim);
 
   return (
     <div className="flex h-full flex-col">
@@ -66,81 +65,80 @@ export function SpellFilterSidebar({ spells }: { spells: Spell[] }) {
         <PillFilter
           title="Source"
           options={sourceOptions}
-          selected={source}
-          onToggle={toggle("source")}
+          state={source}
+          onCycle={cycle("source")}
           onClear={clear("source")}
           defaultOpen
         />
-        <SourceExclusionFilter category="spells" options={sourceOptions} />
         <PillFilter
           title="Level"
           options={LEVEL_OPTIONS}
-          selected={level}
-          onToggle={toggle("level")}
+          state={level}
+          onCycle={cycle("level")}
           onClear={clear("level")}
           defaultOpen
         />
         <PillFilter
           title="School"
           options={SCHOOL_OPTIONS}
-          selected={school}
-          onToggle={toggle("school")}
+          state={school}
+          onCycle={cycle("school")}
           onClear={clear("school")}
         />
         <PillFilter
           title="Classes"
           options={CLASS_OPTIONS}
-          selected={cls}
-          onToggle={toggle("class")}
+          state={cls}
+          onCycle={cycle("class")}
           onClear={clear("class")}
         />
         <PillFilter
           title="Casting Time"
           options={CAST_TIME_OPTIONS}
-          selected={castTime}
-          onToggle={toggle("castTime")}
+          state={castTime}
+          onCycle={cycle("castTime")}
           onClear={clear("castTime")}
         />
         <PillFilter
           title="Duration"
           options={DURATION_OPTIONS}
-          selected={duration}
-          onToggle={toggle("duration")}
+          state={duration}
+          onCycle={cycle("duration")}
           onClear={clear("duration")}
         />
         <PillFilter
           title="Range"
           options={RANGE_OPTIONS}
-          selected={range}
-          onToggle={toggle("range")}
+          state={range}
+          onCycle={cycle("range")}
           onClear={clear("range")}
         />
         <PillFilter
           title="Damage Type"
           options={DAMAGE_TYPE_OPTIONS}
-          selected={damageType}
-          onToggle={toggle("damageType")}
+          state={damageType}
+          onCycle={cycle("damageType")}
           onClear={clear("damageType")}
         />
         <PillFilter
           title="Saving Throw"
           options={SAVE_OPTIONS}
-          selected={save}
-          onToggle={toggle("save")}
+          state={save}
+          onCycle={cycle("save")}
           onClear={clear("save")}
         />
         <PillFilter
           title="Condition Inflicted"
           options={CONDITION_OPTIONS}
-          selected={condition}
-          onToggle={toggle("condition")}
+          state={condition}
+          onCycle={cycle("condition")}
           onClear={clear("condition")}
         />
         <PillFilter
           title="Components & Misc"
           options={MISC_OPTIONS}
           selected={misc}
-          onToggle={toggle("misc")}
+          onToggle={f.toggleMisc}
           onClear={clear("misc")}
         />
       </div>

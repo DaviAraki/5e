@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from "react";
 import type { FilterOption } from "@/state/spellFilters";
+import type { TriState } from "@/state/triStateFilter";
 
 /**
  * FilterGroup — a collapsible section with a header (title + clear button).
@@ -50,27 +51,45 @@ export function FilterGroup({
   );
 }
 
+type PillState = "neutral" | "include" | "exclude";
+
 /**
- * Pill — a single toggleable filter chip.
+ * Pill — a single filter chip. In tri-state mode it cycles through three
+ * visual states on click; in two-state mode it toggles active/inactive.
  */
 export function Pill({
   label,
+  state = "neutral",
   active,
   onClick,
 }: {
   label: string;
-  active: boolean;
+  /** Tri-state mode: which state is active. */
+  state?: PillState;
+  /** Two-state mode: whether the pill is active. */
+  active?: boolean;
   onClick: () => void;
 }) {
+  let cls: string;
+  if (state === "include" || active) {
+    cls = "border-accent bg-accent-subtle text-accent";
+  } else if (state === "exclude") {
+    cls = "border-red-500/60 bg-red-500/15 text-red-400 line-through";
+  } else {
+    cls = "border-border text-fg-muted hover:border-border-strong hover:text-fg";
+  }
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-full border px-2 py-0.5 text-xs transition-colors ${
-        active
-          ? "border-accent bg-accent-subtle text-accent"
-          : "border-border text-fg-muted hover:border-border-strong hover:text-fg"
-      }`}
+      title={
+        state === "include"
+          ? "Included — click to exclude"
+          : state === "exclude"
+            ? "Excluded — click to clear"
+            : "Click to include"
+      }
+      className={`rounded-full border px-2 py-0.5 text-xs transition-colors ${cls}`}
     >
       {label}
     </button>
@@ -78,39 +97,77 @@ export function Pill({
 }
 
 /**
- * PillFilter — a FilterGroup rendering a list of FilterOptions as pills.
- * Toggles membership in the given Set via the onChange callback.
+ * PillFilter — a FilterGroup rendering FilterOptions as pills.
+ *
+ * Defaults to tri-state mode (`state` prop): cycles neutral → include →
+ * exclude → neutral via `onCycle`. For AND-flag dimensions that don't support
+ * exclusion (e.g. "misc"), pass `mode="two-state"` with `selected` + `onToggle`
+ * to get the legacy 2-state toggle behavior.
  */
 export function PillFilter({
   title,
   options,
+  state,
+  onCycle,
+  onClear,
   selected,
   onToggle,
-  onClear,
   defaultOpen = false,
 }: {
   title: string;
   options: FilterOption[];
-  selected: Set<string>;
-  onToggle: (value: string) => void;
-  onClear: () => void;
+  /** Tri-state: the dimension's include/exclude sets. */
+  state?: TriState;
+  /** Tri-state: callback when a pill is clicked. */
+  onCycle?: (value: string) => void;
+  /** Tri-state: reset the whole dimension. */
+  onClear?: () => void;
+  /** Two-state: the legacy selected set. */
+  selected?: Set<string>;
+  /** Two-state: legacy toggle callback. */
+  onToggle?: (value: string) => void;
   defaultOpen?: boolean;
 }) {
+  const triMode = state !== undefined;
+  const count = triMode
+    ? state.include.size + state.exclude.size
+    : (selected?.size ?? 0);
+
+  // Build a stable clear handler for the group header.
+  const handleClear = triMode ? onClear : undefined;
+
   return (
     <FilterGroup
       title={title}
-      activeCount={selected.size}
-      onClear={onClear}
+      activeCount={count}
+      onClear={handleClear}
       defaultOpen={defaultOpen}
     >
-      {options.map((opt) => (
-        <Pill
-          key={opt.value}
-          label={opt.label}
-          active={selected.has(opt.value)}
-          onClick={() => onToggle(opt.value)}
-        />
-      ))}
+      {options.map((opt) => {
+        if (triMode) {
+          const st = state.include.has(opt.value)
+            ? "include"
+            : state.exclude.has(opt.value)
+              ? "exclude"
+              : "neutral";
+          return (
+            <Pill
+              key={opt.value}
+              label={opt.label}
+              state={st}
+              onClick={() => onCycle?.(opt.value)}
+            />
+          );
+        }
+        return (
+          <Pill
+            key={opt.value}
+            label={opt.label}
+            active={selected?.has(opt.value) ?? false}
+            onClick={() => onToggle?.(opt.value)}
+          />
+        );
+      })}
     </FilterGroup>
   );
 }

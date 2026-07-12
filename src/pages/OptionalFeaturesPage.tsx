@@ -4,7 +4,6 @@ import { makeRef } from "@/data/entityRefs";
 import OptionalFeatureStatBlock from "@/components/StatBlock/OptionalFeatureStatBlock";
 import { OptionalFeatureFilterSidebar, optionalFeatureMatchesFilters } from "@/components/filters/OptionalFeatureFilterSidebar";
 import { useOptionalFeatureFilters } from "@/state/optionalFeatureFilters";
-import { useExcludedSources } from "@/state/sourceExclusions";
 import { sourceToAbv } from "@/lib/spellFormatters";
 import Centered from "@/components/layout/Centered";
 import MasterDetailLayout from "@/components/layout/MasterDetailLayout";
@@ -26,18 +25,16 @@ export default function OptionalFeaturesPage() {
   const features = data?.entities ?? [];
   const filterSnapshot = useOptionalFeatureFilters();
   const filterActive = filterSnapshot.activeCount();
-  const excludedSources = useExcludedSources("optionalfeatures");
 
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase();
     const out = features.filter((f) => {
       if (!optionalFeatureMatchesFilters(f, filterSnapshot)) return false;
-      if (excludedSources.has(f.source)) return false;
       if (q && !f.name.toLowerCase().includes(q)) return false;
       return true;
     });
     return out.sort((a, b) => a.name.localeCompare(b.name));
-  }, [features, search, filterSnapshot, excludedSources]);
+  }, [features, search, filterSnapshot]);
 
   const selected = useMemo(
     () => features.find((f) => makeRef(f.name, f.source) === selectedKey) ?? null,

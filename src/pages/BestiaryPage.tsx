@@ -5,7 +5,6 @@ import { makeRef } from "@/data/entityRefs";
 import MonsterStatBlock from "@/components/StatBlock/MonsterStatBlock";
 import { BestiaryFilterSidebar, monsterMatchesFilters } from "@/components/filters/BestiaryFilterSidebar";
 import { useBestiaryFilters } from "@/state/bestiaryFilters";
-import { useExcludedSources } from "@/state/sourceExclusions";
 import { crToFull } from "@/lib/monsterFormatters";
 import { sourceToAbv } from "@/lib/spellFormatters";
 import Centered from "@/components/layout/Centered";
@@ -29,13 +28,11 @@ export default function BestiaryPage() {
   const monsters = data?.entities ?? [];
   const filterSnapshot = useBestiaryFilters();
   const filterActive = filterSnapshot.activeCount();
-  const excludedSources = useExcludedSources("bestiary");
 
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase();
     const out = monsters.filter((m) => {
       if (!monsterMatchesFilters(m, filterSnapshot)) return false;
-      if (excludedSources.has(m.source)) return false;
       if (q && !m.name.toLowerCase().includes(q)) return false;
       return true;
     });
@@ -43,7 +40,7 @@ export default function BestiaryPage() {
       if (sortKey === "cr") return crSortValue(a.cr) - crSortValue(b.cr) || a.name.localeCompare(b.name);
       return a.name.localeCompare(b.name);
     });
-  }, [monsters, search, sortKey, filterSnapshot, excludedSources]);
+  }, [monsters, search, sortKey, filterSnapshot]);
 
   const selected = useMemo(
     () => monsters.find((m) => makeRef(m.name, m.source) === selectedKey) ?? null,

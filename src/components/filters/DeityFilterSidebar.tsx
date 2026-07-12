@@ -7,7 +7,6 @@ import {
   type FilterDimension,
 } from "@/state/deityFilters";
 import { PillFilter } from "./PillFilter";
-import { SourceExclusionFilter } from "./SourceExclusionFilter";
 
 export function DeityFilterSidebar({ deities }: { deities: Deity[] }) {
   const f = useDeityFilters();
@@ -17,7 +16,7 @@ export function DeityFilterSidebar({ deities }: { deities: Deity[] }) {
   const pantheonOptions = derivePantheonOptions(deities);
   const sourceOptions = deriveSourceOptions(deities);
   const activeCount = f.activeCount();
-  const toggle = (dim: FilterDimension) => (value: string) => f.toggle(dim, value);
+  const cycle = (dim: FilterDimension) => (value: string) => f.cycle(dim, value);
   const clear = (dim: FilterDimension) => () => f.clearDimension(dim);
 
   return (
@@ -33,9 +32,8 @@ export function DeityFilterSidebar({ deities }: { deities: Deity[] }) {
         )}
       </div>
       <div className="flex-1 overflow-y-auto">
-        <PillFilter title="Pantheon" options={pantheonOptions} selected={pantheon} onToggle={toggle("pantheon")} onClear={clear("pantheon")} defaultOpen />
-        <PillFilter title="Source" options={sourceOptions} selected={source} onToggle={toggle("source")} onClear={clear("source")} />
-        <SourceExclusionFilter category="deities" options={sourceOptions} />
+        <PillFilter title="Pantheon" options={pantheonOptions} state={pantheon} onCycle={cycle("pantheon")} onClear={clear("pantheon")} defaultOpen />
+        <PillFilter title="Source" options={sourceOptions} state={source} onCycle={cycle("source")} onClear={clear("source")} />
       </div>
     </div>
   );

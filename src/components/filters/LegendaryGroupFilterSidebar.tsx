@@ -6,7 +6,6 @@ import {
   type FilterDimension,
 } from "@/state/legendaryGroupFilters";
 import { PillFilter } from "./PillFilter";
-import { SourceExclusionFilter } from "./SourceExclusionFilter";
 
 export function LegendaryGroupFilterSidebar({ groups }: { groups: LegendaryGroup[] }) {
   const f = useLegendaryGroupFilters();
@@ -14,7 +13,7 @@ export function LegendaryGroupFilterSidebar({ groups }: { groups: LegendaryGroup
 
   const sourceOptions = deriveSourceOptions(groups);
   const activeCount = f.activeCount();
-  const toggle = (dim: FilterDimension) => (value: string) => f.toggle(dim, value);
+  const cycle = (dim: FilterDimension) => (value: string) => f.cycle(dim, value);
   const clear = (dim: FilterDimension) => () => f.clearDimension(dim);
 
   return (
@@ -30,8 +29,7 @@ export function LegendaryGroupFilterSidebar({ groups }: { groups: LegendaryGroup
         )}
       </div>
       <div className="flex-1 overflow-y-auto">
-        <PillFilter title="Source" options={sourceOptions} selected={source} onToggle={toggle("source")} onClear={clear("source")} defaultOpen />
-        <SourceExclusionFilter category="legendarygroups" options={sourceOptions} />
+        <PillFilter title="Source" options={sourceOptions} state={source} onCycle={cycle("source")} onClear={clear("source")} defaultOpen />
       </div>
     </div>
   );

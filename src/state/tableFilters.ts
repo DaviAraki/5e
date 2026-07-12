@@ -1,30 +1,30 @@
 import { create } from "zustand";
 import type { GameTable } from "@/types/entities";
+import {
+  type TriState,
+  emptyTri,
+  triCycle,
+  triMatch,
+  triSize,
+} from "@/state/triStateFilter";
 
 export type FilterDimension = "source";
 
 interface TableFilterState {
-  source: Set<string>;
-  toggle: (dim: FilterDimension, value: string) => void;
+  source: TriState;
+  cycle: (dim: FilterDimension, value: string) => void;
   clearDimension: (dim: FilterDimension) => void;
   clearAll: () => void;
   activeCount: () => number;
 }
 
-const EMPTY = () => new Set<string>();
-
 export const useTableFilters = create<TableFilterState>((set, get) => ({
-  source: EMPTY(),
-  toggle: (dim, value) =>
-    set((state) => {
-      const next = new Set(state[dim]);
-      if (next.has(value)) next.delete(value);
-      else next.add(value);
-      return { [dim]: next } as Partial<TableFilterState>;
-    }),
-  clearDimension: (dim) => set({ [dim]: EMPTY() } as Partial<TableFilterState>),
-  clearAll: () => set({ source: EMPTY() }),
-  activeCount: () => (get().source.size > 0 ? 1 : 0),
+  source: emptyTri(),
+  cycle: (dim, value) =>
+    set((state) => ({ [dim]: triCycle(state[dim], value) }) as Partial<TableFilterState>),
+  clearDimension: (dim) => set({ [dim]: emptyTri() } as Partial<TableFilterState>),
+  clearAll: () => set({ source: emptyTri() }),
+  activeCount: () => triSize(get().source),
 }));
 
 export function deriveSourceOptions(tables: GameTable[]) {
@@ -47,6 +47,6 @@ function sourceLabel(code: string): string {
 }
 
 export function tableMatchesFilters(t: GameTable, f: TableFilterState): boolean {
-  if (f.source.size > 0 && !f.source.has(t.source)) return false;
+  if (!triMatch(f.source, [t.source])) return false;
   return true;
 }

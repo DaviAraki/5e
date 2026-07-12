@@ -5,7 +5,6 @@ import { makeRef, refKey } from "@/data/entityRefs";
 import SpellStatBlock from "@/components/StatBlock/SpellStatBlock";
 import { SpellFilterSidebar, spellMatchesFilters } from "@/components/filters/SpellFilterSidebar";
 import { useSpellFilters } from "@/state/spellFilters";
-import { useExcludedSources } from "@/state/sourceExclusions";
 import { useSpellBook } from "@/state/spellBook";
 import {
   spTimeToShort,
@@ -40,7 +39,6 @@ export default function SpellsPage() {
   // Read filter store reactively (subscribe to all sets via a shallow snapshot).
   const filterSnapshot = useSpellFilters();
   const filterActive = filterSnapshot.activeCount();
-  const excludedSources = useExcludedSources("spells");
 
   // Spell book: target the active book for the add/remove toggle on each row.
   const activeBookId = useSpellBook((s) => s.activeBookId);
@@ -67,7 +65,6 @@ export default function SpellsPage() {
     const q = search.trim().toLowerCase();
     const out = spells.filter((s) => {
       if (!spellMatchesFilters(s, filterSnapshot)) return false;
-      if (excludedSources.has(s.source)) return false;
       if (q) {
         const matchesName = s.name.toLowerCase().includes(q);
         const matchesSchool = spSchoolToAbv(s.school).toLowerCase().includes(q);
@@ -76,7 +73,7 @@ export default function SpellsPage() {
       return true;
     });
     return out.sort((a, b) => compareSpells(a, b, sortKey));
-  }, [spells, search, sortKey, filterSnapshot, excludedSources]);
+  }, [spells, search, sortKey, filterSnapshot]);
 
   const selected = useMemo(
     () => spells.find((s) => makeRef(s.name, s.source) === selectedKey) ?? null,

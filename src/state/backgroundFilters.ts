@@ -1,47 +1,47 @@
 import { create } from "zustand";
 import type { Background } from "@/types/entities";
+import {
+  type TriState,
+  emptyTri,
+  triCycle,
+  triMatch,
+  triSize,
+} from "@/state/triStateFilter";
 
 /**
- * Background filter state: skill proficiencies + ability scores.
- * Same architecture as spell/bestiary/item filters.
+ * Background filter state: skill proficiencies + ability scores + source.
+ * All dimensions are tri-state (include/exclude).
  */
 
 export type FilterDimension = "skill" | "ability" | "source";
 
 interface BackgroundFilterState {
-  skill: Set<string>;
-  ability: Set<string>;
-  source: Set<string>;
+  skill: TriState;
+  ability: TriState;
+  source: TriState;
 
-  toggle: (dim: FilterDimension, value: string) => void;
+  cycle: (dim: FilterDimension, value: string) => void;
   clearDimension: (dim: FilterDimension) => void;
   clearAll: () => void;
   activeCount: () => number;
 }
 
-const EMPTY = () => new Set<string>();
+const DIMENSIONS: FilterDimension[] = ["skill", "ability", "source"];
 
 export const useBackgroundFilters = create<BackgroundFilterState>((set, get) => ({
-  skill: EMPTY(),
-  ability: EMPTY(),
-  source: EMPTY(),
+  skill: emptyTri(),
+  ability: emptyTri(),
+  source: emptyTri(),
 
-  toggle: (dim, value) =>
-    set((state) => {
-      const next = new Set(state[dim]);
-      if (next.has(value)) next.delete(value);
-      else next.add(value);
-      return { [dim]: next } as Partial<BackgroundFilterState>;
-    }),
-  clearDimension: (dim) => set({ [dim]: EMPTY() } as Partial<BackgroundFilterState>),
-  clearAll: () => set({ skill: EMPTY(), ability: EMPTY(), source: EMPTY() }),
+  cycle: (dim, value) =>
+    set((state) => ({ [dim]: triCycle(state[dim], value) }) as Partial<BackgroundFilterState>),
+  clearDimension: (dim) => set({ [dim]: emptyTri() } as Partial<BackgroundFilterState>),
+  clearAll: () => set({ skill: emptyTri(), ability: emptyTri(), source: emptyTri() }),
   activeCount: () => {
     const s = get();
-    return DIMENSIONS.filter((d) => s[d].size > 0).length;
+    return DIMENSIONS.reduce((n, d) => n + triSize(s[d]), 0);
   },
 }));
-
-const DIMENSIONS: FilterDimension[] = ["skill", "ability", "source"];
 
 export const SKILL_OPTIONS = [
   "acrobatics", "animal handling", "arcana", "athletics", "deception",
@@ -127,19 +127,11 @@ export function getBackgroundAbilities(bg: Background): Set<string> {
 }
 
 export function backgroundMatchesFilters(bg: Background, f: BackgroundFilterState): boolean {
-  if (f.source.size > 0 && !f.source.has(bg.source)) return false;
+  if (!triMatch(f.source, [bg.source])) return false;
 
-  if (f.skill.size > 0) {
-    const skills = getBackgroundSkills(bg);
-    const hit = [...f.skill].some((s) => skills.has(s));
-    if (!hit) return false;
-  }
+  if (!triMatch(f.skill, getBackgroundSkills(bg))) return false;
 
-  if (f.ability.size > 0) {
-    const abilities = getBackgroundAbilities(bg);
-    const hit = [...f.ability].some((a) => abilities.has(a));
-    if (!hit) return false;
-  }
+  if (!triMatch(f.ability, getBackgroundAbilities(bg))) return false;
 
   return true;
 }

@@ -1,47 +1,47 @@
 import { create } from "zustand";
 import type { Species } from "@/types/entities";
+import {
+  type TriState,
+  emptyTri,
+  triCycle,
+  triMatch,
+  triSize,
+} from "@/state/triStateFilter";
 
 export type FilterDimension = "size" | "speed" | "darkvision" | "resist" | "source";
 
 interface SpeciesFilterState {
-  size: Set<string>;
-  speed: Set<string>;
-  darkvision: Set<string>;
-  resist: Set<string>;
-  source: Set<string>;
+  size: TriState;
+  speed: TriState;
+  darkvision: TriState;
+  resist: TriState;
+  source: TriState;
 
-  toggle: (dim: FilterDimension, value: string) => void;
+  cycle: (dim: FilterDimension, value: string) => void;
   clearDimension: (dim: FilterDimension) => void;
   clearAll: () => void;
   activeCount: () => number;
 }
 
-const EMPTY = () => new Set<string>();
+const DIMENSIONS: FilterDimension[] = ["size", "speed", "darkvision", "resist", "source"];
 
 export const useSpeciesFilters = create<SpeciesFilterState>((set, get) => ({
-  size: EMPTY(),
-  speed: EMPTY(),
-  darkvision: EMPTY(),
-  resist: EMPTY(),
-  source: EMPTY(),
+  size: emptyTri(),
+  speed: emptyTri(),
+  darkvision: emptyTri(),
+  resist: emptyTri(),
+  source: emptyTri(),
 
-  toggle: (dim, value) =>
-    set((state) => {
-      const next = new Set(state[dim]);
-      if (next.has(value)) next.delete(value);
-      else next.add(value);
-      return { [dim]: next } as Partial<SpeciesFilterState>;
-    }),
-  clearDimension: (dim) => set({ [dim]: EMPTY() } as Partial<SpeciesFilterState>),
+  cycle: (dim, value) =>
+    set((state) => ({ [dim]: triCycle(state[dim], value) }) as Partial<SpeciesFilterState>),
+  clearDimension: (dim) => set({ [dim]: emptyTri() } as Partial<SpeciesFilterState>),
   clearAll: () =>
-    set({ size: EMPTY(), speed: EMPTY(), darkvision: EMPTY(), resist: EMPTY(), source: EMPTY() }),
+    set({ size: emptyTri(), speed: emptyTri(), darkvision: emptyTri(), resist: emptyTri(), source: emptyTri() }),
   activeCount: () => {
     const s = get();
-    return DIMENSIONS.filter((d) => s[d].size > 0).length;
+    return DIMENSIONS.reduce((n, d) => n + triSize(s[d]), 0);
   },
 }));
-
-const DIMENSIONS: FilterDimension[] = ["size", "speed", "darkvision", "resist", "source"];
 
 export const SIZE_OPTIONS = [
   { value: "S", label: "Small" },
@@ -87,27 +87,15 @@ function sourceLabel(code: string): string {
 }
 
 export function speciesMatchesFilters(s: Species, f: SpeciesFilterState): boolean {
-  if (f.source.size > 0 && !f.source.has(s.source)) return false;
+  if (!triMatch(f.source, [s.source])) return false;
 
-  if (f.size.size > 0) {
-    const hit = (s.size ?? []).some((sz) => f.size.has(sz));
-    if (!hit) return false;
-  }
+  if (!triMatch(f.size, s.size ?? [])) return false;
 
-  if (f.speed.size > 0) {
-    const sp = String(s.speed ?? "30");
-    if (!f.speed.has(sp)) return false;
-  }
+  if (!triMatch(f.speed, [String(s.speed ?? "30")])) return false;
 
-  if (f.darkvision.size > 0) {
-    const dv = s.darkvision != null ? String(s.darkvision) : "0";
-    if (!f.darkvision.has(dv)) return false;
-  }
+  if (!triMatch(f.darkvision, [s.darkvision != null ? String(s.darkvision) : "0"])) return false;
 
-  if (f.resist.size > 0) {
-    const hit = (s.resist ?? []).some((r) => f.resist.has(r));
-    if (!hit) return false;
-  }
+  if (!triMatch(f.resist, s.resist ?? [])) return false;
 
   return true;
 }

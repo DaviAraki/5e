@@ -5,7 +5,6 @@ import { makeRef } from "@/data/entityRefs";
 import ItemStatBlock from "@/components/StatBlock/ItemStatBlock";
 import { ItemFilterSidebar, itemMatchesFilters } from "@/components/filters/ItemFilterSidebar";
 import { useItemFilters } from "@/state/itemFilters";
-import { useExcludedSources } from "@/state/sourceExclusions";
 import { rarityToFull } from "@/lib/itemFormatters";
 import { sourceToAbv } from "@/lib/spellFormatters";
 import Centered from "@/components/layout/Centered";
@@ -30,13 +29,11 @@ export default function ItemsPage() {
   const items = data?.items ?? [];
   const filterSnapshot = useItemFilters();
   const filterActive = filterSnapshot.activeCount();
-  const excludedSources = useExcludedSources("items");
 
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase();
     const out = items.filter((it) => {
       if (!itemMatchesFilters(it, filterSnapshot)) return false;
-      if (excludedSources.has(it.source)) return false;
       if (q && !it.name.toLowerCase().includes(q)) return false;
       return true;
     });
@@ -45,7 +42,7 @@ export default function ItemsPage() {
         return raritySortValue(a.rarity) - raritySortValue(b.rarity) || a.name.localeCompare(b.name);
       return a.name.localeCompare(b.name);
     });
-  }, [items, search, sortKey, filterSnapshot, excludedSources]);
+  }, [items, search, sortKey, filterSnapshot]);
 
   const selected = useMemo(
     () => items.find((it) => makeRef(it.name, it.source) === selectedKey) ?? null,

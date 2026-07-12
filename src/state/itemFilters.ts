@@ -1,49 +1,64 @@
 import { create } from "zustand";
 import type { Item } from "@/types/entities";
+import {
+  type TriState,
+  emptyTri,
+  triCycle,
+  triMatch,
+  triSize,
+} from "@/state/triStateFilter";
 
 /**
- * Item filter state and predicate. Same architecture as spell/bestiary filters.
+ * Item filter state and predicate. Tri-state (include/exclude) for source,
+ * type, rarity; misc is a 2-state AND-flag.
  */
 
-export type FilterDimension = "source" | "type" | "rarity" | "misc";
+export type TriDimension = "source" | "type" | "rarity";
+export type FilterDimension = TriDimension | "misc";
 
 interface ItemFilterState {
-  source: Set<string>;
-  type: Set<string>;
-  rarity: Set<string>;
+  source: TriState;
+  type: TriState;
+  rarity: TriState;
   misc: Set<string>;
 
-  toggle: (dim: FilterDimension, value: string) => void;
+  cycle: (dim: TriDimension, value: string) => void;
+  toggleMisc: (value: string) => void;
   clearDimension: (dim: FilterDimension) => void;
   clearAll: () => void;
   activeCount: () => number;
 }
 
-const EMPTY = () => new Set<string>();
+const TRI_DIMENSIONS: TriDimension[] = ["source", "type", "rarity"];
 
 export const useItemFilters = create<ItemFilterState>((set, get) => ({
-  source: EMPTY(),
-  type: EMPTY(),
-  rarity: EMPTY(),
-  misc: EMPTY(),
+  source: emptyTri(),
+  type: emptyTri(),
+  rarity: emptyTri(),
+  misc: new Set<string>(),
 
-  toggle: (dim, value) =>
+  cycle: (dim, value) =>
+    set((state) => ({ [dim]: triCycle(state[dim], value) }) as Partial<ItemFilterState>),
+  toggleMisc: (value) =>
     set((state) => {
-      const next = new Set(state[dim]);
+      const next = new Set(state.misc);
       if (next.has(value)) next.delete(value);
       else next.add(value);
-      return { [dim]: next } as Partial<ItemFilterState>;
+      return { misc: next };
     }),
-  clearDimension: (dim) => set({ [dim]: EMPTY() } as Partial<ItemFilterState>),
+  clearDimension: (dim) =>
+    set(
+      dim === "misc"
+        ? { misc: new Set<string>() }
+        : ({ [dim]: emptyTri() } as Partial<ItemFilterState>),
+    ),
   clearAll: () =>
-    set({ source: EMPTY(), type: EMPTY(), rarity: EMPTY(), misc: EMPTY() }),
+    set({ source: emptyTri(), type: emptyTri(), rarity: emptyTri(), misc: new Set<string>() }),
   activeCount: () => {
     const s = get();
-    return DIMENSIONS.filter((d) => s[d].size > 0).length;
+    return TRI_DIMENSIONS.reduce((n, d) => n + triSize(s[d]), 0) + s.misc.size;
   },
 }));
-
-const DIMENSIONS: FilterDimension[] = ["source", "type", "rarity", "misc"];
 
 export const RARITY_OPTIONS = [
   "none", "common", "uncommon", "rare", "very rare", "legendary", "artifact",
@@ -104,20 +119,14 @@ function sourceLabel(code: string): string {
 }
 
 export function itemMatchesFilters(item: Item, f: ItemFilterState): boolean {
-  if (f.source.size > 0 && !f.source.has(item.source)) return false;
+  if (!triMatch(f.source, [item.source])) return false;
 
-  if (f.type.size > 0) {
-    const rawType = item.type ?? "";
-    const code = rawType.split("|")[0] ?? rawType;
-    const isTreasure = code.startsWith("$");
-    const cleanCode = isTreasure ? "$" : code;
-    if (!f.type.has(cleanCode)) return false;
-  }
+  const rawType = item.type ?? "";
+  const code = rawType.split("|")[0] ?? rawType;
+  const cleanCode = code.startsWith("$") ? "$" : code;
+  if (!triMatch(f.type, [cleanCode])) return false;
 
-  if (f.rarity.size > 0) {
-    const r = item.rarity ?? "none";
-    if (!f.rarity.has(r)) return false;
-  }
+  if (!triMatch(f.rarity, [item.rarity ?? "none"])) return false;
 
   if (f.misc.size > 0) {
     const hit = [...f.misc].every((m) => {

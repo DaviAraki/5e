@@ -5,6 +5,14 @@ import {
   isConcentration,
   isRitual,
 } from "@/lib/spellFormatters";
+import {
+  type TriState,
+  emptyTri,
+  triCycle,
+  triIsEmpty,
+  triMatch,
+  triSize,
+} from "@/state/triStateFilter";
 
 /**
  * Spell filter state and the pure predicate that applies it.
@@ -99,29 +107,33 @@ export const MISC_OPTIONS: FilterOption[] = [
 // --- Store shape ----------------------------------------------------------
 
 interface SpellFilterState {
-  source: Set<string>;
-  level: Set<string>;
-  school: Set<string>;
-  class: Set<string>;
-  castTime: Set<string>;
-  duration: Set<string>;
-  range: Set<string>;
-  damageType: Set<string>;
-  save: Set<string>;
-  condition: Set<string>;
+  source: TriState;
+  level: TriState;
+  school: TriState;
+  class: TriState;
+  castTime: TriState;
+  duration: TriState;
+  range: TriState;
+  damageType: TriState;
+  save: TriState;
+  condition: TriState;
+  /** AND-flag dimension: stays 2-state (no exclude). */
   misc: Set<string>;
 
-  /** Toggle a value in the named dimension's set. */
-  toggle: (dim: FilterDimension, value: string) => void;
+  /** Cycle a value in a tri-state dimension. */
+  cycle: (dim: TriDimension, value: string) => void;
+  /** Toggle a value in the 2-state misc dimension. */
+  toggleMisc: (value: string) => void;
   /** Clear one dimension. */
   clearDimension: (dim: FilterDimension) => void;
   /** Clear everything. */
   clearAll: () => void;
-  /** Count of active (non-empty) dimensions. */
+  /** Count of active values across all dimensions. */
   activeCount: () => number;
 }
 
-export type FilterDimension =
+/** Dimensions that use tri-state (include/exclude) semantics. */
+export type TriDimension =
   | "source"
   | "level"
   | "school"
@@ -131,56 +143,63 @@ export type FilterDimension =
   | "range"
   | "damageType"
   | "save"
-  | "condition"
-  | "misc";
+  | "condition";
 
-const EMPTY = () => new Set<string>();
+/** All dimensions, including the 2-state misc. */
+export type FilterDimension = TriDimension | "misc";
+
+const TRI_DIMENSIONS: TriDimension[] = [
+  "source", "level", "school", "class", "castTime",
+  "duration", "range", "damageType", "save", "condition",
+];
 
 export const useSpellFilters = create<SpellFilterState>((set, get) => ({
-  source: EMPTY(),
-  level: EMPTY(),
-  school: EMPTY(),
-  class: EMPTY(),
-  castTime: EMPTY(),
-  duration: EMPTY(),
-  range: EMPTY(),
-  damageType: EMPTY(),
-  save: EMPTY(),
-  condition: EMPTY(),
-  misc: EMPTY(),
+  source: emptyTri(),
+  level: emptyTri(),
+  school: emptyTri(),
+  class: emptyTri(),
+  castTime: emptyTri(),
+  duration: emptyTri(),
+  range: emptyTri(),
+  damageType: emptyTri(),
+  save: emptyTri(),
+  condition: emptyTri(),
+  misc: new Set<string>(),
 
-  toggle: (dim, value) =>
+  cycle: (dim, value) =>
+    set((state) => ({ [dim]: triCycle(state[dim], value) }) as Partial<SpellFilterState>),
+  toggleMisc: (value) =>
     set((state) => {
-      const next = new Set(state[dim]);
+      const next = new Set(state.misc);
       if (next.has(value)) next.delete(value);
       else next.add(value);
-      return { [dim]: next } as Partial<SpellFilterState>;
+      return { misc: next };
     }),
-  clearDimension: (dim) => set({ [dim]: EMPTY() } as Partial<SpellFilterState>),
+  clearDimension: (dim) =>
+    set(
+      dim === "misc"
+        ? { misc: new Set<string>() }
+        : ({ [dim]: emptyTri() } as Partial<SpellFilterState>),
+    ),
   clearAll: () =>
     set({
-      source: EMPTY(),
-      level: EMPTY(),
-      school: EMPTY(),
-      class: EMPTY(),
-      castTime: EMPTY(),
-      duration: EMPTY(),
-      range: EMPTY(),
-      damageType: EMPTY(),
-      save: EMPTY(),
-      condition: EMPTY(),
-      misc: EMPTY(),
+      source: emptyTri(),
+      level: emptyTri(),
+      school: emptyTri(),
+      class: emptyTri(),
+      castTime: emptyTri(),
+      duration: emptyTri(),
+      range: emptyTri(),
+      damageType: emptyTri(),
+      save: emptyTri(),
+      condition: emptyTri(),
+      misc: new Set<string>(),
     }),
   activeCount: () => {
     const s = get();
-    return DIMENSIONS.filter((d) => s[d].size > 0).length;
+    return TRI_DIMENSIONS.reduce((n, d) => n + triSize(s[d]), 0) + s.misc.size;
   },
 }));
-
-const DIMENSIONS: FilterDimension[] = [
-  "source", "level", "school", "class", "castTime",
-  "duration", "range", "damageType", "save", "condition", "misc",
-];
 
 // --- Matching predicate ---------------------------------------------------
 
@@ -205,51 +224,45 @@ function sourceLabel(code: string): string {
 
 /** Does a spell pass every active filter dimension? */
 export function spellMatchesFilters(spell: Spell, f: SpellFilterState): boolean {
-  if (f.source.size > 0 && !f.source.has(spell.source)) return false;
+  if (!triMatch(f.source, [spell.source])) return false;
 
-  if (f.level.size > 0 && !f.level.has(String(spell.level))) return false;
+  if (!triMatch(f.level, [String(spell.level)])) return false;
 
-  if (f.school.size > 0 && !f.school.has(spell.school)) return false;
+  if (!triMatch(f.school, [spell.school])) return false;
 
-  if (f.castTime.size > 0) {
+  if (!triIsEmpty(f.castTime)) {
     const unit = normalizeTimeUnit(spell.time[0]?.unit);
-    if (!unit || !f.castTime.has(unit)) return false;
+    if (!unit || !triMatch(f.castTime, [unit])) return false;
   }
 
-  if (f.class.size > 0) {
-    const classes = new Set<string>([
+  if (!triIsEmpty(f.class)) {
+    const classes = [
       ...(spell.classes?.fromClassList ?? []).map((c) => c.name),
       ...(spell.classes?.fromClassListVariant ?? []).map((c) => c.name),
       ...(spell.classes?.fromSubclass ?? []).map((sc) => sc.class.name),
-    ]);
-    const hit = [...f.class].some((c) => classes.has(c));
-    if (!hit) return false;
+    ];
+    if (!triMatch(f.class, classes)) return false;
   }
 
-  if (f.duration.size > 0) {
-    const tags = durationTags(spell);
-    const hit = [...f.duration].some((d) => tags.has(d));
-    if (!hit) return false;
+  if (!triIsEmpty(f.duration)) {
+    if (!triMatch(f.duration, durationTags(spell))) return false;
   }
 
-  if (f.range.size > 0) {
+  if (!triIsEmpty(f.range)) {
     const tag = rangeTag(spell);
-    if (!tag || !f.range.has(tag)) return false;
+    if (!tag || !triMatch(f.range, [tag])) return false;
   }
 
-  if (f.damageType.size > 0) {
-    const hits = (spell.damageInflict ?? []).some((d) => f.damageType.has(d));
-    if (!hits) return false;
+  if (!triIsEmpty(f.damageType)) {
+    if (!triMatch(f.damageType, spell.damageInflict ?? [])) return false;
   }
 
-  if (f.save.size > 0) {
-    const hits = (spell.savingThrow ?? []).some((s) => f.save.has(s));
-    if (!hits) return false;
+  if (!triIsEmpty(f.save)) {
+    if (!triMatch(f.save, spell.savingThrow ?? [])) return false;
   }
 
-  if (f.condition.size > 0) {
-    const hits = (spell.conditionInflict ?? []).some((c) => f.condition.has(c));
-    if (!hits) return false;
+  if (!triIsEmpty(f.condition)) {
+    if (!triMatch(f.condition, spell.conditionInflict ?? [])) return false;
   }
 
   if (f.misc.size > 0) {

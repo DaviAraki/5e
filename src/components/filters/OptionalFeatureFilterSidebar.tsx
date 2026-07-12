@@ -7,7 +7,6 @@ import {
   type FilterDimension,
 } from "@/state/optionalFeatureFilters";
 import { PillFilter } from "./PillFilter";
-import { SourceExclusionFilter } from "./SourceExclusionFilter";
 
 export function OptionalFeatureFilterSidebar({ features }: { features: OptionalFeature[] }) {
   const f = useOptionalFeatureFilters();
@@ -17,7 +16,7 @@ export function OptionalFeatureFilterSidebar({ features }: { features: OptionalF
   const featureTypeOptions = deriveFeatureTypeOptions(features);
   const sourceOptions = deriveSourceOptions(features);
   const activeCount = f.activeCount();
-  const toggle = (dim: FilterDimension) => (value: string) => f.toggle(dim, value);
+  const cycle = (dim: FilterDimension) => (value: string) => f.cycle(dim, value);
   const clear = (dim: FilterDimension) => () => f.clearDimension(dim);
 
   return (
@@ -33,9 +32,8 @@ export function OptionalFeatureFilterSidebar({ features }: { features: OptionalF
         )}
       </div>
       <div className="flex-1 overflow-y-auto">
-        <PillFilter title="Feature Type" options={featureTypeOptions} selected={featureType} onToggle={toggle("featureType")} onClear={clear("featureType")} defaultOpen />
-        <PillFilter title="Source" options={sourceOptions} selected={source} onToggle={toggle("source")} onClear={clear("source")} />
-        <SourceExclusionFilter category="optionalfeatures" options={sourceOptions} />
+        <PillFilter title="Feature Type" options={featureTypeOptions} state={featureType} onCycle={cycle("featureType")} onClear={clear("featureType")} defaultOpen />
+        <PillFilter title="Source" options={sourceOptions} state={source} onCycle={cycle("source")} onClear={clear("source")} />
       </div>
     </div>
   );

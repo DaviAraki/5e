@@ -1,44 +1,58 @@
 import { create } from "zustand";
 import type { Feat } from "@/types/entities";
+import {
+  type TriState,
+  emptyTri,
+  triCycle,
+  triMatch,
+  triSize,
+} from "@/state/triStateFilter";
 
-export type FilterDimension = "category" | "ability" | "misc" | "source";
+export type TriDimension = "category" | "ability" | "source";
+export type FilterDimension = TriDimension | "misc";
 
 interface FeatFilterState {
-  category: Set<string>;
-  ability: Set<string>;
+  category: TriState;
+  ability: TriState;
   misc: Set<string>;
-  source: Set<string>;
+  source: TriState;
 
-  toggle: (dim: FilterDimension, value: string) => void;
+  cycle: (dim: TriDimension, value: string) => void;
+  toggleMisc: (value: string) => void;
   clearDimension: (dim: FilterDimension) => void;
   clearAll: () => void;
   activeCount: () => number;
 }
 
-const EMPTY = () => new Set<string>();
+const TRI_DIMENSIONS: TriDimension[] = ["category", "ability", "source"];
 
 export const useFeatFilters = create<FeatFilterState>((set, get) => ({
-  category: EMPTY(),
-  ability: EMPTY(),
-  misc: EMPTY(),
-  source: EMPTY(),
+  category: emptyTri(),
+  ability: emptyTri(),
+  misc: new Set<string>(),
+  source: emptyTri(),
 
-  toggle: (dim, value) =>
+  cycle: (dim, value) =>
+    set((state) => ({ [dim]: triCycle(state[dim], value) }) as Partial<FeatFilterState>),
+  toggleMisc: (value) =>
     set((state) => {
-      const next = new Set(state[dim]);
+      const next = new Set(state.misc);
       if (next.has(value)) next.delete(value);
       else next.add(value);
-      return { [dim]: next } as Partial<FeatFilterState>;
+      return { misc: next };
     }),
-  clearDimension: (dim) => set({ [dim]: EMPTY() } as Partial<FeatFilterState>),
-  clearAll: () => set({ category: EMPTY(), ability: EMPTY(), misc: EMPTY(), source: EMPTY() }),
+  clearDimension: (dim) =>
+    set(
+      dim === "misc"
+        ? { misc: new Set<string>() }
+        : ({ [dim]: emptyTri() } as Partial<FeatFilterState>),
+    ),
+  clearAll: () => set({ category: emptyTri(), ability: emptyTri(), misc: new Set<string>(), source: emptyTri() }),
   activeCount: () => {
     const s = get();
-    return DIMENSIONS.filter((d) => s[d].size > 0).length;
+    return TRI_DIMENSIONS.reduce((n, d) => n + triSize(s[d]), 0) + s.misc.size;
   },
 }));
-
-const DIMENSIONS: FilterDimension[] = ["category", "ability", "misc", "source"];
 
 export const CATEGORY_OPTIONS = [
   { value: "G", label: "General" },
@@ -104,17 +118,11 @@ function getFeatAbilities(feat: Feat): Set<string> {
 }
 
 export function featMatchesFilters(feat: Feat, f: FeatFilterState): boolean {
-  if (f.source.size > 0 && !f.source.has(feat.source)) return false;
+  if (!triMatch(f.source, [feat.source])) return false;
 
-  if (f.category.size > 0) {
-    if (!feat.category || !f.category.has(feat.category)) return false;
-  }
+  if (!triMatch(f.category, feat.category ? [feat.category] : [])) return false;
 
-  if (f.ability.size > 0) {
-    const abilities = getFeatAbilities(feat);
-    const hit = [...f.ability].some((a) => abilities.has(a));
-    if (!hit) return false;
-  }
+  if (!triMatch(f.ability, getFeatAbilities(feat))) return false;
 
   if (f.misc.size > 0) {
     const hit = [...f.misc].every((m) => {

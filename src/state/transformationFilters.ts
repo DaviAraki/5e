@@ -1,38 +1,38 @@
 import { create } from "zustand";
 import type { Transformation } from "@/types/entities";
+import {
+  type TriState,
+  emptyTri,
+  triCycle,
+  triMatch,
+  triSize,
+} from "@/state/triStateFilter";
 
 export type FilterDimension = "optionType" | "source";
 
 interface TransformationFilterState {
-  optionType: Set<string>;
-  source: Set<string>;
-  toggle: (dim: FilterDimension, value: string) => void;
+  optionType: TriState;
+  source: TriState;
+  cycle: (dim: FilterDimension, value: string) => void;
   clearDimension: (dim: FilterDimension) => void;
   clearAll: () => void;
   activeCount: () => number;
 }
 
-const EMPTY = () => new Set<string>();
+const DIMENSIONS: FilterDimension[] = ["optionType", "source"];
 
 export const useTransformationFilters = create<TransformationFilterState>((set, get) => ({
-  optionType: EMPTY(),
-  source: EMPTY(),
-  toggle: (dim, value) =>
-    set((state) => {
-      const next = new Set(state[dim]);
-      if (next.has(value)) next.delete(value);
-      else next.add(value);
-      return { [dim]: next } as Partial<TransformationFilterState>;
-    }),
-  clearDimension: (dim) => set({ [dim]: EMPTY() } as Partial<TransformationFilterState>),
-  clearAll: () => set({ optionType: EMPTY(), source: EMPTY() }),
+  optionType: emptyTri(),
+  source: emptyTri(),
+  cycle: (dim, value) =>
+    set((state) => ({ [dim]: triCycle(state[dim], value) }) as Partial<TransformationFilterState>),
+  clearDimension: (dim) => set({ [dim]: emptyTri() } as Partial<TransformationFilterState>),
+  clearAll: () => set({ optionType: emptyTri(), source: emptyTri() }),
   activeCount: () => {
     const s = get();
-    return DIMENSIONS.filter((d) => s[d].size > 0).length;
+    return DIMENSIONS.reduce((n, d) => n + triSize(s[d]), 0);
   },
 }));
-
-const DIMENSIONS: FilterDimension[] = ["optionType", "source"];
 
 /** Build optionType options dynamically (values are open-ended). */
 export function deriveOptionTypeOptions(transformations: Transformation[]) {
@@ -62,11 +62,7 @@ function sourceLabel(code: string): string {
 }
 
 export function transformationMatchesFilters(t: Transformation, f: TransformationFilterState): boolean {
-  if (f.source.size > 0 && !f.source.has(t.source)) return false;
-  if (f.optionType.size > 0) {
-    const types = t.optionType ?? [];
-    const hit = types.some((ot) => f.optionType.has(ot));
-    if (!hit) return false;
-  }
+  if (!triMatch(f.source, [t.source])) return false;
+  if (!triMatch(f.optionType, t.optionType ?? [])) return false;
   return true;
 }

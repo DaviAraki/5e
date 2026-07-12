@@ -10,7 +10,6 @@ import {
   type FilterDimension,
 } from "@/state/speciesFilters";
 import { PillFilter } from "./PillFilter";
-import { SourceExclusionFilter } from "./SourceExclusionFilter";
 
 export function SpeciesFilterSidebar({ species }: { species: Species[] }) {
   const f = useSpeciesFilters();
@@ -22,7 +21,7 @@ export function SpeciesFilterSidebar({ species }: { species: Species[] }) {
 
   const sourceOptions = deriveSourceOptions(species);
   const activeCount = f.activeCount();
-  const toggle = (dim: FilterDimension) => (value: string) => f.toggle(dim, value);
+  const cycle = (dim: FilterDimension) => (value: string) => f.cycle(dim, value);
   const clear = (dim: FilterDimension) => () => f.clearDimension(dim);
 
   return (
@@ -38,12 +37,11 @@ export function SpeciesFilterSidebar({ species }: { species: Species[] }) {
         )}
       </div>
       <div className="flex-1 overflow-y-auto">
-        <PillFilter title="Size" options={SIZE_OPTIONS} selected={size} onToggle={toggle("size")} onClear={clear("size")} defaultOpen />
-        <PillFilter title="Speed" options={SPEED_OPTIONS} selected={speed} onToggle={toggle("speed")} onClear={clear("speed")} />
-        <PillFilter title="Darkvision" options={DARKVISION_OPTIONS} selected={darkvision} onToggle={toggle("darkvision")} onClear={clear("darkvision")} />
-        <PillFilter title="Damage Resistance" options={RESIST_OPTIONS} selected={resist} onToggle={toggle("resist")} onClear={clear("resist")} />
-        <PillFilter title="Source" options={sourceOptions} selected={source} onToggle={toggle("source")} onClear={clear("source")} />
-        <SourceExclusionFilter category="species" options={sourceOptions} />
+        <PillFilter title="Size" options={SIZE_OPTIONS} state={size} onCycle={cycle("size")} onClear={clear("size")} defaultOpen />
+        <PillFilter title="Speed" options={SPEED_OPTIONS} state={speed} onCycle={cycle("speed")} onClear={clear("speed")} />
+        <PillFilter title="Darkvision" options={DARKVISION_OPTIONS} state={darkvision} onCycle={cycle("darkvision")} onClear={clear("darkvision")} />
+        <PillFilter title="Damage Resistance" options={RESIST_OPTIONS} state={resist} onCycle={cycle("resist")} onClear={clear("resist")} />
+        <PillFilter title="Source" options={sourceOptions} state={source} onCycle={cycle("source")} onClear={clear("source")} />
       </div>
     </div>
   );

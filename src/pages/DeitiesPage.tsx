@@ -4,7 +4,6 @@ import { makeRef } from "@/data/entityRefs";
 import DeityStatBlock from "@/components/StatBlock/DeityStatBlock";
 import { DeityFilterSidebar, deityMatchesFilters } from "@/components/filters/DeityFilterSidebar";
 import { useDeityFilters } from "@/state/deityFilters";
-import { useExcludedSources } from "@/state/sourceExclusions";
 import { sourceToAbv } from "@/lib/spellFormatters";
 import Centered from "@/components/layout/Centered";
 import MasterDetailLayout from "@/components/layout/MasterDetailLayout";
@@ -24,18 +23,16 @@ export default function DeitiesPage() {
   const deities = data?.entities ?? [];
   const filterSnapshot = useDeityFilters();
   const filterActive = filterSnapshot.activeCount();
-  const excludedSources = useExcludedSources("deities");
 
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase();
     const out = deities.filter((d) => {
       if (!deityMatchesFilters(d, filterSnapshot)) return false;
-      if (excludedSources.has(d.source)) return false;
       if (q && !d.name.toLowerCase().includes(q)) return false;
       return true;
     });
     return out.sort((a, b) => a.name.localeCompare(b.name));
-  }, [deities, search, filterSnapshot, excludedSources]);
+  }, [deities, search, filterSnapshot]);
 
   const selected = useMemo(
     () => deities.find((d) => makeRef(d.name, d.source) === selectedKey) ?? null,

@@ -4,7 +4,6 @@ import { makeRef } from "@/data/entityRefs";
 import BackgroundStatBlock from "@/components/StatBlock/BackgroundStatBlock";
 import { BackgroundFilterSidebar, backgroundMatchesFilters } from "@/components/filters/BackgroundFilterSidebar";
 import { useBackgroundFilters } from "@/state/backgroundFilters";
-import { useExcludedSources } from "@/state/sourceExclusions";
 import { sourceToAbv } from "@/lib/spellFormatters";
 import Centered from "@/components/layout/Centered";
 import MasterDetailLayout from "@/components/layout/MasterDetailLayout";
@@ -23,18 +22,16 @@ export default function BackgroundsPage() {
   const backgrounds = data?.entities ?? [];
   const filterSnapshot = useBackgroundFilters();
   const filterActive = filterSnapshot.activeCount();
-  const excludedSources = useExcludedSources("backgrounds");
 
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase();
     const out = backgrounds.filter((b) => {
       if (!backgroundMatchesFilters(b, filterSnapshot)) return false;
-      if (excludedSources.has(b.source)) return false;
       if (q && !b.name.toLowerCase().includes(q)) return false;
       return true;
     });
     return out.sort((a, b) => a.name.localeCompare(b.name));
-  }, [backgrounds, search, filterSnapshot, excludedSources]);
+  }, [backgrounds, search, filterSnapshot]);
 
   const selected = useMemo(
     () => backgrounds.find((b) => makeRef(b.name, b.source) === selectedKey) ?? null,

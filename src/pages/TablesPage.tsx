@@ -4,7 +4,6 @@ import { makeRef } from "@/data/entityRefs";
 import TableStatBlock from "@/components/StatBlock/TableStatBlock";
 import { TableFilterSidebar, tableMatchesFilters } from "@/components/filters/TableFilterSidebar";
 import { useTableFilters } from "@/state/tableFilters";
-import { useExcludedSources } from "@/state/sourceExclusions";
 import { sourceToAbv } from "@/lib/spellFormatters";
 import Centered from "@/components/layout/Centered";
 import MasterDetailLayout from "@/components/layout/MasterDetailLayout";
@@ -24,18 +23,16 @@ export default function TablesPage() {
   const tables = data?.entities ?? [];
   const filterSnapshot = useTableFilters();
   const filterActive = filterSnapshot.activeCount();
-  const excludedSources = useExcludedSources("tables");
 
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase();
     const out = tables.filter((t) => {
       if (!tableMatchesFilters(t, filterSnapshot)) return false;
-      if (excludedSources.has(t.source)) return false;
       if (q && !t.name.toLowerCase().includes(q)) return false;
       return true;
     });
     return out.sort((a, b) => a.name.localeCompare(b.name));
-  }, [tables, search, filterSnapshot, excludedSources]);
+  }, [tables, search, filterSnapshot]);
 
   const selected = useMemo(
     () => tables.find((t) => makeRef(t.name, t.source) === selectedKey) ?? null,

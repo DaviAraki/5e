@@ -1,33 +1,31 @@
 import { create } from "zustand";
 import type { Condition } from "@/types/entities";
+import {
+  type TriState,
+  emptyTri,
+  triCycle,
+  triMatch,
+  triSize,
+} from "@/state/triStateFilter";
 
 export type FilterDimension = "source";
 
 interface ConditionFilterState {
-  source: Set<string>;
-  toggle: (dim: FilterDimension, value: string) => void;
+  source: TriState;
+  cycle: (dim: FilterDimension, value: string) => void;
   clearDimension: (dim: FilterDimension) => void;
   clearAll: () => void;
   activeCount: () => number;
 }
 
-const EMPTY = () => new Set<string>();
-
 export const useConditionFilters = create<ConditionFilterState>((set, get) => ({
-  source: EMPTY(),
-  toggle: (dim, value) =>
-    set((state) => {
-      const next = new Set(state[dim]);
-      if (next.has(value)) next.delete(value);
-      else next.add(value);
-      return { [dim]: next } as Partial<ConditionFilterState>;
-    }),
-  clearDimension: (dim) => set({ [dim]: EMPTY() } as Partial<ConditionFilterState>),
-  clearAll: () => set({ source: EMPTY() }),
-  activeCount: () => (get().source.size > 0 ? 1 : 0),
+  source: emptyTri(),
+  cycle: (dim, value) =>
+    set((state) => ({ [dim]: triCycle(state[dim], value) }) as Partial<ConditionFilterState>),
+  clearDimension: (dim) => set({ [dim]: emptyTri() } as Partial<ConditionFilterState>),
+  clearAll: () => set({ source: emptyTri() }),
+  activeCount: () => triSize(get().source),
 }));
-
-const DIMENSIONS: FilterDimension[] = ["source"];
 
 export function deriveSourceOptions(conditions: Condition[]) {
   const m = new Map<string, number>();
@@ -49,9 +47,6 @@ function sourceLabel(code: string): string {
 }
 
 export function conditionMatchesFilters(c: Condition, f: ConditionFilterState): boolean {
-  if (f.source.size > 0 && !f.source.has(c.source)) return false;
+  if (!triMatch(f.source, [c.source])) return false;
   return true;
 }
-
-export type { FilterDimension as ConditionFilterDimension };
-export { DIMENSIONS };

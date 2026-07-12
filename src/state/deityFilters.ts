@@ -1,38 +1,38 @@
 import { create } from "zustand";
 import type { Deity } from "@/types/entities";
+import {
+  type TriState,
+  emptyTri,
+  triCycle,
+  triMatch,
+  triSize,
+} from "@/state/triStateFilter";
 
 export type FilterDimension = "pantheon" | "source";
 
 interface DeityFilterState {
-  pantheon: Set<string>;
-  source: Set<string>;
-  toggle: (dim: FilterDimension, value: string) => void;
+  pantheon: TriState;
+  source: TriState;
+  cycle: (dim: FilterDimension, value: string) => void;
   clearDimension: (dim: FilterDimension) => void;
   clearAll: () => void;
   activeCount: () => number;
 }
 
-const EMPTY = () => new Set<string>();
+const DIMENSIONS: FilterDimension[] = ["pantheon", "source"];
 
 export const useDeityFilters = create<DeityFilterState>((set, get) => ({
-  pantheon: EMPTY(),
-  source: EMPTY(),
-  toggle: (dim, value) =>
-    set((state) => {
-      const next = new Set(state[dim]);
-      if (next.has(value)) next.delete(value);
-      else next.add(value);
-      return { [dim]: next } as Partial<DeityFilterState>;
-    }),
-  clearDimension: (dim) => set({ [dim]: EMPTY() } as Partial<DeityFilterState>),
-  clearAll: () => set({ pantheon: EMPTY(), source: EMPTY() }),
+  pantheon: emptyTri(),
+  source: emptyTri(),
+  cycle: (dim, value) =>
+    set((state) => ({ [dim]: triCycle(state[dim], value) }) as Partial<DeityFilterState>),
+  clearDimension: (dim) => set({ [dim]: emptyTri() } as Partial<DeityFilterState>),
+  clearAll: () => set({ pantheon: emptyTri(), source: emptyTri() }),
   activeCount: () => {
     const s = get();
-    return DIMENSIONS.filter((d) => s[d].size > 0).length;
+    return DIMENSIONS.reduce((n, d) => n + triSize(s[d]), 0);
   },
 }));
-
-const DIMENSIONS: FilterDimension[] = ["pantheon", "source"];
 
 /** Build pantheon options dynamically from the loaded deities. */
 export function derivePantheonOptions(deities: Deity[]) {
@@ -62,9 +62,7 @@ function sourceLabel(code: string): string {
 }
 
 export function deityMatchesFilters(d: Deity, f: DeityFilterState): boolean {
-  if (f.source.size > 0 && !f.source.has(d.source)) return false;
-  if (f.pantheon.size > 0) {
-    if (!d.pantheon || !f.pantheon.has(d.pantheon)) return false;
-  }
+  if (!triMatch(f.source, [d.source])) return false;
+  if (!triMatch(f.pantheon, d.pantheon ? [d.pantheon] : [])) return false;
   return true;
 }

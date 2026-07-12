@@ -1,38 +1,38 @@
 import { create } from "zustand";
 import type { OptionalFeature } from "@/types/entities";
+import {
+  type TriState,
+  emptyTri,
+  triCycle,
+  triMatch,
+  triSize,
+} from "@/state/triStateFilter";
 
 export type FilterDimension = "featureType" | "source";
 
 interface OptionalFeatureFilterState {
-  featureType: Set<string>;
-  source: Set<string>;
-  toggle: (dim: FilterDimension, value: string) => void;
+  featureType: TriState;
+  source: TriState;
+  cycle: (dim: FilterDimension, value: string) => void;
   clearDimension: (dim: FilterDimension) => void;
   clearAll: () => void;
   activeCount: () => number;
 }
 
-const EMPTY = () => new Set<string>();
+const DIMENSIONS: FilterDimension[] = ["featureType", "source"];
 
 export const useOptionalFeatureFilters = create<OptionalFeatureFilterState>((set, get) => ({
-  featureType: EMPTY(),
-  source: EMPTY(),
-  toggle: (dim, value) =>
-    set((state) => {
-      const next = new Set(state[dim]);
-      if (next.has(value)) next.delete(value);
-      else next.add(value);
-      return { [dim]: next } as Partial<OptionalFeatureFilterState>;
-    }),
-  clearDimension: (dim) => set({ [dim]: EMPTY() } as Partial<OptionalFeatureFilterState>),
-  clearAll: () => set({ featureType: EMPTY(), source: EMPTY() }),
+  featureType: emptyTri(),
+  source: emptyTri(),
+  cycle: (dim, value) =>
+    set((state) => ({ [dim]: triCycle(state[dim], value) }) as Partial<OptionalFeatureFilterState>),
+  clearDimension: (dim) => set({ [dim]: emptyTri() } as Partial<OptionalFeatureFilterState>),
+  clearAll: () => set({ featureType: emptyTri(), source: emptyTri() }),
   activeCount: () => {
     const s = get();
-    return DIMENSIONS.filter((d) => s[d].size > 0).length;
+    return DIMENSIONS.reduce((n, d) => n + triSize(s[d]), 0);
   },
 }));
-
-const DIMENSIONS: FilterDimension[] = ["featureType", "source"];
 
 /** Build featureType options dynamically (e.g. AH:TB, MGS, FS). */
 export function deriveFeatureTypeOptions(features: OptionalFeature[]) {
@@ -66,11 +66,7 @@ export function optionalFeatureMatchesFilters(
   f: OptionalFeature,
   state: OptionalFeatureFilterState,
 ): boolean {
-  if (state.source.size > 0 && !state.source.has(f.source)) return false;
-  if (state.featureType.size > 0) {
-    const types = f.featureType ?? [];
-    const hit = types.some((ft) => state.featureType.has(ft));
-    if (!hit) return false;
-  }
+  if (!triMatch(state.source, [f.source])) return false;
+  if (!triMatch(state.featureType, f.featureType ?? [])) return false;
   return true;
 }

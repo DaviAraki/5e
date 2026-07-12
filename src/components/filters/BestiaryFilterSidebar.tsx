@@ -10,10 +10,9 @@ import {
   CONDITION_OPTIONS,
   ENVIRONMENT_OPTIONS,
   MISC_OPTIONS,
-  type FilterDimension,
+  type TriDimension,
 } from "@/state/bestiaryFilters";
 import { PillFilter } from "./PillFilter";
-import { SourceExclusionFilter } from "./SourceExclusionFilter";
 
 /**
  * Filter sidebar for the bestiary. Reuses the same PillFilter components
@@ -32,8 +31,8 @@ export function BestiaryFilterSidebar({ monsters }: { monsters: Monster[] }) {
 
   const sourceOptions = deriveSourceOptions(monsters);
   const activeCount = f.activeCount();
-  const toggle = (dim: FilterDimension) => (value: string) => f.toggle(dim, value);
-  const clear = (dim: FilterDimension) => () => f.clearDimension(dim);
+  const cycle = (dim: TriDimension) => (value: string) => f.cycle(dim, value);
+  const clear = (dim: TriDimension | "misc") => () => f.clearDimension(dim);
 
   return (
     <div className="flex h-full flex-col">
@@ -53,15 +52,14 @@ export function BestiaryFilterSidebar({ monsters }: { monsters: Monster[] }) {
       </div>
 
       <div className="flex-1 overflow-y-auto">
-        <PillFilter title="Source" options={sourceOptions} selected={source} onToggle={toggle("source")} onClear={clear("source")} defaultOpen />
-        <SourceExclusionFilter category="bestiary" options={sourceOptions} />
-        <PillFilter title="Size" options={SIZE_OPTIONS} selected={size} onToggle={toggle("size")} onClear={clear("size")} defaultOpen />
-        <PillFilter title="Type" options={TYPE_OPTIONS} selected={type} onToggle={toggle("type")} onClear={clear("type")} />
-        <PillFilter title="Challenge Rating" options={CR_OPTIONS} selected={cr} onToggle={toggle("cr")} onClear={clear("cr")} />
-        <PillFilter title="Damage Immunity" options={IMMUNITY_OPTIONS} selected={immune} onToggle={toggle("immune")} onClear={clear("immune")} />
-        <PillFilter title="Condition Immunity" options={CONDITION_OPTIONS} selected={conditionImmune} onToggle={toggle("conditionImmune")} onClear={clear("conditionImmune")} />
-        <PillFilter title="Environment" options={ENVIRONMENT_OPTIONS} selected={environment} onToggle={toggle("environment")} onClear={clear("environment")} />
-        <PillFilter title="Special" options={MISC_OPTIONS} selected={misc} onToggle={toggle("misc")} onClear={clear("misc")} />
+        <PillFilter title="Source" options={sourceOptions} state={source} onCycle={cycle("source")} onClear={clear("source")} defaultOpen />
+        <PillFilter title="Size" options={SIZE_OPTIONS} state={size} onCycle={cycle("size")} onClear={clear("size")} defaultOpen />
+        <PillFilter title="Type" options={TYPE_OPTIONS} state={type} onCycle={cycle("type")} onClear={clear("type")} />
+        <PillFilter title="Challenge Rating" options={CR_OPTIONS} state={cr} onCycle={cycle("cr")} onClear={clear("cr")} />
+        <PillFilter title="Damage Immunity" options={IMMUNITY_OPTIONS} state={immune} onCycle={cycle("immune")} onClear={clear("immune")} />
+        <PillFilter title="Condition Immunity" options={CONDITION_OPTIONS} state={conditionImmune} onCycle={cycle("conditionImmune")} onClear={clear("conditionImmune")} />
+        <PillFilter title="Environment" options={ENVIRONMENT_OPTIONS} state={environment} onCycle={cycle("environment")} onClear={clear("environment")} />
+        <PillFilter title="Special" options={MISC_OPTIONS} selected={misc} onToggle={f.toggleMisc} onClear={clear("misc")} />
       </div>
     </div>
   );

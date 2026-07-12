@@ -1,38 +1,38 @@
 import { create } from "zustand";
 import type { Language } from "@/types/entities";
+import {
+  type TriState,
+  emptyTri,
+  triCycle,
+  triMatch,
+  triSize,
+} from "@/state/triStateFilter";
 
 export type FilterDimension = "type" | "source";
 
 interface LanguageFilterState {
-  type: Set<string>;
-  source: Set<string>;
-  toggle: (dim: FilterDimension, value: string) => void;
+  type: TriState;
+  source: TriState;
+  cycle: (dim: FilterDimension, value: string) => void;
   clearDimension: (dim: FilterDimension) => void;
   clearAll: () => void;
   activeCount: () => number;
 }
 
-const EMPTY = () => new Set<string>();
+const DIMENSIONS: FilterDimension[] = ["type", "source"];
 
 export const useLanguageFilters = create<LanguageFilterState>((set, get) => ({
-  type: EMPTY(),
-  source: EMPTY(),
-  toggle: (dim, value) =>
-    set((state) => {
-      const next = new Set(state[dim]);
-      if (next.has(value)) next.delete(value);
-      else next.add(value);
-      return { [dim]: next } as Partial<LanguageFilterState>;
-    }),
-  clearDimension: (dim) => set({ [dim]: EMPTY() } as Partial<LanguageFilterState>),
-  clearAll: () => set({ type: EMPTY(), source: EMPTY() }),
+  type: emptyTri(),
+  source: emptyTri(),
+  cycle: (dim, value) =>
+    set((state) => ({ [dim]: triCycle(state[dim], value) }) as Partial<LanguageFilterState>),
+  clearDimension: (dim) => set({ [dim]: emptyTri() } as Partial<LanguageFilterState>),
+  clearAll: () => set({ type: emptyTri(), source: emptyTri() }),
   activeCount: () => {
     const s = get();
-    return DIMENSIONS.filter((d) => s[d].size > 0).length;
+    return DIMENSIONS.reduce((n, d) => n + triSize(s[d]), 0);
   },
 }));
-
-const DIMENSIONS: FilterDimension[] = ["type", "source"];
 
 export const TYPE_OPTIONS = [
   { value: "standard", label: "Standard" },
@@ -58,9 +58,7 @@ function sourceLabel(code: string): string {
 }
 
 export function languageMatchesFilters(l: Language, f: LanguageFilterState): boolean {
-  if (f.source.size > 0 && !f.source.has(l.source)) return false;
-  if (f.type.size > 0) {
-    if (!l.type || !f.type.has(l.type)) return false;
-  }
+  if (!triMatch(f.source, [l.source])) return false;
+  if (!triMatch(f.type, l.type ? [l.type] : [])) return false;
   return true;
 }

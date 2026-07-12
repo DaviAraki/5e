@@ -4,7 +4,6 @@ import { makeRef } from "@/data/entityRefs";
 import TransformationStatBlock from "@/components/StatBlock/TransformationStatBlock";
 import { TransformationFilterSidebar, transformationMatchesFilters } from "@/components/filters/TransformationFilterSidebar";
 import { useTransformationFilters } from "@/state/transformationFilters";
-import { useExcludedSources } from "@/state/sourceExclusions";
 import { sourceToAbv } from "@/lib/spellFormatters";
 import Centered from "@/components/layout/Centered";
 import MasterDetailLayout from "@/components/layout/MasterDetailLayout";
@@ -25,18 +24,16 @@ export default function TransformationsPage() {
   const transformations = data?.entities ?? [];
   const filterSnapshot = useTransformationFilters();
   const filterActive = filterSnapshot.activeCount();
-  const excludedSources = useExcludedSources("transformations");
 
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase();
     const out = transformations.filter((t) => {
       if (!transformationMatchesFilters(t, filterSnapshot)) return false;
-      if (excludedSources.has(t.source)) return false;
       if (q && !t.name.toLowerCase().includes(q)) return false;
       return true;
     });
     return out.sort((a, b) => a.name.localeCompare(b.name));
-  }, [transformations, search, filterSnapshot, excludedSources]);
+  }, [transformations, search, filterSnapshot]);
 
   const selected = useMemo(
     () => transformations.find((t) => makeRef(t.name, t.source) === selectedKey) ?? null,

@@ -1,30 +1,30 @@
 import { create } from "zustand";
 import type { LegendaryGroup } from "@/types/entities";
+import {
+  type TriState,
+  emptyTri,
+  triCycle,
+  triMatch,
+  triSize,
+} from "@/state/triStateFilter";
 
 export type FilterDimension = "source";
 
 interface LegendaryGroupFilterState {
-  source: Set<string>;
-  toggle: (dim: FilterDimension, value: string) => void;
+  source: TriState;
+  cycle: (dim: FilterDimension, value: string) => void;
   clearDimension: (dim: FilterDimension) => void;
   clearAll: () => void;
   activeCount: () => number;
 }
 
-const EMPTY = () => new Set<string>();
-
 export const useLegendaryGroupFilters = create<LegendaryGroupFilterState>((set, get) => ({
-  source: EMPTY(),
-  toggle: (dim, value) =>
-    set((state) => {
-      const next = new Set(state[dim]);
-      if (next.has(value)) next.delete(value);
-      else next.add(value);
-      return { [dim]: next } as Partial<LegendaryGroupFilterState>;
-    }),
-  clearDimension: (dim) => set({ [dim]: EMPTY() } as Partial<LegendaryGroupFilterState>),
-  clearAll: () => set({ source: EMPTY() }),
-  activeCount: () => (get().source.size > 0 ? 1 : 0),
+  source: emptyTri(),
+  cycle: (dim, value) =>
+    set((state) => ({ [dim]: triCycle(state[dim], value) }) as Partial<LegendaryGroupFilterState>),
+  clearDimension: (dim) => set({ [dim]: emptyTri() } as Partial<LegendaryGroupFilterState>),
+  clearAll: () => set({ source: emptyTri() }),
+  activeCount: () => triSize(get().source),
 }));
 
 export function deriveSourceOptions(groups: LegendaryGroup[]) {
@@ -43,6 +43,6 @@ function sourceLabel(code: string): string {
 }
 
 export function legendaryGroupMatchesFilters(g: LegendaryGroup, f: LegendaryGroupFilterState): boolean {
-  if (f.source.size > 0 && !f.source.has(g.source)) return false;
+  if (!triMatch(f.source, [g.source])) return false;
   return true;
 }

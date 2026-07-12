@@ -6,10 +6,9 @@ import {
   CATEGORY_OPTIONS,
   ABILITY_OPTIONS,
   MISC_OPTIONS,
-  type FilterDimension,
+  type TriDimension,
 } from "@/state/featFilters";
 import { PillFilter } from "./PillFilter";
-import { SourceExclusionFilter } from "./SourceExclusionFilter";
 
 export function FeatFilterSidebar({ feats }: { feats: Feat[] }) {
   const f = useFeatFilters();
@@ -20,8 +19,8 @@ export function FeatFilterSidebar({ feats }: { feats: Feat[] }) {
 
   const sourceOptions = deriveSourceOptions(feats);
   const activeCount = f.activeCount();
-  const toggle = (dim: FilterDimension) => (value: string) => f.toggle(dim, value);
-  const clear = (dim: FilterDimension) => () => f.clearDimension(dim);
+  const cycle = (dim: TriDimension) => (value: string) => f.cycle(dim, value);
+  const clear = (dim: TriDimension | "misc") => () => f.clearDimension(dim);
 
   return (
     <div className="flex h-full flex-col">
@@ -36,11 +35,10 @@ export function FeatFilterSidebar({ feats }: { feats: Feat[] }) {
         )}
       </div>
       <div className="flex-1 overflow-y-auto">
-        <PillFilter title="Category" options={CATEGORY_OPTIONS} selected={category} onToggle={toggle("category")} onClear={clear("category")} defaultOpen />
-        <PillFilter title="Ability Score" options={ABILITY_OPTIONS} selected={ability} onToggle={toggle("ability")} onClear={clear("ability")} />
-        <PillFilter title="Special" options={MISC_OPTIONS} selected={misc} onToggle={toggle("misc")} onClear={clear("misc")} />
-        <PillFilter title="Source" options={sourceOptions} selected={source} onToggle={toggle("source")} onClear={clear("source")} />
-        <SourceExclusionFilter category="feats" options={sourceOptions} />
+        <PillFilter title="Category" options={CATEGORY_OPTIONS} state={category} onCycle={cycle("category")} onClear={clear("category")} defaultOpen />
+        <PillFilter title="Ability Score" options={ABILITY_OPTIONS} state={ability} onCycle={cycle("ability")} onClear={clear("ability")} />
+        <PillFilter title="Special" options={MISC_OPTIONS} selected={misc} onToggle={f.toggleMisc} onClear={clear("misc")} />
+        <PillFilter title="Source" options={sourceOptions} state={source} onCycle={cycle("source")} onClear={clear("source")} />
       </div>
     </div>
   );

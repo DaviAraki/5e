@@ -4,7 +4,6 @@ import { makeRef } from "@/data/entityRefs";
 import LanguageStatBlock from "@/components/StatBlock/LanguageStatBlock";
 import { LanguageFilterSidebar, languageMatchesFilters } from "@/components/filters/LanguageFilterSidebar";
 import { useLanguageFilters } from "@/state/languageFilters";
-import { useExcludedSources } from "@/state/sourceExclusions";
 import { sourceToAbv } from "@/lib/spellFormatters";
 import Centered from "@/components/layout/Centered";
 import MasterDetailLayout from "@/components/layout/MasterDetailLayout";
@@ -24,18 +23,16 @@ export default function LanguagesPage() {
   const languages = data?.entities ?? [];
   const filterSnapshot = useLanguageFilters();
   const filterActive = filterSnapshot.activeCount();
-  const excludedSources = useExcludedSources("languages");
 
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase();
     const out = languages.filter((l) => {
       if (!languageMatchesFilters(l, filterSnapshot)) return false;
-      if (excludedSources.has(l.source)) return false;
       if (q && !l.name.toLowerCase().includes(q)) return false;
       return true;
     });
     return out.sort((a, b) => a.name.localeCompare(b.name));
-  }, [languages, search, filterSnapshot, excludedSources]);
+  }, [languages, search, filterSnapshot]);
 
   const selected = useMemo(
     () => languages.find((l) => makeRef(l.name, l.source) === selectedKey) ?? null,

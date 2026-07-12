@@ -1,71 +1,86 @@
 import { create } from "zustand";
 import type { Monster } from "@/types/entities";
+import {
+  type TriState,
+  emptyTri,
+  triCycle,
+  triIsEmpty,
+  triMatch,
+  triSize,
+} from "@/state/triStateFilter";
 
 /**
  * Bestiary filter state and the pure predicate that applies it.
- * Same architecture as spellFilters: Set<string> per dimension, AND-combined.
+ * Tri-state (include/exclude) dimensions AND-combined; misc is a 2-state AND-flag.
  */
 
-export type FilterDimension =
+export type TriDimension =
   | "source"
   | "size"
   | "type"
   | "cr"
   | "immune"
   | "conditionImmune"
-  | "environment"
-  | "misc";
+  | "environment";
+
+export type FilterDimension = TriDimension | "misc";
 
 interface BestiaryFilterState {
-  source: Set<string>;
-  size: Set<string>;
-  type: Set<string>;
-  cr: Set<string>;
-  immune: Set<string>;
-  conditionImmune: Set<string>;
-  environment: Set<string>;
+  source: TriState;
+  size: TriState;
+  type: TriState;
+  cr: TriState;
+  immune: TriState;
+  conditionImmune: TriState;
+  environment: TriState;
   misc: Set<string>;
 
-  toggle: (dim: FilterDimension, value: string) => void;
+  cycle: (dim: TriDimension, value: string) => void;
+  toggleMisc: (value: string) => void;
   clearDimension: (dim: FilterDimension) => void;
   clearAll: () => void;
   activeCount: () => number;
 }
 
-const EMPTY = () => new Set<string>();
+const TRI_DIMENSIONS: TriDimension[] = [
+  "source", "size", "type", "cr", "immune", "conditionImmune", "environment",
+];
 
 export const useBestiaryFilters = create<BestiaryFilterState>((set, get) => ({
-  source: EMPTY(),
-  size: EMPTY(),
-  type: EMPTY(),
-  cr: EMPTY(),
-  immune: EMPTY(),
-  conditionImmune: EMPTY(),
-  environment: EMPTY(),
-  misc: EMPTY(),
+  source: emptyTri(),
+  size: emptyTri(),
+  type: emptyTri(),
+  cr: emptyTri(),
+  immune: emptyTri(),
+  conditionImmune: emptyTri(),
+  environment: emptyTri(),
+  misc: new Set<string>(),
 
-  toggle: (dim, value) =>
+  cycle: (dim, value) =>
+    set((state) => ({ [dim]: triCycle(state[dim], value) }) as Partial<BestiaryFilterState>),
+  toggleMisc: (value) =>
     set((state) => {
-      const next = new Set(state[dim]);
+      const next = new Set(state.misc);
       if (next.has(value)) next.delete(value);
       else next.add(value);
-      return { [dim]: next } as Partial<BestiaryFilterState>;
+      return { misc: next };
     }),
-  clearDimension: (dim) => set({ [dim]: EMPTY() } as Partial<BestiaryFilterState>),
+  clearDimension: (dim) =>
+    set(
+      dim === "misc"
+        ? { misc: new Set<string>() }
+        : ({ [dim]: emptyTri() } as Partial<BestiaryFilterState>),
+    ),
   clearAll: () =>
     set({
-      source: EMPTY(), size: EMPTY(), type: EMPTY(), cr: EMPTY(),
-      immune: EMPTY(), conditionImmune: EMPTY(), environment: EMPTY(), misc: EMPTY(),
+      source: emptyTri(), size: emptyTri(), type: emptyTri(), cr: emptyTri(),
+      immune: emptyTri(), conditionImmune: emptyTri(), environment: emptyTri(), misc: new Set<string>(),
     }),
   activeCount: () => {
     const s = get();
-    return DIMENSIONS.filter((d) => s[d].size > 0).length;
+    return TRI_DIMENSIONS.reduce((n, d) => n + triSize(s[d]), 0) + s.misc.size;
   },
 }));
-
-const DIMENSIONS: FilterDimension[] = [
-  "source", "size", "type", "cr", "immune", "conditionImmune", "environment", "misc",
-];
 
 // --- Static option lists --------------------------------------------------
 
@@ -177,40 +192,38 @@ function sourceLabel(code: string): string {
 // --- Matching predicate ---------------------------------------------------
 
 export function monsterMatchesFilters(monster: Monster, f: BestiaryFilterState): boolean {
-  if (f.source.size > 0 && !f.source.has(monster.source)) return false;
+  if (!triMatch(f.source, [monster.source])) return false;
 
-  if (f.size.size > 0) {
-    const hit = monster.size.some((s) => f.size.has(s));
-    if (!hit) return false;
+  if (!triIsEmpty(f.size)) {
+    if (!triMatch(f.size, monster.size)) return false;
   }
 
-  if (f.type.size > 0) {
+  if (!triIsEmpty(f.type)) {
     const t = typeof monster.type === "string" ? monster.type : monster.type.type;
-    if (!t || !f.type.has(t)) return false;
+    if (!t || !triMatch(f.type, [t])) return false;
   }
 
-  if (f.cr.size > 0) {
+  if (!triIsEmpty(f.cr)) {
     const crStr = typeof monster.cr === "string" ? monster.cr : monster.cr?.cr ?? "0";
-    if (!f.cr.has(crStr)) return false;
+    if (!triMatch(f.cr, [crStr])) return false;
   }
 
-  if (f.immune.size > 0) {
-    const hits = (monster.immune ?? []).some((d) => f.immune.has(d));
-    if (!hits) return false;
+  if (!triIsEmpty(f.immune)) {
+    if (!triMatch(f.immune, monster.immune ?? [])) return false;
   }
 
-  if (f.conditionImmune.size > 0) {
-    const hits = (monster.conditionImmune ?? []).some((c) => f.conditionImmune.has(c));
-    if (!hits) return false;
+  if (!triIsEmpty(f.conditionImmune)) {
+    if (!triMatch(f.conditionImmune, monster.conditionImmune ?? [])) return false;
   }
 
-  if (f.environment.size > 0) {
-    const hits = (monster.environment ?? []).some((e) => {
-      // Environment can be "forest" or "planar, abyss" — match the primary token
-      const primary = e.split(",").pop()?.trim() ?? e;
-      return f.environment.has(primary) || f.environment.has(e.trim());
-    });
-    if (!hits) return false;
+  if (!triIsEmpty(f.environment)) {
+    // Expand each raw environment into candidate tokens (primary + full).
+    const candidates: string[] = [];
+    for (const e of monster.environment ?? []) {
+      candidates.push(e.trim());
+      candidates.push(e.split(",").pop()?.trim() ?? e);
+    }
+    if (!triMatch(f.environment, candidates)) return false;
   }
 
   if (f.misc.size > 0) {

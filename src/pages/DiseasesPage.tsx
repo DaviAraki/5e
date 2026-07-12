@@ -4,7 +4,6 @@ import { makeRef } from "@/data/entityRefs";
 import DiseaseStatBlock from "@/components/StatBlock/DiseaseStatBlock";
 import { DiseaseFilterSidebar, diseaseMatchesFilters } from "@/components/filters/DiseaseFilterSidebar";
 import { useDiseaseFilters } from "@/state/diseaseFilters";
-import { useExcludedSources } from "@/state/sourceExclusions";
 import { sourceToAbv } from "@/lib/spellFormatters";
 import Centered from "@/components/layout/Centered";
 import MasterDetailLayout from "@/components/layout/MasterDetailLayout";
@@ -24,18 +23,16 @@ export default function DiseasesPage() {
   const diseases = data?.entities ?? [];
   const filterSnapshot = useDiseaseFilters();
   const filterActive = filterSnapshot.activeCount();
-  const excludedSources = useExcludedSources("diseases");
 
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase();
     const out = diseases.filter((d) => {
       if (!diseaseMatchesFilters(d, filterSnapshot)) return false;
-      if (excludedSources.has(d.source)) return false;
       if (q && !d.name.toLowerCase().includes(q)) return false;
       return true;
     });
     return out.sort((a, b) => a.name.localeCompare(b.name));
-  }, [diseases, search, filterSnapshot, excludedSources]);
+  }, [diseases, search, filterSnapshot]);
 
   const selected = useMemo(
     () => diseases.find((d) => makeRef(d.name, d.source) === selectedKey) ?? null,

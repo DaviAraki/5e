@@ -7,7 +7,6 @@ import {
   type FilterDimension,
 } from "@/state/languageFilters";
 import { PillFilter } from "./PillFilter";
-import { SourceExclusionFilter } from "./SourceExclusionFilter";
 
 export function LanguageFilterSidebar({ languages }: { languages: Language[] }) {
   const f = useLanguageFilters();
@@ -16,7 +15,7 @@ export function LanguageFilterSidebar({ languages }: { languages: Language[] }) 
 
   const sourceOptions = deriveSourceOptions(languages);
   const activeCount = f.activeCount();
-  const toggle = (dim: FilterDimension) => (value: string) => f.toggle(dim, value);
+  const cycle = (dim: FilterDimension) => (value: string) => f.cycle(dim, value);
   const clear = (dim: FilterDimension) => () => f.clearDimension(dim);
 
   return (
@@ -32,9 +31,8 @@ export function LanguageFilterSidebar({ languages }: { languages: Language[] }) 
         )}
       </div>
       <div className="flex-1 overflow-y-auto">
-        <PillFilter title="Type" options={TYPE_OPTIONS} selected={type} onToggle={toggle("type")} onClear={clear("type")} defaultOpen />
-        <PillFilter title="Source" options={sourceOptions} selected={source} onToggle={toggle("source")} onClear={clear("source")} />
-        <SourceExclusionFilter category="languages" options={sourceOptions} />
+        <PillFilter title="Type" options={TYPE_OPTIONS} state={type} onCycle={cycle("type")} onClear={clear("type")} defaultOpen />
+        <PillFilter title="Source" options={sourceOptions} state={source} onCycle={cycle("source")} onClear={clear("source")} />
       </div>
     </div>
   );
