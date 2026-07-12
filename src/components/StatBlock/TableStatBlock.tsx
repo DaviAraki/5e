@@ -60,7 +60,7 @@ export default function TableStatBlock({ table }: { table: GameTable }) {
         </div>
       )}
 
-      {table.entries.length > 0 && (
+      {table.entries?.length && (
         <div className="mt-4 space-y-2 font-sans">
           {table.entries.map((entry, i) => (
             <EntryRenderer key={i} entry={entry} />

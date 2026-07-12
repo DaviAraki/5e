@@ -879,7 +879,7 @@ export interface GameTable {
   caption?: Entry;
   intro?: Entry[];
   outro?: Entry[];
-  entries: Entry[];
+  entries?: Entry[];
   reprintedAs?: EntityRef[];
   referenceSources?: SourceId[];
   [k: string]: unknown;
