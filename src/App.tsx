@@ -1,28 +1,31 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import SpellsPage from "@/pages/SpellsPage";
-import ClassesPage from "@/pages/ClassesPage";
-import BestiaryPage from "@/pages/BestiaryPage";
-import ItemsPage from "@/pages/ItemsPage";
-import BackgroundsPage from "@/pages/BackgroundsPage";
-import SpeciesPage from "@/pages/SpeciesPage";
-import FeatsPage from "@/pages/FeatsPage";
-import ConditionsPage from "@/pages/ConditionsPage";
-import DiseasesPage from "@/pages/DiseasesPage";
-import DeitiesPage from "@/pages/DeitiesPage";
-import LanguagesPage from "@/pages/LanguagesPage";
-import LegendaryGroupsPage from "@/pages/LegendaryGroupsPage";
-import TablesPage from "@/pages/TablesPage";
-import TransformationsPage from "@/pages/TransformationsPage";
-import OptionalFeaturesPage from "@/pages/OptionalFeaturesPage";
-import BooksPage from "@/pages/BooksPage";
-import SpellBookPage from "@/pages/SpellBookPage";
-import LootPage from "@/pages/LootPage";
 import Landing from "@/pages/Landing";
 import Header from "@/components/nav/Header";
 import MobileNav from "@/components/nav/MobileNav";
 import EntityPreviewModal from "@/components/EntityPreviewModal";
 import ConfirmModal from "@/components/ConfirmModal";
+
+// Non-default routes are code-split so the initial bundle ships only the app
+// shell + the Landing page. Each chunk loads on first navigation.
+const SpellsPage = lazy(() => import("@/pages/SpellsPage"));
+const ClassesPage = lazy(() => import("@/pages/ClassesPage"));
+const BestiaryPage = lazy(() => import("@/pages/BestiaryPage"));
+const ItemsPage = lazy(() => import("@/pages/ItemsPage"));
+const BackgroundsPage = lazy(() => import("@/pages/BackgroundsPage"));
+const SpeciesPage = lazy(() => import("@/pages/SpeciesPage"));
+const FeatsPage = lazy(() => import("@/pages/FeatsPage"));
+const ConditionsPage = lazy(() => import("@/pages/ConditionsPage"));
+const DiseasesPage = lazy(() => import("@/pages/DiseasesPage"));
+const DeitiesPage = lazy(() => import("@/pages/DeitiesPage"));
+const LanguagesPage = lazy(() => import("@/pages/LanguagesPage"));
+const LegendaryGroupsPage = lazy(() => import("@/pages/LegendaryGroupsPage"));
+const TablesPage = lazy(() => import("@/pages/TablesPage"));
+const TransformationsPage = lazy(() => import("@/pages/TransformationsPage"));
+const OptionalFeaturesPage = lazy(() => import("@/pages/OptionalFeaturesPage"));
+const BooksPage = lazy(() => import("@/pages/BooksPage"));
+const SpellBookPage = lazy(() => import("@/pages/SpellBookPage"));
+const LootPage = lazy(() => import("@/pages/LootPage"));
 
 /**
  * Top-level app shell: header + outlet + mobile drawer. The grouped nav config
@@ -52,27 +55,29 @@ export default function App() {
     <div className="flex h-full flex-col">
       <Header onOpenNav={() => setMobileNavOpen(true)} />
       <main className="flex-1 overflow-hidden">
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/spells" element={<SpellsPage />} />
-          <Route path="/classes" element={<ClassesPage />} />
-          <Route path="/bestiary" element={<BestiaryPage />} />
-          <Route path="/items" element={<ItemsPage />} />
-          <Route path="/backgrounds" element={<BackgroundsPage />} />
-          <Route path="/species" element={<SpeciesPage />} />
-          <Route path="/feats" element={<FeatsPage />} />
-          <Route path="/transformations" element={<TransformationsPage />} />
-          <Route path="/optional-features" element={<OptionalFeaturesPage />} />
-          <Route path="/conditions" element={<ConditionsPage />} />
-          <Route path="/diseases" element={<DiseasesPage />} />
-          <Route path="/deities" element={<DeitiesPage />} />
-          <Route path="/languages" element={<LanguagesPage />} />
-          <Route path="/tables" element={<TablesPage />} />
-          <Route path="/legendary-groups" element={<LegendaryGroupsPage />} />
-          <Route path="/books" element={<BooksPage />} />
-          <Route path="/spellbook" element={<SpellBookPage />} />
-          <Route path="/loot" element={<LootPage />} />
-        </Routes>
+        <Suspense fallback={<div className="flex h-full items-center justify-center text-fg/60">Loading…</div>}>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/spells" element={<SpellsPage />} />
+            <Route path="/classes" element={<ClassesPage />} />
+            <Route path="/bestiary" element={<BestiaryPage />} />
+            <Route path="/items" element={<ItemsPage />} />
+            <Route path="/backgrounds" element={<BackgroundsPage />} />
+            <Route path="/species" element={<SpeciesPage />} />
+            <Route path="/feats" element={<FeatsPage />} />
+            <Route path="/transformations" element={<TransformationsPage />} />
+            <Route path="/optional-features" element={<OptionalFeaturesPage />} />
+            <Route path="/conditions" element={<ConditionsPage />} />
+            <Route path="/diseases" element={<DiseasesPage />} />
+            <Route path="/deities" element={<DeitiesPage />} />
+            <Route path="/languages" element={<LanguagesPage />} />
+            <Route path="/tables" element={<TablesPage />} />
+            <Route path="/legendary-groups" element={<LegendaryGroupsPage />} />
+            <Route path="/books" element={<BooksPage />} />
+            <Route path="/spellbook" element={<SpellBookPage />} />
+            <Route path="/loot" element={<LootPage />} />
+          </Routes>
+        </Suspense>
       </main>
 
       <MobileNav open={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />

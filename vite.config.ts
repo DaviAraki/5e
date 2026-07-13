@@ -59,6 +59,30 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  build: {
+    rollupOptions: {
+      // Split framework/runtime deps into a stable vendor chunk so it caches
+      // independently of app code and the initial main chunk stays small.
+      // Per-page chunks are produced automatically by React.lazy imports.
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            const norm = id.replace(/\\/g, "/");
+            if (
+              norm.includes("react-router") ||
+              norm.includes("react-dom") ||
+              norm.includes("/react/") ||
+              norm.includes("@tanstack") ||
+              norm.includes("zustand")
+            ) {
+              return "vendor";
+            }
+          }
+          return undefined;
+        },
+      },
+    },
+  },
   server: {
     port: 3000,
   },
