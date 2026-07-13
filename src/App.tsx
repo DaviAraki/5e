@@ -37,6 +37,8 @@ export default function App() {
   const location = useLocation();
 
   // Close the mobile drawer whenever the route changes (link tap, back/forward).
+  // location.pathname is intentionally a trigger, not a value the body reads.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: route-change side effect
   useEffect(() => {
     setMobileNavOpen(false);
   }, [location.pathname]);

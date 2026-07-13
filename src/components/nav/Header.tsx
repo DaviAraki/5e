@@ -15,6 +15,8 @@ export default function Header({ onOpenNav }: { onOpenNav: () => void }) {
   const containerRef = useRef<HTMLElement>(null);
 
   // Close any open dropdown when navigating.
+  // location.pathname is intentionally a trigger, not a value the body reads.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: route-change side effect
   useEffect(() => {
     setOpenGroup(null);
   }, [location.pathname]);

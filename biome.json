@@ -1,0 +1,75 @@
+{
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"includes": [
+			"**/*.ts",
+			"**/*.tsx",
+			"**/*.js",
+			"**/*.jsx",
+			"*.config.{ts,js,mjs}",
+			"!!**/dist/**",
+			"!!**/public/**",
+			"!!**/scripts/**"
+		],
+		"maxSize": 1048576
+	},
+	"formatter": {
+		"enabled": false
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": "off"
+			}
+		}
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"preset": "none",
+			"correctness": {
+				"noUnusedVariables": "warn",
+				"noUnusedFunctionParameters": "warn",
+				"useExhaustiveDependencies": "warn",
+				"useHookAtTopLevel": "error",
+				"noUnusedLabels": "error",
+				"useValidForDirection": "error",
+				"useValidTypeof": "error"
+			},
+			"suspicious": {
+				"noEmptyBlockStatements": "error",
+				"noConfusingLabels": "error",
+				"noFallthroughSwitchClause": "error",
+				"noGlobalAssign": "error",
+				"noShadowRestrictedNames": "error",
+				"noUnsafeDeclarationMerging": "error",
+				"useGetterReturn": "error",
+				"useIsArray": "error"
+			},
+			"complexity": {
+				"noExtraBooleanCast": "error"
+			},
+			"style": {
+				"useDefaultSwitchClause": "error"
+			}
+		}
+	},
+	"overrides": [
+		{
+			"includes": ["*.config.{ts,js,mjs}", "scripts/**"],
+			"linter": {
+				"rules": {
+					"correctness": {
+						"useHookAtTopLevel": "off"
+					}
+				}
+			}
+		}
+	]
+}

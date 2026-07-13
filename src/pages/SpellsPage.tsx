@@ -21,6 +21,12 @@ import { useMasterDetail } from "@/hooks/useMasterDetail";
 
 type SortKey = "name" | "level" | "school" | "time";
 
+// Shared stable reference for the "no active book / empty book" fallback.
+// React 19's useSyncExternalStore (via zustand) requires selectors to return
+// referentially-stable snapshots — returning a fresh {} per call triggers
+// "getSnapshot should be cached" → infinite render loop.
+const EMPTY_SPELLS: Record<string, boolean> = {};
+
 /**
  * Responsive layout with filters.
  * - Desktop (lg+): filters | list | detail side by side.
@@ -41,9 +47,11 @@ export default function SpellsPage() {
   const filterActive = filterSnapshot.activeCount();
 
   // Spell book: target the active book for the add/remove toggle on each row.
+  // See EMPTY_SPELLS above — selectors must return stable references under
+  // React 19's useSyncExternalStore.
   const activeBookId = useSpellBook((s) => s.activeBookId);
   const activeBookSpells = useSpellBook((s) =>
-    s.activeBookId ? s.books[s.activeBookId]?.spells ?? {} : {},
+    s.activeBookId ? s.books[s.activeBookId]?.spells ?? EMPTY_SPELLS : EMPTY_SPELLS,
   );
   const addToBook = useSpellBook((s) => s.addToBook);
   const removeFromBook = useSpellBook((s) => s.removeFromBook);
