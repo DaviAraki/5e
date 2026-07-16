@@ -155,7 +155,10 @@ export function spComponentsToFull(c: SpellComponents | undefined): string {
   const parts: string[] = [];
   if (c.v) parts.push("V");
   if (c.s) parts.push("S");
-  if (c.m) parts.push(`M (${c.m})`);
+  if (c.m) {
+    const mText = typeof c.m === "string" ? c.m : c.m.text;
+    parts.push(`M (${mText})`);
+  }
   return parts.join(", ");
 }
 

@@ -264,7 +264,9 @@ export type SpellRange =
 export interface SpellComponents {
   v?: boolean;
   s?: boolean;
-  m?: string;
+  /** Material component: either a description string, or an object with
+   * cost/consume metadata (common for costly material components). */
+  m?: string | { text: string; cost?: number; consume?: boolean };
 }
 
 export type SpellDuration =
@@ -784,6 +786,29 @@ export interface Condition {
   source: SourceId;
   page?: number;
   entries: Entry[];
+  reprintedAs?: EntityRef[];
+  referenceSources?: SourceId[];
+  [k: string]: unknown;
+}
+
+// ---------------------------------------------------------------------------
+// Action (combat action: Attack, Dodge, Hide, ...)
+// ---------------------------------------------------------------------------
+
+/** Activation time for an Action (e.g. 1 action, 1 bonus action). */
+export interface ActionTime {
+  number: number;
+  unit: string;
+  condition?: string;
+}
+
+export interface Action {
+  name: string;
+  source: SourceId;
+  page?: number;
+  time?: ActionTime[];
+  entries: Entry[];
+  srd52?: boolean;
   reprintedAs?: EntityRef[];
   referenceSources?: SourceId[];
   [k: string]: unknown;

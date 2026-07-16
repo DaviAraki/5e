@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import type {
+  Action,
   Background,
   Book,
   Class,
@@ -144,6 +145,14 @@ export function useConditions() {
     queryKey: ["conditions"],
     queryFn: () =>
       fetchJson<ResolvedData<Condition>>(`${RESOLVED_BASE}/conditions.json`),
+  });
+}
+
+export function useActions() {
+  return useQuery({
+    queryKey: ["actions"],
+    queryFn: () =>
+      fetchJson<ResolvedData<Action>>(`${RESOLVED_BASE}/actions.json`),
   });
 }
 

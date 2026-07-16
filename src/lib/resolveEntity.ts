@@ -1,6 +1,6 @@
 import type { useQueryClient } from "@tanstack/react-query";
 import type { EntityType } from "@/state/entityPreview";
-import type { ResolvedData, Spell, Monster, Item, Feat, VariantRule, Condition } from "@/types/entities";
+import type { ResolvedData, Spell, Monster, Item, Feat, VariantRule, Condition, Action } from "@/types/entities";
 
 /** Resolve an entity from the React Query cache by type + name|source. */
 export function resolveEntity(
@@ -40,6 +40,10 @@ export function resolveEntity(
     }
     case "condition": {
       const data = qc.getQueryData<ResolvedData<Condition>>(["conditions"]);
+      return find(data?.entities);
+    }
+    case "action": {
+      const data = qc.getQueryData<ResolvedData<Action>>(["actions"]);
       return find(data?.entities);
     }
     case "variantrule": {
