@@ -41,6 +41,30 @@ export function indexByRef<T extends { name: string; source: string }>(
 }
 
 /**
+ * Defensive dedupe for resolved-data payloads. Drops rows with a non-string
+ * `name`/`source` (invalid per the type contract) and keeps only the first
+ * occurrence of each case-insensitive `name|source` key. Guards the UI against
+ * dirty committed data — e.g. vendor magicvariant templates shipped without a
+ * `source`, which collide on the composite key and produce duplicated rows.
+ *
+ * O(n) time, O(n) space.
+ */
+export function dedupeByRef<T extends { name: unknown; source: unknown }>(
+  entities: T[],
+): T[] {
+  const seen = new Set<string>();
+  const out: T[] = [];
+  for (const e of entities) {
+    if (typeof e.name !== "string" || typeof e.source !== "string") continue;
+    const key = `${e.name.toLowerCase()}|${e.source.toLowerCase()}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(e);
+  }
+  return out;
+}
+
+/**
  * The URL hash fragment format used by the legacy site for deep links.
  * e.g. "spells.html#fireball=xphb" — name (lowercased) = source (lowercased).
  */

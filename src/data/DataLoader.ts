@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { dedupeByRef } from "@/data/entityRefs";
 import type {
   Action,
   Background,
@@ -72,8 +73,11 @@ export function useItems() {
         ResolvedData<Item> & { itemGroups?: ItemGroup[] }
       >(`${RESOLVED_BASE}/items.json`);
       return {
-        items: data.entities,
-        itemGroups: data.itemGroups ?? [],
+        // dedupeByRef guards against dirty resolved data: vendor
+        // magicvariant templates ship without a `source` and collapse into a
+        // few colliding keys, producing duplicated rows and broken React keys.
+        items: dedupeByRef(data.entities),
+        itemGroups: dedupeByRef(data.itemGroups ?? []),
       };
     },
   });

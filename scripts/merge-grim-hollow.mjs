@@ -82,11 +82,49 @@ async function writeJson(p, v) {
   await writeFile(p, JSON.stringify(v, null, 2) + "\n", "utf8");
 }
 
-/** Strip any entity whose source starts with the Grim Hollow prefix. */
+/**
+ * Strip entities contributed by previous Grim Hollow merges.
+ *
+ * Idempotent across re-runs: drops any entity whose `source` is a string
+ * starting with the Grim Hollow prefix. Also drops entries with a non-string
+ * `source` (e.g. magicvariant templates that upstream ships without a source),
+ * which otherwise survive every re-run and accumulate into colliding keys.
+ */
 function stripGrimHollow(entities) {
   return entities.filter(
-    (e) => !(e && typeof e === "object" && typeof e.source === "string" && e.source.startsWith(SOURCE_PREFIX)),
+    (e) =>
+      !(
+        e &&
+        typeof e === "object" &&
+        typeof e.source === "string" &&
+        e.source.startsWith(SOURCE_PREFIX)
+      ),
   );
+}
+
+/**
+ * Dedupe entities on the case-insensitive `name|source` composite key.
+ * Keeps the first occurrence of each key; drops malformed rows (non-object,
+ * or missing/non-string `name`/`source`). Mirrors the convention in
+ * src/data/entityRefs.ts so keys stay consistent across the app.
+ * @param {unknown[]} entities
+ */
+function dedupeByKey(entities) {
+  /** @type {Map<string, true>} */
+  const seen = new Set();
+  /** @type {unknown[]} */
+  const out = [];
+  for (const e of entities) {
+    if (!e || typeof e !== "object") continue;
+    const name = /** @type {{ name?: unknown }} */ (e).name;
+    const source = /** @type {{ source?: unknown }} */ (e).source;
+    if (typeof name !== "string" || typeof source !== "string") continue;
+    const key = `${name.toLowerCase()}|${source.toLowerCase()}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(e);
+  }
+  return out;
 }
 
 /**
@@ -308,12 +346,19 @@ async function main() {
     const data = await loadResolved(basename);
     const kept = stripGrimHollow(data.entities);
     const added = contribs.flatMap((c) => withProp(c.entities, c.prop));
-    data.entities = [...kept, ...added];
+    // Dedupe on the composite key: upstream magicvariant/baseitem templates
+    // can repeat across vendor files, and earlier merges may have left
+    // undefined-source rows that collided on the `name|source` key.
+    const before = kept.length + added.length;
+    data.entities = dedupeByKey([...kept, ...added]);
+    const dropped = before - data.entities.length;
     data.generatedAt = NOW;
     if (!("edition" in data) && basename !== "books.json") data.edition = "one";
     await writeJson(join(RESOLVED_DIR, basename), data);
     touchedFiles.push(basename);
-    console.log(`  ${basename}: kept ${kept.length}, added ${added.length} → ${data.entities.length}`);
+    console.log(
+      `  ${basename}: kept ${kept.length}, added ${added.length}${dropped ? `, deduped ${dropped}` : ""} → ${data.entities.length}`,
+    );
   }
 
   // 3b. Resolve class/subclass feature references.
@@ -383,7 +428,7 @@ async function mergeBooks(brews) {
     }
   }
 
-  books.entities = [...kept, ...newBooks];
+  books.entities = dedupeByKey([...kept, ...newBooks]);
   books.generatedAt = NOW;
   await writeJson(booksPath, books);
   console.log(`  books.json: kept ${kept.length}, added ${newBooks.length} → ${books.entities.length}`);
