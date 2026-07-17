@@ -14,7 +14,8 @@
 			"*.config.{ts,js,mjs}",
 			"!!**/dist/**",
 			"!!**/public/**",
-			"!!**/scripts/**"
+			"!!**/scripts/**",
+			"!!**/coverage/**"
 		],
 		"maxSize": 1048576
 	},

@@ -55,6 +55,7 @@ export function dedupeByRef<T extends { name: unknown; source: unknown }>(
   const seen = new Set<string>();
   const out: T[] = [];
   for (const e of entities) {
+    if (!e || typeof e !== "object") continue;
     if (typeof e.name !== "string" || typeof e.source !== "string") continue;
     const key = `${e.name.toLowerCase()}|${e.source.toLowerCase()}`;
     if (seen.has(key)) continue;
