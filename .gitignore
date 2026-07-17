@@ -2,3 +2,9 @@ node_modules
 dist
 *.local
 .vite
+
+# Test coverage output (vitest v8 provider)
+coverage
+
+# ZCode agent session plans (local tooling artifacts)
+.zcode
