@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { DATASETS, datasetForRoute, IDLE_PREFETCH_KEYS } from "@/data/datasets";
 import App from "./App";
 import "./index.css";
 
@@ -28,112 +29,35 @@ const queryClient = new QueryClient({
 // 2. Idle prefetch of small cross-referenced datasets so the preview popover
 //    can resolve cross-entity links (e.g. {@condition}) without visiting each
 //    page first. Deferred to idle so it never contends with first paint.
-const RESOLVED_BASE = `${import.meta.env.BASE_URL}data/resolved`;
-async function prefetch(url: string) {
+//
+// Both consume the dataset catalog in @/data/datasets, so the route→fetch
+// mapping cannot drift out of sync with the use* hooks in DataLoader.ts.
+
+/** Prime the React Query cache with a dataset's loaded shape. */
+async function preloadDataset(entry: { key: readonly [string]; load: () => Promise<unknown> }) {
   try {
-    const res = await fetch(url);
-    if (res.ok) return await res.json();
+    const data = await entry.load();
+    queryClient.setQueryData(entry.key, data);
   } catch {
     // ignore — lazy-loaded when the user visits the page
   }
-  return null;
 }
 
-// Map the first URL path segment to the React Query key + fetch(es) that page
-// needs, mirroring the use* hooks in DataLoader.ts. Fetching here and priming
-// the cache means useSpells()/useClasses()/etc. hit the cache on mount instead
-// of starting a cold fetch.
+/** Preload the dataset for the deep-linked route's first path segment. */
 function preloadRouteData(pathname: string) {
-  // Strip the configured base (e.g. "/5e/") and grab the first segment.
   const base = import.meta.env.BASE_URL;
   const rel = pathname.startsWith(base) ? pathname.slice(base.length) : pathname;
   const seg = rel.split("/")[0] ?? "";
-
-  // Single-file datasets: prime the cache with the parsed JSON as-is.
-  const single: Record<string, [string, string]> = {
-    spells: ["spells", "spells.json"],
-    bestiary: ["monsters", "bestiary.json"],
-    backgrounds: ["backgrounds", "backgrounds.json"],
-    species: ["species", "species.json"],
-    feats: ["feats", "feats.json"],
-    books: ["books", "books.json"],
-    conditions: ["conditions", "conditions.json"],
-    deities: ["deities", "deities.json"],
-    diseases: ["diseases", "diseases.json"],
-    languages: ["languages", "languages.json"],
-    "legendary-groups": ["legendarygroups", "legendarygroups.json"],
-    tables: ["tables", "tables.json"],
-    transformations: ["transformations", "transformations.json"],
-    "optional-features": ["optionalfeatures", "optionalfeatures.json"],
-    variantrules: ["variantrules", "variantrules.json"],
-  };
-  const s = single[seg];
-  if (s) {
-    void prefetch(`${RESOLVED_BASE}/${s[1]}`).then((d) => {
-      if (d) queryClient.setQueryData([s[0]], d);
-    });
-    return;
-  }
-
-  // Multi-file / shaped datasets:
-  if (seg === "classes") {
-    // useClasses does Promise.all over classes.json + subclasses.json and
-    // reshapes into { classes, subclasses } from `.entities`.
-    void Promise.all([
-      prefetch(`${RESOLVED_BASE}/classes.json`),
-      prefetch(`${RESOLVED_BASE}/subclasses.json`),
-    ]).then(([c, sc]) => {
-      if (c && sc) {
-        queryClient.setQueryData(["classes"], {
-          classes: c.entities ?? [],
-          subclasses: sc.entities ?? [],
-        });
-      }
-    });
-    return;
-  }
-  if (seg === "items") {
-    // useItems reshapes into { items, itemGroups } from `entities` + `itemGroups`.
-    void prefetch(`${RESOLVED_BASE}/items.json`).then((d) => {
-      if (d) {
-        queryClient.setQueryData(["items"], {
-          items: d.entities ?? [],
-          itemGroups: d.itemGroups ?? [],
-        });
-      }
-    });
-    return;
-  }
+  const entry = datasetForRoute(seg);
+  if (entry) void preloadDataset(entry);
 }
 
+/** Prefetch small cross-reference datasets so the preview popover resolves links. */
 function prefetchSmallDatasets() {
-  void (async () => {
-    const [
-      feats, variantrules, conditions, diseases, deities,
-      languages, legendarygroups, tables, transformations, optionalfeatures,
-    ] = await Promise.all([
-      prefetch(`${RESOLVED_BASE}/feats.json`),
-      prefetch(`${RESOLVED_BASE}/variantrules.json`),
-      prefetch(`${RESOLVED_BASE}/conditions.json`),
-      prefetch(`${RESOLVED_BASE}/diseases.json`),
-      prefetch(`${RESOLVED_BASE}/deities.json`),
-      prefetch(`${RESOLVED_BASE}/languages.json`),
-      prefetch(`${RESOLVED_BASE}/legendarygroups.json`),
-      prefetch(`${RESOLVED_BASE}/tables.json`),
-      prefetch(`${RESOLVED_BASE}/transformations.json`),
-      prefetch(`${RESOLVED_BASE}/optionalfeatures.json`),
-    ]);
-    if (feats) queryClient.setQueryData(["feats"], feats);
-    if (variantrules) queryClient.setQueryData(["variantrules"], variantrules);
-    if (conditions) queryClient.setQueryData(["conditions"], conditions);
-    if (diseases) queryClient.setQueryData(["diseases"], diseases);
-    if (deities) queryClient.setQueryData(["deities"], deities);
-    if (languages) queryClient.setQueryData(["languages"], languages);
-    if (legendarygroups) queryClient.setQueryData(["legendarygroups"], legendarygroups);
-    if (tables) queryClient.setQueryData(["tables"], tables);
-    if (transformations) queryClient.setQueryData(["transformations"], transformations);
-    if (optionalfeatures) queryClient.setQueryData(["optionalfeatures"], optionalfeatures);
-  })();
+  for (const key of IDLE_PREFETCH_KEYS) {
+    const entry = DATASETS[key];
+    if (entry) void preloadDataset(entry);
+  }
 }
 
 // requestIdleCallback is unavailable on Safari < 17.4; fall back to a setTimeout

@@ -21,7 +21,7 @@ export default function ListSearchBar({
         placeholder={placeholder}
         value={search}
         onChange={(e) => onSearchChange(e.target.value)}
-        className="min-w-0 flex-1 rounded-md border border-border bg-bg-raised px-3 py-1.5 text-sm outline-none placeholder:text-fg-faint focus:border-accent"
+        className="min-w-0 flex-1 rounded-md border border-border bg-bg-raised px-3 py-1.5 text-sm outline-hidden placeholder:text-fg-faint focus:border-accent"
       />
       <button
         type="button"

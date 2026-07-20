@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import type { Background } from "@/types/entities";
+import { capitalize } from "@/lib/text";
 import {
   type TriState,
   emptyTri,
@@ -59,31 +60,7 @@ export const ABILITY_OPTIONS = [
   { value: "cha", label: "Charisma" },
 ];
 
-export function deriveSourceOptions(backgrounds: Background[]) {
-  const m = new Map<string, number>();
-  for (const b of backgrounds) m.set(b.source, (m.get(b.source) ?? 0) + 1);
-  return [...m.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .map(([code]) => ({ value: code, label: sourceLabel(code) }));
-}
-
-function sourceLabel(code: string): string {
-  const map: Record<string, string> = {
-    XPHB: "Player's Handbook",
-    XDMG: "Dungeon Master's Guide",
-    EFA: "Eberron: Friends and Foes",
-    RHW: "Ravenloft: The Horrors Within",
-    FRAiF: "Forge of the Elemental Giants",
-    WttHC: "Welcome to the Hidden City",
-    HotB: "Heart of the Beholder",
-    LFL: "Legends of the Forgotten Lands",
-    NF: "Nightfall",
-    ABH: "Ancient Blood & Honor",
-    FRHoF: "Forge of the Elemental Giants",
-    GrimHollowPG24: "Grim Hollow: Player's Guide (2024)",
-  };
-  return map[code] ?? code;
-}
+export { deriveSourceOptions } from "@/lib/sourceLabels";
 
 /** Extract skill names from a background's skillProficiencies (including choose.from). */
 export function getBackgroundSkills(bg: Background): Set<string> {
@@ -134,8 +111,4 @@ export function backgroundMatchesFilters(bg: Background, f: BackgroundFilterStat
   if (!triMatch(f.ability, getBackgroundAbilities(bg))) return false;
 
   return true;
-}
-
-function capitalize(s: string): string {
-  return s.charAt(0).toUpperCase() + s.slice(1);
 }

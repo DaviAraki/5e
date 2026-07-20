@@ -1,6 +1,71 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/*
+ * Dark mode is toggled via [data-theme="dark"] on <html> (set in index.html).
+ * Tailwind v4's default dark variant targets `prefers-color-scheme`; this
+ * override restores the v3 explicit-selector behavior.
+ */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/*
+ * Design tokens (formerly tailwind.config.ts theme.extend). v4 surfaces these
+ * as CSS custom properties AND generates the matching utilities
+ * (e.g. `--color-bg-raised` → `bg-bg-raised`, `--font-serif` → `font-serif`).
+ * Naming convention: `--color-<token>`, `--font-<token>`, `--radius-<token>`,
+ * `--shadow-<token>`.
+ */
+@theme {
+  /* Surface scale (dark default; light overrides via [data-theme="light"]) */
+  --color-bg: #0e1116;
+  --color-bg-subtle: #151a21;
+  --color-bg-raised: #1c232c;
+  --color-bg-overlay: #232c37;
+
+  --color-border: #2a3340;
+  --color-border-subtle: #222a35;
+  --color-border-strong: #3a4655;
+
+  --color-fg: #e6edf3;
+  --color-fg-muted: #9aa7b4;
+  --color-fg-faint: #6b7785;
+
+  --color-accent: #7c5cff;
+  --color-accent-hover: #8e72ff;
+  --color-accent-subtle: #1e1838;
+
+  /* School colors mirror the legacy site's semantic palette */
+  --color-school-a: #7ab098;
+  --color-school-v: #9b59b6;
+  --color-school-n: #5dade2;
+  --color-school-t: #48c9b0;
+  --color-school-c: #e74c3c;
+  --color-school-d: #f39c12;
+  --color-school-i: #3498db;
+  --color-school-e: #ec7bc8;
+
+  /* Damage type colors */
+  --color-damage-acid: #7ab098;
+  --color-damage-fire: #e74c3c;
+  --color-damage-cold: #5dade2;
+  --color-damage-lightning: #f1c40f;
+  --color-damage-poison: #48c9b0;
+  --color-damage-necrotic: #5dade2;
+  --color-damage-radiant: #ffd700;
+  --color-damage-force: #9b59b6;
+  --color-damage-psychic: #ec7bc8;
+  --color-damage-thunder: #9aa7b4;
+
+  /* No web font is shipped for sans — fall straight through to the native
+     UI stack. (Previously referenced Inter but no Inter file exists.) */
+  --font-sans: system-ui, sans-serif;
+  --font-serif: "Scrumish", Georgia, serif;
+
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-pop: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
 
 @font-face {
   font-family: "Scrumish";
@@ -29,7 +94,7 @@
   /* Scrollbars */
   * {
     scrollbar-width: thin;
-    scrollbar-color: var(--tw-color-border, #2a3340) transparent;
+    scrollbar-color: var(--color-border) transparent;
   }
   *::-webkit-scrollbar {
     width: 10px;

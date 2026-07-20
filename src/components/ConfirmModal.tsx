@@ -1,72 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useConfirmModal, closeConfirm } from "@/state/confirmModal";
 
 /**
  * Lightweight confirmation modal. Reuses the same overlay pattern as
  * EntityPreviewModal (fixed inset-0 z-50 bg-black/60) with Escape-to-close and
  * backdrop-click-to-close.
  *
- * Usage:
- *   const confirm = useConfirm();
- *   if (await confirm("Remove Fireball?")) doRemove();
- *
- * Or the imperative form:
- *   const { request } = useConfirmState();
- *   request({ message, confirmLabel, onConfirm });
+ * State lives in the `confirmModal` Zustand store (mirrors entityPreview), so
+ * any caller — hooked or not — can trigger it via `requestConfirm(opts)`.
+ * Render `<ConfirmModal />` once in the App tree.
  */
 
-interface ConfirmOptions {
-  message: string;
-  confirmLabel?: string;
-  cancelLabel?: string;
-  destructive?: boolean;
-  onConfirm: () => void;
-}
+export { requestConfirm, closeConfirm, type ConfirmOptions } from "@/state/confirmModal";
 
-interface ConfirmState extends ConfirmOptions {
-  open: boolean;
-}
-
-let setter: ((s: ConfirmState | null) => void) | null = null;
-let current: ConfirmState | null = null;
-
-/** Request a confirmation. Imperative — callable from anywhere. */
-export function requestConfirm(opts: ConfirmOptions): void {
-  current = { ...opts, open: true };
-  setter?.(current);
-}
-
-/** Close the modal without confirming. */
-export function closeConfirm(): void {
-  current = null;
-  setter?.(null);
-}
-
-/**
- * Hook that mounts the modal's state into the React tree. Render `<ConfirmModal />`
- * once (e.g. in App), then call `requestConfirm(...)` from anywhere.
- */
 export default function ConfirmModal() {
-  const [state, setState] = useState<ConfirmState | null>(null);
+  const active = useConfirmModal((s) => s.active);
 
   useEffect(() => {
-    setter = setState;
-    return () => {
-      setter = null;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!state) return;
+    if (!active) return;
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") closeConfirm();
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [state]);
+  }, [active]);
 
-  if (!state) return null;
+  if (!active) return null;
 
-  const onConfirm = state.onConfirm;
+  const onConfirm = active.onConfirm;
   function confirm() {
     closeConfirm();
     onConfirm();
@@ -82,7 +43,7 @@ export default function ConfirmModal() {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="px-4 py-4">
-          <p className="text-sm text-fg">{state.message}</p>
+          <p className="text-sm text-fg">{active.message}</p>
         </div>
         <div className="flex gap-2 border-t border-border-subtle px-4 py-3">
           <button
@@ -90,18 +51,18 @@ export default function ConfirmModal() {
             onClick={closeConfirm}
             className="flex-1 rounded-md border border-border px-3 py-1.5 text-sm text-fg-muted hover:text-fg"
           >
-            {state.cancelLabel ?? "Cancel"}
+            {active.cancelLabel ?? "Cancel"}
           </button>
           <button
             type="button"
             onClick={confirm}
             className={`flex-1 rounded-md border px-3 py-1.5 text-sm ${
-              state.destructive
+              active.destructive
                 ? "border-red-500/50 text-red-400 hover:bg-red-950/30"
                 : "border-accent bg-accent-subtle text-accent hover:bg-accent"
             }`}
           >
-            {state.confirmLabel ?? "Confirm"}
+            {active.confirmLabel ?? "Confirm"}
           </button>
         </div>
       </div>

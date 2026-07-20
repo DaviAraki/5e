@@ -269,11 +269,11 @@ describe("deriveSourceOptions", () => {
     const spells = [
       makeSpell({ source: "XPHB" }),
       makeSpell({ source: "XPHB" }),
-      makeSpell({ source: "XDMG" }),
+      makeSpell({ source: "ZZZZ_UNKNOWN" }),
     ];
     const out = deriveSourceOptions(spells);
     expect(out[0]).toEqual({ value: "XPHB", label: "Player's Handbook" });
-    expect(out[1]).toEqual({ value: "XDMG", label: "XDMG" }); // unknown label -> raw code
+    expect(out[1]).toEqual({ value: "ZZZZ_UNKNOWN", label: "ZZZZ_UNKNOWN" }); // unknown label -> raw code
   });
 
   it("returns an empty array for no spells", () => {

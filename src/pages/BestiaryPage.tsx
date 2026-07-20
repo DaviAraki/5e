@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useDeferredValue, useMemo, useState } from "react";
 import type { Monster } from "@/types/entities";
 import { useMonsters } from "@/data/DataLoader";
 import { makeRef } from "@/data/entityRefs";
@@ -11,6 +11,7 @@ import Centered from "@/components/layout/Centered";
 import MasterDetailLayout from "@/components/layout/MasterDetailLayout";
 import ListSearchBar from "@/components/layout/ListSearchBar";
 import SortBar from "@/components/list/SortBar";
+import VirtualizedList from "@/components/list/VirtualizedList";
 import { useMasterDetail } from "@/hooks/useMasterDetail";
 
 type SortKey = "name" | "cr";
@@ -29,8 +30,13 @@ export default function BestiaryPage() {
   const filterSnapshot = useBestiaryFilters();
   const filterActive = filterSnapshot.activeCount();
 
+  // Deferred search keeps keystroke INP low: each keystroke updates the input
+  // immediately (no jank) while the heavy filter+sort over thousands of
+  // monsters runs against a deferred value on a lower-priority render pass.
+  const deferredSearch = useDeferredValue(search);
+
   const visible = useMemo(() => {
-    const q = search.trim().toLowerCase();
+    const q = deferredSearch.trim().toLowerCase();
     const out = monsters.filter((m) => {
       if (!monsterMatchesFilters(m, filterSnapshot)) return false;
       if (q && !m.name.toLowerCase().includes(q)) return false;
@@ -40,7 +46,7 @@ export default function BestiaryPage() {
       if (sortKey === "cr") return crSortValue(a.cr) - crSortValue(b.cr) || a.name.localeCompare(b.name);
       return a.name.localeCompare(b.name);
     });
-  }, [monsters, search, sortKey, filterSnapshot]);
+  }, [monsters, deferredSearch, sortKey, filterSnapshot]);
 
   const selected = useMemo(
     () => monsters.find((m) => makeRef(m.name, m.source) === selectedKey) ?? null,
@@ -90,33 +96,36 @@ export default function BestiaryPage() {
               <BestiaryFilterSidebar monsters={monsters} />
             </div>
           )}
-          <div className="flex-1 overflow-y-auto">
-            {visible.map((m) => {
-              const key = makeRef(m.name, m.source);
-              const active = key === selectedKey;
-              return (
-                <button
-                  key={key}
-                  type="button"
-                  onClick={() => select(key)}
-                  className={`flex w-full items-center gap-2 border-b border-border-subtle px-3 py-1.5 text-left text-sm transition-colors ${
-                    active ? "bg-accent-subtle" : "hover:bg-bg-raised"
-                  }`}
-                >
-                  <span className="flex-1 truncate font-medium">{m.name}</span>
-                  <span className="shrink-0 text-xs font-semibold text-accent">
-                    CR {crToFull(m.cr)}
-                  </span>
-                  <span className="shrink-0 text-xs text-fg-faint">
-                    {sourceToAbv(m.source)}
-                  </span>
-                </button>
-              );
-            })}
-            {visible.length === 0 && (
-              <div className="p-4 text-center text-sm text-fg-muted">No monsters match.</div>
-            )}
-          </div>
+          {visible.length === 0 ? (
+            <div className="flex-1 p-4 text-center text-sm text-fg-muted">No monsters match.</div>
+          ) : (
+            <VirtualizedList
+              items={visible}
+              estimateSize={38}
+              renderItem={(m) => {
+                const key = makeRef(m.name, m.source);
+                const active = key === selectedKey;
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => select(key)}
+                    className={`flex w-full items-center gap-2 border-b border-border-subtle px-3 py-1.5 text-left text-sm transition-colors ${
+                      active ? "bg-accent-subtle" : "hover:bg-bg-raised"
+                    }`}
+                  >
+                    <span className="flex-1 truncate font-medium">{m.name}</span>
+                    <span className="shrink-0 text-xs font-semibold text-accent">
+                      CR {crToFull(m.cr)}
+                    </span>
+                    <span className="shrink-0 text-xs text-fg-faint">
+                      {sourceToAbv(m.source)}
+                    </span>
+                  </button>
+                );
+              }}
+            />
+          )}
           <div className="border-t border-border px-3 py-1 text-xs text-fg-muted">
             {visible.length} / {monsters.length} monsters
           </div>

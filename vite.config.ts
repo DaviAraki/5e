@@ -1,6 +1,8 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
 import { VitePWA } from "vite-plugin-pwa";
+import { visualizer } from "rollup-plugin-visualizer";
 import { fileURLToPath, URL } from "node:url";
 
 // Vite config for the 5etools React app.
@@ -12,6 +14,16 @@ export default defineConfig({
   base: "/5e/",
   plugins: [
     react(),
+    // Tailwind v4: first-party Vite plugin replaces the old PostCSS pipeline.
+    tailwindcss(),
+    // Bundle visualization on `vite build --mode analyze` → stats.html. Dev-only,
+    // disabled for normal builds so it doesn't slow down CI.
+    process.env.BUNDLE_ANALYZE === "true" &&
+      visualizer({
+        filename: "stats.html",
+        gzipSize: true,
+        brotliSize: true,
+      }),
     // Installable, offline-capable PWA. Precaches the app shell plus the ten
     // core resolved datasets (~7 MB) so every reference page works with no
     // network. Per-book JSON is runtime-cached on first visit via SWR.

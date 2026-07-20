@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import {
   type SpellBook,
   parseBooks,
+  parseBooksArray,
   selectActiveBook,
   useSpellBook,
 } from "@/state/spellBook";
@@ -93,7 +94,35 @@ describe("parseBooks", () => {
       expect(out).toEqual([{ ...VALID_BOOK, spells: {} }]);
     });
   });
+
+  describe("rejects prototype-pollution payloads", () => {
+    it("rejects a book whose id is __proto__", () => {
+      expect(
+        parseBooksArray([{ ...VALID_BOOK, id: "__proto__" }]),
+      ).toBeNull();
+    });
+
+    it("drops spell keys named __proto__ / constructor / prototype", () => {
+      const out = parseBooksArray([
+        {
+          ...VALID_BOOK,
+          spells: {
+            "Fireball|XPHB": true,
+            __proto__: true,
+            constructor: false,
+            prototype: true,
+          },
+        },
+      ]);
+      expect(out?.[0]?.spells).toEqual({ "Fireball|XPHB": true });
+    });
+  });
 });
+
+// ---------------------------------------------------------------------------
+// Hydration (persist merge) — defends against poisoned localStorage.
+// Lives in its own jsdom file because seeding localStorage needs a DOM.
+// See spellBookHydration.test.ts.
 
 // ---------------------------------------------------------------------------
 // Store actions

@@ -46,20 +46,7 @@ export function deriveOptionTypeOptions(transformations: Transformation[]) {
     .map(([code]) => ({ value: code, label: code }));
 }
 
-export function deriveSourceOptions(transformations: Transformation[]) {
-  const m = new Map<string, number>();
-  for (const t of transformations) m.set(t.source, (m.get(t.source) ?? 0) + 1);
-  return [...m.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .map(([code]) => ({ value: code, label: sourceLabel(code) }));
-}
-
-function sourceLabel(code: string): string {
-  const map: Record<string, string> = {
-    GrimHollowPG24: "Grim Hollow: Player's Guide (2024)",
-  };
-  return map[code] ?? code;
-}
+export { deriveSourceOptions } from "@/lib/sourceLabels";
 
 export function transformationMatchesFilters(t: Transformation, f: TransformationFilterState): boolean {
   if (!triMatch(f.source, [t.source])) return false;

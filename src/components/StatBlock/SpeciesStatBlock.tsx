@@ -2,6 +2,7 @@ import type { Species } from "@/types/entities";
 import EntryRenderer from "@/render/EntryRenderer";
 import { sourceToAbv } from "@/lib/spellFormatters";
 import ShareLinkButton from "@/components/ShareLinkButton";
+import { StatLine } from "@/components/StatBlock/StatLine";
 
 /**
  * SpeciesStatBlock — displays a playable species/race.
@@ -55,15 +56,6 @@ export default function SpeciesStatBlock({ species }: { species: Species }) {
         {species.page ? ` p.${species.page}` : ""}
       </footer>
     </article>
-  );
-}
-
-function StatLine({ label, value }: { label: string; value: string }) {
-  if (!value) return null;
-  return (
-    <p>
-      <span className="font-bold">{label}</span> <span className="text-fg">{value}</span>
-    </p>
   );
 }
 

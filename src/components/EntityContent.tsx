@@ -8,7 +8,17 @@ import VariantRuleStatBlock from "@/components/StatBlock/VariantRuleStatBlock";
 import ConditionStatBlock from "@/components/StatBlock/ConditionStatBlock";
 import ActionStatBlock from "@/components/StatBlock/ActionStatBlock";
 
-/** Render the resolved entity with the appropriate stat block. */
+/**
+ * Render an already-resolved entity with the appropriate stat block.
+ *
+ * `data` is `unknown` because the resolver returns a union of entity types;
+ * the switch narrows by `type` and the renderer for each case accepts its
+ * specific entity interface. The cast is centralized at this seam rather than
+ * scattered across callers.
+ *
+ * Callers should resolve via the generic `resolveEntity<T>` upstream so the
+ * type info is preserved until this rendering boundary.
+ */
 export default function EntityContent({
   type,
   data,

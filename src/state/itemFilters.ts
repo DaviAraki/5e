@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import type { Item } from "@/types/entities";
+import { capitalize } from "@/lib/text";
 import {
   type TriState,
   emptyTri,
@@ -90,33 +91,7 @@ export const MISC_OPTIONS = [
   { value: "armor", label: "Armor" },
 ];
 
-export function deriveSourceOptions(items: Item[]) {
-  const m = new Map<string, number>();
-  for (const it of items) m.set(it.source, (m.get(it.source) ?? 0) + 1);
-  return [...m.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .map(([code]) => ({ value: code, label: sourceLabel(code) }));
-}
-
-function sourceLabel(code: string): string {
-  const map: Record<string, string> = {
-    XMM: "Monster Manual",
-    XPHB: "Player's Handbook",
-    XDMG: "Dungeon Master's Guide",
-    RHW: "Ravenloft: The Horrors Within",
-    FRAiF: "Forge of the Elemental Giants",
-    WttHC: "Welcome to the Hidden City",
-    EFA: "Eberron: Friends and Foes",
-    HotB: "Heart of the Beholder",
-    LFL: "Legends of the Forgotten Lands",
-    NF: "Nightfall",
-    ABH: "Ancient Blood & Honor",
-    GrimHollowCG24: "Grim Hollow: Campaign Guide (2024)",
-    GrimHollowPG24: "Grim Hollow: Player's Guide (2024)",
-    GrimHollowMG24: "Grim Hollow: Monster Grimoire (2024)",
-  };
-  return map[code] ?? code;
-}
+export { deriveSourceOptions } from "@/lib/sourceLabels";
 
 export function itemMatchesFilters(item: Item, f: ItemFilterState): boolean {
   if (!triMatch(f.source, [item.source])) return false;
@@ -140,8 +115,4 @@ export function itemMatchesFilters(item: Item, f: ItemFilterState): boolean {
   }
 
   return true;
-}
-
-function capitalize(s: string): string {
-  return s.charAt(0).toUpperCase() + s.slice(1);
 }

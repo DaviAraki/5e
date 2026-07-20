@@ -1,8 +1,10 @@
+import { memo } from "react";
 import type { Feat } from "@/types/entities";
 import EntryRenderer from "@/render/EntryRenderer";
 import { categoryToFull, abilityToFull, prerequisiteToFull } from "@/lib/featFormatters";
 import { sourceToAbv } from "@/lib/spellFormatters";
 import ShareLinkButton from "@/components/ShareLinkButton";
+import { StatLine } from "@/components/StatBlock/StatLine";
 
 /**
  * FeatStatBlock — displays a single feat.
@@ -10,7 +12,7 @@ import ShareLinkButton from "@/components/ShareLinkButton";
  * Stats: ability increase, prerequisite, repeatable (if present).
  * Body: the feat's entries (mechanics text).
  */
-export default function FeatStatBlock({ feat }: { feat: Feat }) {
+const FeatStatBlock = memo(function FeatStatBlock({ feat }: { feat: Feat }) {
   const category = categoryToFull(feat.category);
   const ability = abilityToFull(feat.ability);
   const prereq = prerequisiteToFull(feat.prerequisite);
@@ -49,13 +51,6 @@ export default function FeatStatBlock({ feat }: { feat: Feat }) {
       </footer>
     </article>
   );
-}
+});
 
-function StatLine({ label, value }: { label: string; value: string }) {
-  if (!value) return null;
-  return (
-    <p>
-      <span className="font-bold">{label}</span> <span className="text-fg">{value}</span>
-    </p>
-  );
-}
+export default FeatStatBlock;

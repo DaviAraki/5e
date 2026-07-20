@@ -1,3 +1,4 @@
+import { memo } from "react";
 import type { Item } from "@/types/entities";
 import EntryRenderer from "@/render/EntryRenderer";
 import InlineText from "@/render/InlineText";
@@ -10,6 +11,7 @@ import {
 } from "@/lib/itemFormatters";
 import { sourceToAbv } from "@/lib/spellFormatters";
 import ShareLinkButton from "@/components/ShareLinkButton";
+import { StatLine } from "@/components/StatBlock/StatLine";
 
 /**
  * ItemStatBlock — displays a single item (mundane or magic).
@@ -17,7 +19,7 @@ import ShareLinkButton from "@/components/ShareLinkButton";
  * Stat grid: damage, AC, weight, value, properties, etc. (only if present).
  * Body: the item's entries text (description / mechanics).
  */
-export default function ItemStatBlock({ item }: { item: Item }) {
+const ItemStatBlock = memo(function ItemStatBlock({ item }: { item: Item }) {
   const subtitle = itemSubtitle(item);
   const hasWeaponStats = Boolean(item.dmg1 || item.weaponCategory);
   const hasArmorStats = "ac" in item && item.ac != null;
@@ -92,16 +94,9 @@ export default function ItemStatBlock({ item }: { item: Item }) {
       </footer>
     </article>
   );
-}
+});
 
-function StatLine({ label, value }: { label: string; value: string }) {
-  if (!value) return null;
-  return (
-    <p>
-      <span className="font-bold">{label}</span> <span className="text-fg">{value}</span>
-    </p>
-  );
-}
+export default ItemStatBlock;
 
 /** Handle {#itemEntry Name|Source} template references. */
 function ItemEntryRef({ entry }: { entry: string }) {

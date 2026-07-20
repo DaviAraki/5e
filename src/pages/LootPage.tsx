@@ -161,7 +161,7 @@ export default function LootPage() {
                           [r]: Math.max(0, Number(e.target.value) || 0),
                         }))
                       }
-                      className="w-20 rounded-md border border-border bg-bg-raised px-2 py-1 text-sm text-right outline-none focus:border-accent"
+                      className="w-20 rounded-md border border-border bg-bg-raised px-2 py-1 text-sm text-right outline-hidden focus:border-accent"
                     />
                   </div>
                 ))}

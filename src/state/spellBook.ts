@@ -161,6 +161,27 @@ export const useSpellBook = create<SpellBookState>()(
     {
       name: "5etools-react/spellbook",
       version: 1,
+      // Validate persisted state on hydration. localStorage is editable by
+      // anyone with DOM access (other scripts, shared machines, a successful
+      // XSS elsewhere); re-running books through parseBooksArray guarantees a
+      // well-typed store regardless of what's on disk. A malformed payload
+      // drops every book rather than crashing or rendering bad shapes.
+      merge: (persisted, current) => {
+        const state = current as SpellBookState;
+        const p = (persisted ?? {}) as Partial<SpellBookState>;
+        if (!p.books || typeof p.books !== "object") {
+          return { ...state, books: {}, activeBookId: null };
+        }
+        const validated = parseBooksArray(Object.values(p.books));
+        if (!validated) return { ...state, books: {}, activeBookId: null };
+        const books: Record<string, SpellBook> = {};
+        for (const book of validated) books[book.id] = book;
+        const activeBookId =
+          state.activeBookId && books[state.activeBookId]
+            ? state.activeBookId
+            : firstKey(books);
+        return { ...state, books, activeBookId };
+      },
     },
   ),
 );
@@ -189,7 +210,18 @@ export function parseBooks(data: unknown): SpellBook[] | null {
   return null;
 }
 
-function parseBooksArray(arr: unknown[]): SpellBook[] | null {
+/** Keys with prototype-pollution risk; never allowed as book ids. */
+const FORBIDDEN_KEYS = new Set(["__proto__", "constructor", "prototype"]);
+
+/**
+ * Validate and coerce an unknown array into `SpellBook[]`. Returns null on any
+ * structural violation (so callers can reject the whole payload), and silently
+ * drops non-boolean spell values / forbidden keys rather than failing whole.
+ *
+ * Exported so the `persist` merge function can re-run stored localStorage
+ * state through the same validator as the import-code path.
+ */
+export function parseBooksArray(arr: unknown[]): SpellBook[] | null {
   const books: SpellBook[] = [];
   for (const raw of arr) {
     if (typeof raw !== "object" || raw === null) return null;
@@ -203,10 +235,12 @@ function parseBooksArray(arr: unknown[]): SpellBook[] | null {
     ) {
       return null;
     }
-    // Coerce spells to Record<string, boolean>, dropping any non-boolean values.
+    if (FORBIDDEN_KEYS.has(b.id)) return null;
+    // Coerce spells to Record<string, boolean>, dropping any non-boolean
+    // values and any prototype-pollution keys.
     const spells: Record<string, boolean> = {};
     for (const [k, v] of Object.entries(b.spells as Record<string, unknown>)) {
-      if (typeof v === "boolean") spells[k] = v;
+      if (typeof v === "boolean" && !FORBIDDEN_KEYS.has(k)) spells[k] = v;
     }
     books.push({ id: b.id, name: b.name, createdAt: b.createdAt, spells });
   }

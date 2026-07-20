@@ -2,8 +2,8 @@ import { defineConfig } from "vitest/config";
 import { fileURLToPath, URL } from "node:url";
 
 // Vitest config. Reuses the same `@/` -> src/ alias as vite.config.ts so tests
-// can import application code identically. Node environment only (no DOM);
-// add `environment: "jsdom"` if component tests are introduced later.
+// can import application code identically. Default environment is node (fast);
+// individual files that need a DOM opt in via `// @vitest-environment jsdom`.
 export default defineConfig({
   resolve: {
     alias: {
@@ -12,7 +12,7 @@ export default defineConfig({
   },
   test: {
     environment: "node",
-    include: ["src/**/*.test.ts", "tests/**/*.test.ts"],
+    include: ["src/**/*.test.ts", "src/**/*.test.tsx", "tests/**/*.test.ts"],
     coverage: {
       provider: "v8",
       reporter: ["text", "html"],

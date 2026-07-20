@@ -1,5 +1,8 @@
 import { Fragment, useState, type ReactNode } from "react";
 import { useEntityPreview, tagToEntityType, type EntityType } from "@/state/entityPreview";
+import { isSafeUrl } from "@/lib/urlSafety";
+import { isSafeColor } from "@/lib/colorSafety";
+import { rollDice } from "@/lib/dice";
 
 /**
  * InlineText — renders a 5etools inline-string containing `{@tag ...}` markup.
@@ -75,9 +78,13 @@ function renderTag(inner: string, key: number): ReactNode {
     case "note":
       return <em key={key} className="text-fg-muted">{parts[0]}</em>;
     case "color":
-      // parts[0] = display text, parts[1] = color
+      // parts[0] = display text, parts[1] = color. Only allow safe CSS color
+      // values; arbitrary strings here are an inline-style injection sink.
       return (
-        <span key={key} style={parts[1] ? { color: parts[1] } : undefined}>
+        <span
+          key={key}
+          style={parts[1] && isSafeColor(parts[1]) ? { color: parts[1] } : undefined}
+        >
           {parts[0]}
         </span>
       );
@@ -168,21 +175,27 @@ function renderTag(inner: string, key: number): ReactNode {
     case "optionalfeature":
       return entityLink(tag, parts, key);
 
-    // External link
-    case "link":
+    // External link. Validate the URL — a poisoned data entry like
+    // {@link click|javascript:alert(1)} must not produce a clickable sink.
+    case "link": {
       // {@link display|https://...} or {@link https://...}
-      if (parts.length >= 2) {
-        return (
-          <a key={key} href={parts[1]} target="_blank" rel="noreferrer" className="rd-link">
-            {parts[0]}
-          </a>
-        );
+      const href = parts.length >= 2 ? parts[1] : parts[0];
+      if (!href || !isSafeUrl(href)) {
+        // Render as plain text — no href, no clickable surface.
+        return <span key={key} className="rd-link">{parts[0]}</span>;
       }
       return (
-        <a key={key} href={parts[0]} target="_blank" rel="noreferrer" className="rd-link">
+        <a
+          key={key}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rd-link"
+        >
           {parts[0]}
         </a>
       );
+    }
 
     // Internal filter link — just render display text in v1
     case "filter":
@@ -352,34 +365,5 @@ function DiceInline({
   );
 }
 
-/**
- * Roll a dice expression like "8d6", "1d20+5", "2d8+4".
- * Supports +/- modifiers and multiple dice groups.
- */
-export function rollDice(expr: string): number {
-  // Normalise: lowercase, remove spaces. "D8" → "d8", "8d6 + 4" → "8d6+4"
-  const clean = expr.toLowerCase().replace(/\s/g, "");
-  // Two alternations: dice (NdM or dM) and flat modifiers (N).
-  const termRe = /([+-]?)(\d*)d(\d+)|([+-]?)(\d+)/g;
-  let total = 0;
-  let match: RegExpExecArray | null;
-  while ((match = termRe.exec(clean)) !== null) {
-    if (match[3] !== undefined) {
-      // Dice term: groups 1=sign, 2=count (may be ""), 3=faces
-      const sign = match[1] === "-" ? -1 : 1;
-      const count = parseInt(match[2] || "1", 10);
-      const faces = parseInt(match[3], 10);
-      if (!faces) continue;
-      let sub = 0;
-      for (let i = 0; i < count; i++) {
-        sub += 1 + Math.floor(Math.random() * faces);
-      }
-      total += sign * sub;
-    } else if (match[5] !== undefined) {
-      // Flat modifier: groups 4=sign, 5=value
-      const sign = match[4] === "-" ? -1 : 1;
-      total += sign * parseInt(match[5], 10);
-    }
-  }
-  return total;
-}
+// rollDice extracted to @/lib/dice (pure, unit-testable).
+export { rollDice } from "@/lib/dice";

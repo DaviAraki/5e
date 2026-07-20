@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useDeferredValue, useMemo, useState } from "react";
 import type { Spell } from "@/types/entities";
 import { useSpells } from "@/data/DataLoader";
 import { makeRef, refKey } from "@/data/entityRefs";
@@ -17,6 +17,7 @@ import MasterDetailLayout from "@/components/layout/MasterDetailLayout";
 import ListSearchBar from "@/components/layout/ListSearchBar";
 import SortBar from "@/components/list/SortBar";
 import ColumnHeader, { type ColumnDef } from "@/components/list/ColumnHeader";
+import VirtualizedList from "@/components/list/VirtualizedList";
 import { useMasterDetail } from "@/hooks/useMasterDetail";
 
 type SortKey = "name" | "level" | "school" | "time";
@@ -69,8 +70,13 @@ export default function SpellsPage() {
     }
   }
 
+  // Deferred search: input updates immediately; the full-dataset filter+sort
+  // runs on a lower-priority pass. The spells list is ~2k rows; without this,
+  // typing in the search box re-runs the filter synchronously every keystroke.
+  const deferredSearch = useDeferredValue(search);
+
   const visible = useMemo(() => {
-    const q = search.trim().toLowerCase();
+    const q = deferredSearch.trim().toLowerCase();
     const out = spells.filter((s) => {
       if (!spellMatchesFilters(s, filterSnapshot)) return false;
       if (q) {
@@ -81,7 +87,7 @@ export default function SpellsPage() {
       return true;
     });
     return out.sort((a, b) => compareSpells(a, b, sortKey));
-  }, [spells, search, sortKey, filterSnapshot]);
+  }, [spells, deferredSearch, sortKey, filterSnapshot]);
 
   const selected = useMemo(
     () => spells.find((s) => makeRef(s.name, s.source) === selectedKey) ?? null,
@@ -141,93 +147,96 @@ export default function SpellsPage() {
 
           <ColumnHeader columns={columns} gap="gap-3" />
 
-          <div className="flex-1 overflow-y-auto">
-            {visible.map((spell) => {
-              const key = makeRef(spell.name, spell.source);
-              const active = key === selectedKey;
-              const inBook =
-                activeBookId != null && refKey(makeRef(spell.name, spell.source)) in activeBookSpells;
-              return (
-                <div
-                  key={key}
-                  className={`flex items-center border-b border-border-subtle transition-colors ${
-                    active ? "bg-accent-subtle" : "hover:bg-bg-raised"
-                  }`}
-                >
-                  <button
-                    type="button"
-                    onClick={() => select(key)}
-                    className="flex min-w-0 flex-1 items-center gap-3 px-3 py-1.5 text-left text-sm"
-                  >
-                    <span
-                      className={`w-6 shrink-0 text-center text-xs font-semibold ${
-                        spell.level === 0 ? "text-fg-muted" : "text-accent"
-                      }`}
-                    >
-                      {spell.level === 0 ? "C" : spell.level}
-                    </span>
-                    <span className="min-w-0 flex-1 truncate font-medium">{spell.name}</span>
-                    <span className="w-8 shrink-0 text-center">
-                      {isConcentration(spell) ? (
-                        <span title="Concentration" className="text-xs font-bold text-accent">
-                          C
-                        </span>
-                      ) : null}
-                    </span>
-                    <span className="w-14 shrink-0 text-right text-xs text-fg-muted">
-                      {spSchoolToAbv(spell.school)}
-                    </span>
-                    <span className="w-12 shrink-0 text-right text-xs text-fg-muted">
-                      {spell.time[0] ? spTimeToShort(spell.time[0]) : ""}
-                    </span>
-                  </button>
-                  <button
-                    type="button"
-                    disabled={activeBookId == null}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleSpellInBook(spell);
-                    }}
-                    title={
-                      activeBookId == null
-                        ? "Create a spell book first"
-                        : inBook
-                          ? "Remove from spell book"
-                          : "Add to spell book"
-                    }
-                    aria-label={inBook ? "Remove from spell book" : "Add to spell book"}
-                    aria-pressed={inBook}
-                    className={`shrink-0 px-2 py-1.5 text-sm transition-colors ${
-                      activeBookId == null
-                        ? "cursor-not-allowed text-fg-faint"
-                        : inBook
-                          ? "text-accent"
-                          : "text-fg-muted hover:text-accent"
+          {visible.length === 0 ? (
+            <div className="flex-1 p-4 text-center text-sm text-fg-muted">No spells match.</div>
+          ) : (
+            <VirtualizedList
+              items={visible}
+              estimateSize={40}
+              renderItem={(spell) => {
+                const key = makeRef(spell.name, spell.source);
+                const active = key === selectedKey;
+                const inBook =
+                  activeBookId != null && refKey(makeRef(spell.name, spell.source)) in activeBookSpells;
+                return (
+                  <div
+                    key={key}
+                    className={`flex items-center border-b border-border-subtle transition-colors ${
+                      active ? "bg-accent-subtle" : "hover:bg-bg-raised"
                     }`}
                   >
-                    {/* Bookmark icon: filled when in the active book, outline otherwise */}
-                    {inBook ? (
-                      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
-                        <path d="M4 2.5h8A1.5 1.5 0 0 1 13.5 4v9.5L8 10.5l-5.5 3V4A1.5 1.5 0 0 1 4 2.5z" />
-                      </svg>
-                    ) : (
-                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
-                        <path
-                          d="M4 2.5h8A1.5 1.5 0 0 1 13.5 4v9.5L8 10.5l-5.5 3V4A1.5 1.5 0 0 1 4 2.5z"
-                          stroke="currentColor"
-                          strokeWidth="1.4"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    )}
-                  </button>
-                </div>
-              );
-            })}
-            {visible.length === 0 && (
-              <div className="p-4 text-center text-sm text-fg-muted">No spells match.</div>
-            )}
-          </div>
+                    <button
+                      type="button"
+                      onClick={() => select(key)}
+                      className="flex min-w-0 flex-1 items-center gap-3 px-3 py-1.5 text-left text-sm"
+                    >
+                      <span
+                        className={`w-6 shrink-0 text-center text-xs font-semibold ${
+                          spell.level === 0 ? "text-fg-muted" : "text-accent"
+                        }`}
+                      >
+                        {spell.level === 0 ? "C" : spell.level}
+                      </span>
+                      <span className="min-w-0 flex-1 truncate font-medium">{spell.name}</span>
+                      <span className="w-8 shrink-0 text-center">
+                        {isConcentration(spell) ? (
+                          <span title="Concentration" className="text-xs font-bold text-accent">
+                            C
+                          </span>
+                        ) : null}
+                      </span>
+                      <span className="w-14 shrink-0 text-right text-xs text-fg-muted">
+                        {spSchoolToAbv(spell.school)}
+                      </span>
+                      <span className="w-12 shrink-0 text-right text-xs text-fg-muted">
+                        {spell.time[0] ? spTimeToShort(spell.time[0]) : ""}
+                      </span>
+                    </button>
+                    <button
+                      type="button"
+                      disabled={activeBookId == null}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleSpellInBook(spell);
+                      }}
+                      title={
+                        activeBookId == null
+                          ? "Create a spell book first"
+                          : inBook
+                            ? "Remove from spell book"
+                            : "Add to spell book"
+                      }
+                      aria-label={inBook ? "Remove from spell book" : "Add to spell book"}
+                      aria-pressed={inBook}
+                      className={`shrink-0 px-2 py-1.5 text-sm transition-colors ${
+                        activeBookId == null
+                          ? "cursor-not-allowed text-fg-faint"
+                          : inBook
+                            ? "text-accent"
+                            : "text-fg-muted hover:text-accent"
+                      }`}
+                    >
+                      {/* Bookmark icon: filled when in the active book, outline otherwise */}
+                      {inBook ? (
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
+                          <path d="M4 2.5h8A1.5 1.5 0 0 1 13.5 4v9.5L8 10.5l-5.5 3V4A1.5 1.5 0 0 1 4 2.5z" />
+                        </svg>
+                      ) : (
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
+                          <path
+                            d="M4 2.5h8A1.5 1.5 0 0 1 13.5 4v9.5L8 10.5l-5.5 3V4A1.5 1.5 0 0 1 4 2.5z"
+                            stroke="currentColor"
+                            strokeWidth="1.4"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                );
+              }}
+            />
+          )}
           <div className="border-t border-border px-3 py-1 text-xs text-fg-muted">
             {visible.length} / {spells.length} spells
             {activeBookName ? (

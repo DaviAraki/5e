@@ -1,3 +1,4 @@
+import { memo } from "react";
 import type { Monster, MonsterEntryBlock } from "@/types/entities";
 import EntryRenderer from "@/render/EntryRenderer";
 import {
@@ -18,6 +19,7 @@ import {
 } from "@/lib/monsterFormatters";
 import { sourceToAbv } from "@/lib/spellFormatters";
 import ShareLinkButton from "@/components/ShareLinkButton";
+import { StatLine } from "@/components/StatBlock/StatLine";
 
 /**
  * MonsterStatBlock — the classic 5e monster stat block.
@@ -26,7 +28,10 @@ import ShareLinkButton from "@/components/ShareLinkButton";
  * resistances/immunities, senses, languages, CR.
  * Then: Traits, Actions, Bonus Actions, Reactions, Legendary Actions.
  */
-export default function MonsterStatBlock({ monster }: { monster: Monster }) {
+// memo: the parent page re-renders on filter/search keystrokes; the monster
+// prop identity is stable (comes from React Query cache), so shallow compare
+// skips the expensive nested EntryRenderer tree on unrelated re-renders.
+const MonsterStatBlock = memo(function MonsterStatBlock({ monster }: { monster: Monster }) {
   return (
     <article className="mx-auto max-w-2xl px-4 py-6 font-serif text-fg">
       {/* Name + type/alignment header */}
@@ -107,15 +112,9 @@ export default function MonsterStatBlock({ monster }: { monster: Monster }) {
       </footer>
     </article>
   );
-}
+});
 
-function StatLine({ label, value }: { label: string; value: string }) {
-  return (
-    <p>
-      <span className="font-bold">{label}</span> <span className="text-fg">{value}</span>
-    </p>
-  );
-}
+export default MonsterStatBlock;
 
 function Section({ title, blocks }: { title: string; blocks: MonsterEntryBlock[] }) {
   return (

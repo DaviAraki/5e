@@ -10,7 +10,28 @@ import type {
   GalleryEntry,
   ItemEntry,
 } from "@/types/entities";
+import { isSafeUrl } from "@/lib/urlSafety";
 import InlineText from "./InlineText";
+
+/**
+ * Derive a stable React key for an Entry. Prefer name (most entries carry
+ * one), then type, falling back to the array index — the last is acceptable
+ * only for arrays that never reorder or splice, which is true for the 5e
+ * data files' `entries`/`items` lists (they're authored, immutable content).
+ *
+ * Previously every recursion used bare `key={i}`, which is fragile against
+ * insertion/deletion during authoring edits and breaks sibling reconciliation
+ * when two entries share content.
+ */
+function entryKey(entry: Entry, index: number): string | number {
+  if (typeof entry === "string") return `${index}:${entry.slice(0, 16)}`;
+  if (typeof entry === "number") return `${index}:n${entry}`;
+  if (entry && typeof entry === "object") {
+    if (typeof entry.name === "string") return `${index}:${entry.name}`;
+    if (typeof entry.type === "string") return `${index}:${entry.type}`;
+  }
+  return index;
+}
 
 /**
  * EntryRenderer — recursively renders the 5etools structured `Entry` union.
@@ -70,7 +91,7 @@ export default function EntryRenderer({ entry, depth = 0 }: EntryRendererProps):
       return (
         <span>
           {children.map((c, i) => (
-            <EntryRenderer key={i} entry={c} depth={depth} />
+            <EntryRenderer key={entryKey(c, i)} entry={c} depth={depth} />
           ))}
         </span>
       );
@@ -92,7 +113,7 @@ function renderEntries(e: EntriesEntry, depth: number): ReactNode {
         </Heading>
       )}
       {(e.entries ?? []).map((child, i) => (
-        <EntryRenderer key={i} entry={child} depth={depth + 1} />
+        <EntryRenderer key={entryKey(child, i)} entry={child} depth={depth + 1} />
       ))}
     </div>
   );
@@ -111,7 +132,7 @@ function renderList(e: ListEntry): ReactNode {
       start={e.start}
     >
       {items.map((item, i) => (
-        <li key={i} className={hang ? "rd-list-item-hang" : ""}>
+        <li key={entryKey(item, i)} className={hang ? "rd-list-item-hang" : ""}>
           <EntryRenderer entry={item} />
         </li>
       ))}
@@ -171,7 +192,7 @@ function renderInset(e: InsetEntry, readaloud: boolean): ReactNode {
         </p>
       )}
       {(e.entries ?? []).map((child, i) => (
-        <EntryRenderer key={i} entry={child} />
+        <EntryRenderer key={entryKey(child, i)} entry={child} />
       ))}
     </div>
   );
@@ -181,7 +202,7 @@ function renderQuote(e: QuoteEntry): ReactNode {
   return (
     <blockquote className="rd-quote my-2 border-l-2 border-accent bg-bg-subtle px-3 py-2 italic">
       {(e.entries ?? []).map((child, i) => (
-        <div key={i}>“<EntryRenderer entry={child} />”</div>
+        <div key={entryKey(child, i)}>“<EntryRenderer entry={child} />”</div>
       ))}
       {e.by && (
         <footer className="mt-1 text-right text-fg-muted">
@@ -195,11 +216,16 @@ function renderQuote(e: QuoteEntry): ReactNode {
 function renderImage(e: ImageEntry): ReactNode {
   const href = e.href?.path;
   if (!href) return null;
+  // Validate the data-derived path. Render only same-origin paths; reject any
+  // absolute URL with a scheme (a poisoned data file could otherwise point the
+  // <img src> at an arbitrary endpoint for SSRF-style GETs).
+  const src = `/${href}`;
+  if (!isSafeUrl(src)) return null;
   // Legacy paths are relative to the site root; v1 may not ship all images.
   return (
     <figure className="rd-image my-2">
       <img
-        src={`/${href}`}
+        src={src}
         alt={typeof e.title === "string" ? e.title : ""}
         className="max-w-full rounded-md"
         loading="lazy"
@@ -218,7 +244,7 @@ function renderGallery(e: GalleryEntry): ReactNode {
   return (
     <div className="rd-gallery my-2 grid grid-cols-2 gap-2">
       {e.images.map((img, i) => (
-        <EntryRenderer key={i} entry={img} />
+        <EntryRenderer key={entryKey(img, i)} entry={img} />
       ))}
     </div>
   );
@@ -235,7 +261,7 @@ function renderItem(e: ItemEntry, italic: boolean): ReactNode {
       {e.entry != null ? (
         <EntryRenderer entry={e.entry} />
       ) : (
-        (e.entries ?? []).map((c, i) => <EntryRenderer key={i} entry={c} />)
+        (e.entries ?? []).map((c, i) => <EntryRenderer key={entryKey(c, i)} entry={c} />)
       )}
     </div>
   );
@@ -252,7 +278,7 @@ function renderUnknown(e: object, depth: number): ReactNode {
         </span>
       )}
       {children.map((c, i) => (
-        <EntryRenderer key={i} entry={c} depth={depth + 1} />
+        <EntryRenderer key={entryKey(c, i)} entry={c} depth={depth + 1} />
       ))}
       {children.length === 0 && !obj.name && (
         <span className="text-xs">[unhandled entry type: {obj.type}]</span>

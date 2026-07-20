@@ -2,6 +2,7 @@ import type { Deity } from "@/types/entities";
 import EntryRenderer from "@/render/EntryRenderer";
 import { sourceToAbv } from "@/lib/spellFormatters";
 import ShareLinkButton from "@/components/ShareLinkButton";
+import { StatLine } from "@/components/StatBlock/StatLine";
 
 /**
  * DeityStatBlock — displays a single deity (e.g. Empyreus, Arch Seraph of Valor).
@@ -39,14 +40,5 @@ export default function DeityStatBlock({ deity }: { deity: Deity }) {
         {deity.page ? ` p.${deity.page}` : ""}
       </footer>
     </article>
-  );
-}
-
-function StatLine({ label, value }: { label: string; value: string }) {
-  if (!value) return null;
-  return (
-    <p>
-      <span className="font-bold">{label}</span> <span className="text-fg">{value}</span>
-    </p>
   );
 }

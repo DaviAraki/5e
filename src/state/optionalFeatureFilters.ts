@@ -46,21 +46,7 @@ export function deriveFeatureTypeOptions(features: OptionalFeature[]) {
     .map(([code, count]) => ({ value: code, label: `${code} (${count})` }));
 }
 
-export function deriveSourceOptions(features: OptionalFeature[]) {
-  const m = new Map<string, number>();
-  for (const f of features) m.set(f.source, (m.get(f.source) ?? 0) + 1);
-  return [...m.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .map(([code]) => ({ value: code, label: sourceLabel(code) }));
-}
-
-function sourceLabel(code: string): string {
-  const map: Record<string, string> = {
-    XPHB: "Player's Handbook",
-    GrimHollowPG24: "Grim Hollow: Player's Guide (2024)",
-  };
-  return map[code] ?? code;
-}
+export { deriveSourceOptions } from "@/lib/sourceLabels";
 
 export function optionalFeatureMatchesFilters(
   f: OptionalFeature,

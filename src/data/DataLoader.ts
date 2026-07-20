@@ -1,17 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import { dedupeByRef } from "@/data/entityRefs";
+import { DATASETS } from "@/data/datasets";
+import type { ItemData, ClassData } from "@/data/datasets";
 import type {
   Action,
   Background,
   Book,
-  Class,
   Condition,
   Deity,
   Disease,
   Feat,
   GameTable,
-  Item,
-  ItemGroup,
   Language,
   LegendaryGroup,
   Monster,
@@ -19,7 +17,6 @@ import type {
   ResolvedData,
   Species,
   Spell,
-  Subclass,
   Transformation,
   VariantRule,
 } from "@/types/entities";
@@ -30,194 +27,78 @@ import type {
  * The resolved files ship as static committed data under
  * public/data/resolved/. In a production build they're emitted to
  * dist/data/resolved/.
+ *
+ * The dataset catalog (query key + fetcher + reshape) lives in
+ * `@/data/datasets.ts`; the hooks here are thin typed wrappers around it.
+ * `main.tsx` consumes the same catalog for deep-link preloading, so the two
+ * can no longer drift.
  */
 
-// import.meta.env.BASE_URL includes the configured base path + trailing slash
-// (e.g. "/5etools-react/" for GitHub Pages project sites, "/" for root).
-const RESOLVED_BASE = `${import.meta.env.BASE_URL}data/resolved`;
+export type { ItemData, ClassData } from "@/data/datasets";
 
-async function fetchJson<T>(path: string): Promise<T> {
-  const res = await fetch(path);
-  if (!res.ok) {
-    throw new Error(`Failed to load ${path}: ${res.status} ${res.statusText}`);
-  }
-  return (await res.json()) as T;
+/**
+ * Generic single-dataset hook. The explicit <T> lets each typed hook pin its
+ * return shape, since the registry's `DatasetEntry.load` is typed as
+ * `() => Promise<unknown>` (the catalog is intentionally heterogeneous).
+ */
+function useDataset<T>(key: readonly [string], load: () => Promise<T>) {
+  return useQuery({
+    queryKey: key,
+    queryFn: load,
+  });
 }
 
 export function useSpells() {
-  return useQuery({
-    queryKey: ["spells"],
-    queryFn: () =>
-      fetchJson<ResolvedData<Spell>>(`${RESOLVED_BASE}/spells.json`),
-  });
+  return useDataset<ResolvedData<Spell>>(DATASETS.spells.key, DATASETS.spells.load);
 }
-
 export function useMonsters() {
-  return useQuery({
-    queryKey: ["monsters"],
-    queryFn: () =>
-      fetchJson<ResolvedData<Monster>>(`${RESOLVED_BASE}/bestiary.json`),
-  });
+  return useDataset<ResolvedData<Monster>>(DATASETS.monsters.key, DATASETS.monsters.load);
 }
-
-export interface ItemData {
-  items: Item[];
-  itemGroups: ItemGroup[];
-}
-
 export function useItems() {
-  return useQuery({
-    queryKey: ["items"],
-    queryFn: async (): Promise<ItemData> => {
-      const data = await fetchJson<
-        ResolvedData<Item> & { itemGroups?: ItemGroup[] }
-      >(`${RESOLVED_BASE}/items.json`);
-      return {
-        // dedupeByRef guards against dirty resolved data: vendor
-        // magicvariant templates ship without a `source` and collapse into a
-        // few colliding keys, producing duplicated rows and broken React keys.
-        items: dedupeByRef(data.entities),
-        itemGroups: dedupeByRef(data.itemGroups ?? []),
-      };
-    },
-  });
+  return useDataset<ItemData>(DATASETS.items.key, DATASETS.items.load);
 }
-
-export interface ClassData {
-  classes: Class[];
-  subclasses: Subclass[];
-}
-
 export function useClasses() {
-  return useQuery({
-    queryKey: ["classes"],
-    queryFn: async (): Promise<ClassData> => {
-      const [classRes, subclassRes] = await Promise.all([
-        fetchJson<ResolvedData<Class>>(`${RESOLVED_BASE}/classes.json`),
-        fetchJson<ResolvedData<Subclass>>(`${RESOLVED_BASE}/subclasses.json`),
-      ]);
-      return {
-        classes: classRes.entities,
-        subclasses: subclassRes.entities,
-      };
-    },
-  });
+  return useDataset<ClassData>(DATASETS.classes.key, DATASETS.classes.load);
 }
-
 export function useBackgrounds() {
-  return useQuery({
-    queryKey: ["backgrounds"],
-    queryFn: () =>
-      fetchJson<ResolvedData<Background>>(`${RESOLVED_BASE}/backgrounds.json`),
-  });
+  return useDataset<ResolvedData<Background>>(DATASETS.backgrounds.key, DATASETS.backgrounds.load);
 }
-
 export function useSpecies() {
-  return useQuery({
-    queryKey: ["species"],
-    queryFn: () =>
-      fetchJson<ResolvedData<Species>>(`${RESOLVED_BASE}/species.json`),
-  });
+  return useDataset<ResolvedData<Species>>(DATASETS.species.key, DATASETS.species.load);
 }
-
 export function useFeats() {
-  return useQuery({
-    queryKey: ["feats"],
-    queryFn: () =>
-      fetchJson<ResolvedData<Feat>>(`${RESOLVED_BASE}/feats.json`),
-  });
+  return useDataset<ResolvedData<Feat>>(DATASETS.feats.key, DATASETS.feats.load);
 }
-
 export function useVariantRules() {
-  return useQuery({
-    queryKey: ["variantrules"],
-    queryFn: () =>
-      fetchJson<ResolvedData<VariantRule>>(`${RESOLVED_BASE}/variantrules.json`),
-  });
+  return useDataset<ResolvedData<VariantRule>>(DATASETS.variantrules.key, DATASETS.variantrules.load);
 }
-
 export function useBooks() {
-  return useQuery({
-    queryKey: ["books"],
-    queryFn: () =>
-      fetchJson<ResolvedData<Book>>(`${RESOLVED_BASE}/books.json`),
-  });
+  return useDataset<ResolvedData<Book>>(DATASETS.books.key, DATASETS.books.load);
 }
-
 export function useConditions() {
-  return useQuery({
-    queryKey: ["conditions"],
-    queryFn: () =>
-      fetchJson<ResolvedData<Condition>>(`${RESOLVED_BASE}/conditions.json`),
-  });
+  return useDataset<ResolvedData<Condition>>(DATASETS.conditions.key, DATASETS.conditions.load);
 }
-
 export function useActions() {
-  return useQuery({
-    queryKey: ["actions"],
-    queryFn: () =>
-      fetchJson<ResolvedData<Action>>(`${RESOLVED_BASE}/actions.json`),
-  });
+  return useDataset<ResolvedData<Action>>(DATASETS.actions.key, DATASETS.actions.load);
 }
-
 export function useDeities() {
-  return useQuery({
-    queryKey: ["deities"],
-    queryFn: () =>
-      fetchJson<ResolvedData<Deity>>(`${RESOLVED_BASE}/deities.json`),
-  });
+  return useDataset<ResolvedData<Deity>>(DATASETS.deities.key, DATASETS.deities.load);
 }
-
 export function useDiseases() {
-  return useQuery({
-    queryKey: ["diseases"],
-    queryFn: () =>
-      fetchJson<ResolvedData<Disease>>(`${RESOLVED_BASE}/diseases.json`),
-  });
+  return useDataset<ResolvedData<Disease>>(DATASETS.diseases.key, DATASETS.diseases.load);
 }
-
 export function useLanguages() {
-  return useQuery({
-    queryKey: ["languages"],
-    queryFn: () =>
-      fetchJson<ResolvedData<Language>>(`${RESOLVED_BASE}/languages.json`),
-  });
+  return useDataset<ResolvedData<Language>>(DATASETS.languages.key, DATASETS.languages.load);
 }
-
 export function useLegendaryGroups() {
-  return useQuery({
-    queryKey: ["legendarygroups"],
-    queryFn: () =>
-      fetchJson<ResolvedData<LegendaryGroup>>(
-        `${RESOLVED_BASE}/legendarygroups.json`,
-      ),
-  });
+  return useDataset<ResolvedData<LegendaryGroup>>(DATASETS.legendarygroups.key, DATASETS.legendarygroups.load);
 }
-
 export function useTables() {
-  return useQuery({
-    queryKey: ["tables"],
-    queryFn: () =>
-      fetchJson<ResolvedData<GameTable>>(`${RESOLVED_BASE}/tables.json`),
-  });
+  return useDataset<ResolvedData<GameTable>>(DATASETS.tables.key, DATASETS.tables.load);
 }
-
 export function useTransformations() {
-  return useQuery({
-    queryKey: ["transformations"],
-    queryFn: () =>
-      fetchJson<ResolvedData<Transformation>>(
-        `${RESOLVED_BASE}/transformations.json`,
-      ),
-  });
+  return useDataset<ResolvedData<Transformation>>(DATASETS.transformations.key, DATASETS.transformations.load);
 }
-
 export function useOptionalFeatures() {
-  return useQuery({
-    queryKey: ["optionalfeatures"],
-    queryFn: () =>
-      fetchJson<ResolvedData<OptionalFeature>>(
-        `${RESOLVED_BASE}/optionalfeatures.json`,
-      ),
-  });
+  return useDataset<ResolvedData<OptionalFeature>>(DATASETS.optionalfeatures.key, DATASETS.optionalfeatures.load);
 }

@@ -27,24 +27,7 @@ export const useConditionFilters = create<ConditionFilterState>((set, get) => ({
   activeCount: () => triSize(get().source),
 }));
 
-export function deriveSourceOptions(conditions: Condition[]) {
-  const m = new Map<string, number>();
-  for (const c of conditions) m.set(c.source, (m.get(c.source) ?? 0) + 1);
-  return [...m.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .map(([code]) => ({ value: code, label: sourceLabel(code) }));
-}
-
-function sourceLabel(code: string): string {
-  const map: Record<string, string> = {
-    XPHB: "Player's Handbook",
-    XDMG: "Dungeon Master's Guide",
-    GrimHollowCG24: "Grim Hollow: Campaign Guide (2024)",
-    GrimHollowPG24: "Grim Hollow: Player's Guide (2024)",
-    GrimHollowMG24: "Grim Hollow: Monster Grimoire (2024)",
-  };
-  return map[code] ?? code;
-}
+export { deriveSourceOptions } from "@/lib/sourceLabels";
 
 export function conditionMatchesFilters(c: Condition, f: ConditionFilterState): boolean {
   if (!triMatch(f.source, [c.source])) return false;

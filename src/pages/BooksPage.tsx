@@ -97,7 +97,7 @@ export default function BooksPage() {
             placeholder="Search books…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="min-w-0 flex-1 rounded-md border border-border bg-bg-raised px-3 py-1.5 text-sm outline-none placeholder:text-fg-faint focus:border-accent md:max-w-xs"
+            className="min-w-0 flex-1 rounded-md border border-border bg-bg-raised px-3 py-1.5 text-sm outline-hidden placeholder:text-fg-faint focus:border-accent md:max-w-xs"
           />
           <div className="flex items-center gap-1 text-xs">
             <span className="text-fg-muted">Edition:</span>

@@ -38,3 +38,9 @@ jobs:
 
       - name: Test
         run: pnpm test
+
+      # Audit production deps; fail the build on known CVEs. --prod scopes
+      # the check to runtime dependencies only (dev-only advisories don't
+      # affect the shipped bundle).
+      - name: Audit production dependencies
+        run: pnpm audit --prod

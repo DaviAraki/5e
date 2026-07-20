@@ -1,7 +1,12 @@
 name: Deploy to GitHub Pages
 
+# Trigger only after the CI workflow (typecheck + lint + test) completes
+# successfully on main, so a failing test can never ship to Pages. Manual
+# dispatch is preserved for emergency redeploys.
 on:
-  push:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
     branches: [main]
   workflow_dispatch:
 
@@ -16,6 +21,8 @@ concurrency:
 
 jobs:
   build:
+    # Only run when the triggering CI run actually succeeded.
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

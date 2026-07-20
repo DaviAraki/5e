@@ -5,6 +5,7 @@ import Header from "@/components/nav/Header";
 import MobileNav from "@/components/nav/MobileNav";
 import EntityPreviewModal from "@/components/EntityPreviewModal";
 import ConfirmModal from "@/components/ConfirmModal";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 // Non-default routes are code-split so the initial bundle ships only the app
 // shell + the Landing page. Each chunk loads on first navigation.
@@ -57,8 +58,9 @@ export default function App() {
     <div className="flex h-full flex-col">
       <Header onOpenNav={() => setMobileNavOpen(true)} />
       <main className="flex-1 overflow-hidden">
-        <Suspense fallback={<div className="flex h-full items-center justify-center text-fg/60">Loading…</div>}>
-          <Routes>
+        <ErrorBoundary>
+          <Suspense fallback={<div className="flex h-full items-center justify-center text-fg/60">Loading…</div>}>
+            <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/spells" element={<SpellsPage />} />
             <Route path="/classes" element={<ClassesPage />} />
@@ -78,8 +80,9 @@ export default function App() {
             <Route path="/books" element={<BooksPage />} />
             <Route path="/spellbook" element={<SpellBookPage />} />
             <Route path="/loot" element={<LootPage />} />
-          </Routes>
-        </Suspense>
+            </Routes>
+          </Suspense>
+        </ErrorBoundary>
       </main>
 
       <MobileNav open={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />

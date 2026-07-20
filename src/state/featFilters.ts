@@ -77,28 +77,7 @@ export const MISC_OPTIONS = [
   { value: "spells", label: "Grants Spells" },
 ];
 
-export function deriveSourceOptions(feats: Feat[]) {
-  const m = new Map<string, number>();
-  for (const f of feats) m.set(f.source, (m.get(f.source) ?? 0) + 1);
-  return [...m.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .map(([code]) => ({ value: code, label: sourceLabel(code) }));
-}
-
-function sourceLabel(code: string): string {
-  const map: Record<string, string> = {
-    XPHB: "Player's Handbook",
-    XDMG: "Dungeon Master's Guide",
-    EFA: "Eberron: Friends and Foes",
-    RHW: "Ravenloft: The Horrors Within",
-    FRAiF: "Forge of the Elemental Giants",
-    WttHC: "Welcome to the Hidden City",
-    FRHoF: "Forge of the Elemental Giants",
-    GrimHollowPG24: "Grim Hollow: Player's Guide (2024)",
-    GrimHollowMG24: "Grim Hollow: Monster Grimoire (2024)",
-  };
-  return map[code] ?? code;
-}
+export { deriveSourceOptions } from "@/lib/sourceLabels";
 
 /** Extract ability codes from a feat's ability array (including choose.from). */
 function getFeatAbilities(feat: Feat): Set<string> {

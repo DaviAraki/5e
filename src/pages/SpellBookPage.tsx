@@ -197,7 +197,7 @@ export default function SpellBookPage() {
               <select
                 value={activeBookId ?? ""}
                 onChange={(e) => setActiveBook(e.target.value)}
-                className="min-w-0 flex-1 rounded-md border border-border bg-bg-raised px-2 py-1.5 text-sm outline-none focus:border-accent"
+                className="min-w-0 flex-1 rounded-md border border-border bg-bg-raised px-2 py-1.5 text-sm outline-hidden focus:border-accent"
               >
                 {bookList.map((b) => (
                   <option key={b.id} value={b.id}>
@@ -275,7 +275,7 @@ export default function SpellBookPage() {
                   value={exportCode}
                   placeholder={exportError ?? "Generating code…"}
                   rows={3}
-                  className="min-w-0 w-full resize-none rounded-md border border-border bg-bg-raised px-2 py-1 font-mono text-[11px] text-fg-muted outline-none focus:border-accent"
+                  className="min-w-0 w-full resize-none rounded-md border border-border bg-bg-raised px-2 py-1 font-mono text-[11px] text-fg-muted outline-hidden focus:border-accent"
                 />
                 {exportError && (
                   <p className="mt-1 text-xs text-red-400">{exportError}</p>
@@ -310,7 +310,7 @@ export default function SpellBookPage() {
                   onChange={(e) => setImportCode(e.target.value)}
                   placeholder="Paste an SB1:… spell book code here"
                   rows={3}
-                  className="min-w-0 w-full resize-none rounded-md border border-border bg-bg-raised px-2 py-1 font-mono text-[11px] text-fg outline-none placeholder:text-fg-faint focus:border-accent"
+                  className="min-w-0 w-full resize-none rounded-md border border-border bg-bg-raised px-2 py-1 font-mono text-[11px] text-fg outline-hidden placeholder:text-fg-faint focus:border-accent"
                 />
                 {importError && (
                   <p className="mt-1 text-xs text-red-400">{importError}</p>
@@ -343,7 +343,7 @@ export default function SpellBookPage() {
               placeholder={`Search ${activeBook ? Object.keys(activeBook.spells).length : 0} spells…`}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="mt-2 min-w-0 w-full rounded-md border border-border bg-bg-raised px-3 py-1.5 text-sm outline-none placeholder:text-fg-faint focus:border-accent"
+              className="mt-2 min-w-0 w-full rounded-md border border-border bg-bg-raised px-3 py-1.5 text-sm outline-hidden placeholder:text-fg-faint focus:border-accent"
             />
             <div className="mt-2 flex items-center gap-1 text-xs">
               <span className="text-fg-muted">Sort:</span>

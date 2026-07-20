@@ -5,6 +5,8 @@ import {
   isConcentration,
   isRitual,
 } from "@/lib/spellFormatters";
+import { capitalize } from "@/lib/text";
+import { type FilterOption } from "@/lib/sourceLabels";
 import {
   type TriState,
   emptyTri,
@@ -25,11 +27,10 @@ import {
  */
 
 // --- Option metadata (value -> display label) -----------------------------
+// FilterOption is re-exported from lib/sourceLabels for backwards compat
+// (PillFilter imports it from here). New code should import it directly.
 
-export interface FilterOption {
-  value: string;
-  label: string;
-}
+export type { FilterOption } from "@/lib/sourceLabels";
 
 export const LEVEL_OPTIONS: FilterOption[] = [
   { value: "0", label: "Cantrip" },
@@ -202,25 +203,10 @@ export const useSpellFilters = create<SpellFilterState>((set, get) => ({
 }));
 
 // --- Matching predicate ---------------------------------------------------
+// deriveSourceOptions is shared across all filter stores; re-export it so
+// SpellFilterSidebar's existing import keeps working.
 
-/** Derive the source options from loaded spells (value=code, label=display). */
-export function deriveSourceOptions(spells: Spell[]): FilterOption[] {
-  const m = new Map<string, number>();
-  for (const s of spells) m.set(s.source, (m.get(s.source) ?? 0) + 1);
-  return [...m.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .map(([code]) => ({ value: code, label: sourceLabel(code) }));
-}
-
-function sourceLabel(code: string): string {
-  const m: Record<string, string> = {
-    XPHB: "Player's Handbook",
-    FRHoF: "Forge of the Elemental Giants",
-    EFA: "Eberron: Friends and Foes",
-    GrimHollowPG24: "Grim Hollow: Player's Guide (2024)",
-  };
-  return m[code] ?? code;
-}
+export { deriveSourceOptions } from "@/lib/sourceLabels";
 
 /** Does a spell pass every active filter dimension? */
 export function spellMatchesFilters(spell: Spell, f: SpellFilterState): boolean {
@@ -331,6 +317,4 @@ function miscMatches(spell: Spell, key: string): boolean {
   }
 }
 
-function capitalize(s: string): string {
-  return s.charAt(0).toUpperCase() + s.slice(1);
-}
+// capitalize is imported from @/lib/text.

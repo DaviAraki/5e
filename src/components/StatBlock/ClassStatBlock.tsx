@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import type { Class, ClassTableGroup, ClassFeature, Subclass } from "@/types/entities";
 import EntryRenderer from "@/render/EntryRenderer";
 import InlineText from "@/render/InlineText";
@@ -11,7 +11,7 @@ import ShareLinkButton from "@/components/ShareLinkButton";
  * Optional subclass selector: if subclasses are provided, picking one shows
  * that subclass's features inline at their granted levels.
  */
-export default function ClassStatBlock({
+const ClassStatBlock = memo(function ClassStatBlock({
   cls,
   subclasses,
 }: {
@@ -194,7 +194,9 @@ export default function ClassStatBlock({
       </footer>
     </article>
   );
-}
+});
+
+export default ClassStatBlock;
 
 // --- Sub-components -------------------------------------------------------
 

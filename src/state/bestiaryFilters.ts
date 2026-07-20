@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import type { Monster } from "@/types/entities";
+import { capitalize } from "@/lib/text";
 import {
   type TriState,
   emptyTri,
@@ -161,33 +162,10 @@ export const MISC_OPTIONS = [
 
 // --- Dynamic options ------------------------------------------------------
 
-export function deriveSourceOptions(monsters: Monster[]) {
-  const m = new Map<string, number>();
-  for (const mon of monsters) m.set(mon.source, (m.get(mon.source) ?? 0) + 1);
-  return [...m.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .map(([code]) => ({ value: code, label: sourceLabel(code) }));
-}
-
-function sourceLabel(code: string): string {
-  const map: Record<string, string> = {
-    XMM: "Monster Manual",
-    XPHB: "Player's Handbook",
-    XDMG: "Dungeon Master's Guide",
-    RHW: "Ravenloft: The Horrors Within",
-    FRAiF: "Forge of the Elemental Giants",
-    WttHC: "Welcome to the Hidden City",
-    EFA: "Eberron: Friends and Foes",
-    HotB: "Heart of the Beholder",
-    LFL: "Legends of the Forgotten Lands",
-    NF: "Nightfall",
-    ABH: "Ancient Blood & Honor",
-    GrimHollowCG24: "Grim Hollow: Campaign Guide (2024)",
-    GrimHollowPG24: "Grim Hollow: Player's Guide (2024)",
-    GrimHollowMG24: "Grim Hollow: Monster Grimoire (2024)",
-  };
-  return map[code] ?? code;
-}
+// deriveSourceOptions + sourceLabel are shared across all filter stores;
+// see lib/sourceLabels. Re-exported here so the BestiaryFilterSidebar's
+// existing import keeps working.
+export { deriveSourceOptions } from "@/lib/sourceLabels";
 
 // --- Matching predicate ---------------------------------------------------
 
@@ -239,6 +217,4 @@ export function monsterMatchesFilters(monster: Monster, f: BestiaryFilterState):
   return true;
 }
 
-function capitalize(s: string): string {
-  return s.charAt(0).toUpperCase() + s.slice(1);
-}
+// capitalize is imported from @/lib/text.

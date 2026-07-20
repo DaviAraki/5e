@@ -1,3 +1,4 @@
+import { memo } from "react";
 import type { Spell } from "@/types/entities";
 import EntryRenderer from "@/render/EntryRenderer";
 import { makeRef, refKey } from "@/data/entityRefs";
@@ -18,7 +19,31 @@ import {
  * SpellStatBlock — the right-hand detail pane for a selected spell.
  * Mirrors the classic 5etools spell stat block layout.
  */
-export default function SpellStatBlock({ spell }: { spell: Spell }) {
+
+/**
+ * Static class map for the per-school accent color. Must be literal strings
+ * (not interpolated) so Tailwind's content scanner generates each utility —
+ * `text-school-${school}` produces no CSS because the scanner can't see the
+ * full class name. This was a latent v3 bug (the color never rendered) that
+ * the v4 migration surfaces and fixes.
+ */
+const SCHOOL_TEXT_CLASS: Record<Spell["school"], string> = {
+  A: "text-school-a",
+  V: "text-school-v",
+  N: "text-school-n",
+  T: "text-school-t",
+  C: "text-school-c",
+  D: "text-school-d",
+  I: "text-school-i",
+  E: "text-school-e",
+  P: "text-fg", // "P" (psionic) has no dedicated token; fall back to body color
+};
+
+// memo: the spell prop is referentially stable from the React Query cache, so
+// memo skips the heavy EntryRenderer tree on parent re-renders (filter, sort).
+// Internal zustand hooks for spell-book state still trigger re-renders when
+// the relevant slice changes — memo only gates prop-driven re-renders.
+const SpellStatBlock = memo(function SpellStatBlock({ spell }: { spell: Spell }) {
   const activeBookId = useSpellBook((s) => s.activeBookId);
   const activeBookName = useSpellBook((s) =>
     s.activeBookId ? s.books[s.activeBookId]?.name ?? null : null,
@@ -68,9 +93,11 @@ export default function SpellStatBlock({ spell }: { spell: Spell }) {
         </div>
       </div>
 
-      {/* School + level line */}
+      {/* School + level line. The class lookup must be static so Tailwind's
+          content scanner can detect each variant (dynamic `text-school-${x}`
+          strings are NOT detected and produce no CSS). */}
       <p className="mt-1 italic text-fg-muted">
-        <span className={`text-school-${spell.school}`}>{spSchoolToFull(spell.school)}</span>
+        <span className={SCHOOL_TEXT_CLASS[spell.school] ?? "text-fg"}>{spSchoolToFull(spell.school)}</span>
         {" — "}
         {spLevelSchoolRitualStr(spell)}
       </p>
@@ -113,7 +140,9 @@ export default function SpellStatBlock({ spell }: { spell: Spell }) {
       </footer>
     </article>
   );
-}
+});
+
+export default SpellStatBlock;
 
 function StatRow({ label, value }: { label: string; value: string }) {
   if (!value) return null;

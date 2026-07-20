@@ -2,6 +2,7 @@ import type { Disease } from "@/types/entities";
 import EntryRenderer from "@/render/EntryRenderer";
 import { sourceToAbv } from "@/lib/spellFormatters";
 import ShareLinkButton from "@/components/ShareLinkButton";
+import { StatLine } from "@/components/StatBlock/StatLine";
 
 /**
  * DiseaseStatBlock — displays a single disease (e.g. Weeping Pox).
@@ -33,14 +34,5 @@ export default function DiseaseStatBlock({ disease }: { disease: Disease }) {
         {disease.page ? ` p.${disease.page}` : ""}
       </footer>
     </article>
-  );
-}
-
-function StatLine({ label, value }: { label: string; value: string }) {
-  if (!value) return null;
-  return (
-    <p>
-      <span className="font-bold">{label}</span> <span className="text-fg">{value}</span>
-    </p>
   );
 }

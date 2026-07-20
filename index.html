@@ -3,13 +3,67 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      Strict CSP. style-src 'unsafe-inline' is required for Tailwind (which
+      injects <style> in dev) and React inline `style` props (e.g. {@color}).
+      img-src 'self' data: allows inline SVG/data-URI images. Everything else
+      is same-origin only — there are no CDNs, analytics, or external fonts.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; manifest-src 'self'; connect-src 'self'; script-src 'self'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'"
+    />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/icon/icon-192.png" />
+    <!-- Preload the serif heading font (Scrumish → Convergence) used by every
+         stat block; avoids a layout shift + late fetch on deep-link LCP. -->
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/fonts/Convergence-Regular.woff2"
+      crossorigin
+    />
     <meta name="theme-color" content="#0e1116" />
     <title>5etools</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!--
+        Inline skeleton: painted before the JS bundle arrives so the first
+        paint isn't a blank dark page. React replaces #root's children on
+        mount, so this markup is never seen by the running app.
+      -->
+      <style>
+        #rd-boot {
+          position: fixed;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #0e1116;
+          color: #9aa5b1;
+          font-family: ui-sans-serif, system-ui, sans-serif;
+          font-size: 14px;
+        }
+        .rd-boot-spinner {
+          width: 28px;
+          height: 28px;
+          border: 3px solid #1f2933;
+          border-top-color: #8a94ff;
+          border-radius: 9999px;
+          animation: rd-spin 0.8s linear infinite;
+        }
+        @keyframes rd-spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      </style>
+      <div id="rd-boot" aria-label="Loading">
+        <span class="rd-boot-spinner"></span>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

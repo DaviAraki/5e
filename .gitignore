@@ -6,5 +6,11 @@ dist
 # Test coverage output (vitest v8 provider)
 coverage
 
+# Bundle analysis output (pnpm analyze)
+stats.html
+
+# TypeScript incremental build cache
+*.tsbuildinfo
+
 # ZCode agent session plans (local tooling artifacts)
 .zcode
