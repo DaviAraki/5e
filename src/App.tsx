@@ -12,6 +12,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 const SpellsPage = lazy(() => import("@/pages/SpellsPage"));
 const ClassesPage = lazy(() => import("@/pages/ClassesPage"));
 const BestiaryPage = lazy(() => import("@/pages/BestiaryPage"));
+const EncountersPage = lazy(() => import("@/pages/EncountersPage"));
 const ItemsPage = lazy(() => import("@/pages/ItemsPage"));
 const BackgroundsPage = lazy(() => import("@/pages/BackgroundsPage"));
 const SpeciesPage = lazy(() => import("@/pages/SpeciesPage"));
@@ -65,6 +66,7 @@ export default function App() {
             <Route path="/spells" element={<SpellsPage />} />
             <Route path="/classes" element={<ClassesPage />} />
             <Route path="/bestiary" element={<BestiaryPage />} />
+            <Route path="/encounters" element={<EncountersPage />} />
             <Route path="/items" element={<ItemsPage />} />
             <Route path="/backgrounds" element={<BackgroundsPage />} />
             <Route path="/species" element={<SpeciesPage />} />

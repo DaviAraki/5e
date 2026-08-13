@@ -45,6 +45,7 @@ export const NAV_GROUPS: NavGroup[] = [
     label: "Bestiary & Lore",
     items: [
       { to: "/bestiary", label: "Bestiary" },
+      { to: "/encounters", label: "Encounters" },
       { to: "/legendary-groups", label: "Legendary Groups" },
       { to: "/deities", label: "Deities" },
     ],

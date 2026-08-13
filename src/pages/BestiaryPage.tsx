@@ -1,10 +1,11 @@
 import { useDeferredValue, useMemo, useState } from "react";
 import type { Monster } from "@/types/entities";
 import { useMonsters } from "@/data/DataLoader";
-import { makeRef } from "@/data/entityRefs";
+import { makeRef, refKey } from "@/data/entityRefs";
 import MonsterStatBlock from "@/components/StatBlock/MonsterStatBlock";
 import { BestiaryFilterSidebar, monsterMatchesFilters } from "@/components/filters/BestiaryFilterSidebar";
 import { useBestiaryFilters } from "@/state/bestiaryFilters";
+import { useEncounters } from "@/state/encounters";
 import { crToFull } from "@/lib/monsterFormatters";
 import { sourceToAbv } from "@/lib/spellFormatters";
 import Centered from "@/components/layout/Centered";
@@ -15,6 +16,12 @@ import VirtualizedList from "@/components/list/VirtualizedList";
 import { useMasterDetail } from "@/hooks/useMasterDetail";
 
 type SortKey = "name" | "cr";
+
+// Shared stable reference for the "no active encounter / empty encounter"
+// fallback. React 19's useSyncExternalStore (via zustand) requires selectors to
+// return referentially-stable snapshots — returning a fresh {} per call triggers
+// "getSnapshot should be cached" → infinite render loop.
+const EMPTY_MONSTERS: Record<string, number> = {};
 
 /**
  * Responsive bestiary browser with filters.
@@ -29,6 +36,18 @@ export default function BestiaryPage() {
   const monsters = data?.entities ?? [];
   const filterSnapshot = useBestiaryFilters();
   const filterActive = filterSnapshot.activeCount();
+
+  // Encounters: target the active encounter for the per-row add button. See
+  // EMPTY_MONSTERS above — selectors must return stable references under
+  // React 19's useSyncExternalStore.
+  const activeEncounterId = useEncounters((s) => s.activeEncounterId);
+  const activeEncounterMonsters = useEncounters((s) =>
+    s.activeEncounterId ? s.encounters[s.activeEncounterId]?.monsters ?? EMPTY_MONSTERS : EMPTY_MONSTERS,
+  );
+  const addMonster = useEncounters((s) => s.addMonster);
+  const activeEncounterName = useEncounters((s) =>
+    s.activeEncounterId ? s.encounters[s.activeEncounterId]?.name ?? null : null,
+  );
 
   // Deferred search keeps keystroke INP low: each keystroke updates the input
   // immediately (no jank) while the heavy filter+sort over thousands of
@@ -105,29 +124,66 @@ export default function BestiaryPage() {
               renderItem={(m) => {
                 const key = makeRef(m.name, m.source);
                 const active = key === selectedKey;
+                const inEncounter =
+                  activeEncounterId != null &&
+                  refKey(makeRef(m.name, m.source)) in activeEncounterMonsters;
+                const count = inEncounter
+                  ? activeEncounterMonsters[refKey(makeRef(m.name, m.source))]
+                  : 0;
                 return (
-                  <button
+                  <div
                     key={key}
-                    type="button"
-                    onClick={() => select(key)}
-                    className={`flex w-full items-center gap-2 border-b border-border-subtle px-3 py-1.5 text-left text-sm transition-colors ${
+                    className={`flex items-center border-b border-border-subtle transition-colors ${
                       active ? "bg-accent-subtle" : "hover:bg-bg-raised"
                     }`}
                   >
-                    <span className="flex-1 truncate font-medium">{m.name}</span>
-                    <span className="shrink-0 text-xs font-semibold text-accent">
-                      CR {crToFull(m.cr)}
-                    </span>
-                    <span className="shrink-0 text-xs text-fg-faint">
-                      {sourceToAbv(m.source)}
-                    </span>
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() => select(key)}
+                      className="flex min-w-0 flex-1 items-center gap-2 px-3 py-1.5 text-left text-sm"
+                    >
+                      <span className="flex-1 truncate font-medium">{m.name}</span>
+                      <span className="shrink-0 text-xs font-semibold text-accent">
+                        CR {crToFull(m.cr)}
+                      </span>
+                      <span className="shrink-0 text-xs text-fg-faint">
+                        {sourceToAbv(m.source)}
+                      </span>
+                    </button>
+                    <button
+                      type="button"
+                      disabled={activeEncounterId == null}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (!activeEncounterId) return;
+                        addMonster(activeEncounterId, refKey(key));
+                      }}
+                      title={
+                        activeEncounterId == null
+                          ? "Create an encounter first"
+                          : `Add ${m.name} to “${activeEncounterName ?? ""}”`
+                      }
+                      aria-label={`Add ${m.name} to encounter`}
+                      className={`shrink-0 px-2 py-1.5 text-sm tabular-nums transition-colors ${
+                        activeEncounterId == null
+                          ? "cursor-not-allowed text-fg-faint"
+                          : inEncounter
+                            ? "text-accent"
+                            : "text-fg-muted hover:text-accent"
+                      }`}
+                    >
+                      {inEncounter ? `+${count}` : "+"}
+                    </button>
+                  </div>
                 );
               }}
             />
           )}
           <div className="border-t border-border px-3 py-1 text-xs text-fg-muted">
             {visible.length} / {monsters.length} monsters
+            {activeEncounterName ? (
+              <span className="ml-2 text-fg-faint">· adding to “{activeEncounterName}”</span>
+            ) : null}
           </div>
         </>
       }
