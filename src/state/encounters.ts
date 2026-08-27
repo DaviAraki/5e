@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, type PersistStorage, type StorageValue } from "zustand/middleware";
 
 /**
  * Persisted store for user-defined monster encounters. Each encounter holds a
@@ -58,6 +58,62 @@ function firstKey(encounters: Record<string, Encounter>): string | null {
     .map((e) => e.id);
   return ids[0] ?? null;
 }
+
+// --- storage health tracking ---------------------------------------------
+// localStorage can be unavailable in embedded webviews, sandboxed iframes and
+// some installed-PWA contexts. When that happens zustand's persist middleware
+// silently falls back to memory-only mode and every reload loses the data —
+// the "my encounter vanished" failure mode. Tracking read/write failures lets
+// the UI surface the problem instead of losing data silently.
+let storageHealthy = true;
+
+/** False once a localStorage read/write has failed: encounters are then
+ * memory-only and will be lost on reload. */
+export function isEncountersStorageHealthy(): boolean {
+  return storageHealthy;
+}
+
+/** Same JSON localStorage contract as zustand's createJSONStorage, but flags
+ * failures instead of only logging a console warning. */
+const trackedStorage: PersistStorage<EncounterState> = {
+  getItem: (name) => {
+    try {
+      const str = localStorage.getItem(name);
+      return str ? (JSON.parse(str) as StorageValue<EncounterState>) : null;
+    } catch {
+      storageHealthy = false;
+      return null;
+    }
+  },
+  setItem: (name, value) => {
+    try {
+      localStorage.setItem(name, JSON.stringify(value));
+    } catch {
+      storageHealthy = false;
+    }
+  },
+  removeItem: (name) => {
+    try {
+      localStorage.removeItem(name);
+    } catch {
+      storageHealthy = false;
+    }
+  },
+};
+
+// Write-read-back probe at module init: catches contexts where setItem throws
+// OR silently no-ops (ephemeral storage in some embedded webviews). Read-only
+// failures can't be detected after a reload resets the flag, so probe eagerly.
+(function probeStorage() {
+  const probeKey = "5etools-react/encounters-probe";
+  try {
+    localStorage.setItem(probeKey, "1");
+    if (localStorage.getItem(probeKey) !== "1") storageHealthy = false;
+    localStorage.removeItem(probeKey);
+  } catch {
+    storageHealthy = false;
+  }
+})();
 
 export const useEncounters = create<EncounterState>()(
   persist(
@@ -186,6 +242,7 @@ export const useEncounters = create<EncounterState>()(
     }),
     {
       name: "5etools-react/encounters",
+      storage: trackedStorage,
       version: 1,
       // Validate persisted state on hydration. localStorage is editable by
       // anyone with DOM access; re-running encounters through parseEncountersArray

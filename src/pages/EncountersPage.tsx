@@ -3,7 +3,7 @@ import type { Monster } from "@/types/entities";
 import { useMonsters } from "@/data/DataLoader";
 import { indexByRef } from "@/data/entityRefs";
 import MonsterStatBlock from "@/components/StatBlock/MonsterStatBlock";
-import { useEncounters } from "@/state/encounters";
+import { isEncountersStorageHealthy, useEncounters } from "@/state/encounters";
 import { crXpValue, crToFull } from "@/lib/monsterFormatters";
 import Centered from "@/components/layout/Centered";
 import { requestConfirm } from "@/components/ConfirmModal";
@@ -86,6 +86,11 @@ export default function EncountersPage() {
     return (
       <Centered>
         <div className="max-w-sm text-center">
+          {!isEncountersStorageHealthy() && (
+            <p className="mb-3 text-xs text-yellow-300" role="alert">
+              Storage is unavailable in this context — encounters will be lost on reload.
+            </p>
+          )}
           <p className="text-fg-muted">You have no encounters yet.</p>
           <button
             type="button"
@@ -105,6 +110,15 @@ export default function EncountersPage() {
   return (
     <div className="h-full overflow-y-auto">
       <div className="mx-auto max-w-7xl">
+        {!isEncountersStorageHealthy() && (
+          <div
+            role="alert"
+            className="border-b border-yellow-500/40 bg-yellow-500/10 px-3 py-2 text-xs text-yellow-300"
+          >
+            Storage is unavailable in this context — encounters will be lost on
+            reload. Adding monsters still works for the current session.
+          </div>
+        )}
         {/* Management bar (sticky within the scrolling container) */}
         <div className="sticky top-0 z-10 border-b border-border bg-bg/95 px-3 py-2 backdrop-blur">
           <div className="flex items-center gap-2">

@@ -44,10 +44,21 @@ export default function BestiaryPage() {
   const activeEncounterMonsters = useEncounters((s) =>
     s.activeEncounterId ? s.encounters[s.activeEncounterId]?.monsters ?? EMPTY_MONSTERS : EMPTY_MONSTERS,
   );
-  const addMonster = useEncounters((s) => s.addMonster);
   const activeEncounterName = useEncounters((s) =>
     s.activeEncounterId ? s.encounters[s.activeEncounterId]?.name ?? null : null,
   );
+
+  /**
+   * Add (or increment) the monster in the active encounter. Auto-creates a
+   * default encounter on first use so the button always works — including in
+   * contexts where the Encounters page's window.prompt-based creation is
+   * unavailable (embedded webviews, some installed-PWA modes).
+   */
+  function addMonsterToEncounter(m: Monster) {
+    const state = useEncounters.getState();
+    const id = state.activeEncounterId ?? state.createEncounter("Session");
+    state.addMonster(id, refKey(makeRef(m.name, m.source)));
+  }
 
   // Deferred search keeps keystroke INP low: each keystroke updates the input
   // immediately (no jank) while the heavy filter+sort over thousands of
@@ -152,24 +163,14 @@ export default function BestiaryPage() {
                     </button>
                     <button
                       type="button"
-                      disabled={activeEncounterId == null}
                       onClick={(e) => {
                         e.stopPropagation();
-                        if (!activeEncounterId) return;
-                        addMonster(activeEncounterId, refKey(key));
+                        addMonsterToEncounter(m);
                       }}
-                      title={
-                        activeEncounterId == null
-                          ? "Create an encounter first"
-                          : `Add ${m.name} to “${activeEncounterName ?? ""}”`
-                      }
+                      title={`Add ${m.name} to “${activeEncounterName ?? "new encounter"}”`}
                       aria-label={`Add ${m.name} to encounter`}
                       className={`shrink-0 px-2 py-1.5 text-sm tabular-nums transition-colors ${
-                        activeEncounterId == null
-                          ? "cursor-not-allowed text-fg-faint"
-                          : inEncounter
-                            ? "text-accent"
-                            : "text-fg-muted hover:text-accent"
+                        inEncounter ? "text-accent" : "text-fg-muted hover:text-accent"
                       }`}
                     >
                       {inEncounter ? `+${count}` : "+"}

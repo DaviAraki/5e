@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, it } from "vitest";
-import { type Encounter, useEncounters } from "@/state/encounters";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { type Encounter, isEncountersStorageHealthy, useEncounters } from "@/state/encounters";
 
 const GOBLIN = "goblin|xmm";
 const BUGBEAR = "bugbear|xmm";
@@ -192,5 +192,32 @@ describe("persist hydration", () => {
     seedLocalStorage({});
     await useEncounters.persist.rehydrate();
     expect(useEncounters.getState().encounters).toEqual({});
+  });
+});
+
+describe("storage health tracking", () => {
+  // NOTE: stays last — isEncountersStorageHealthy latches to false for the
+  // rest of this module's lifetime once a failure is recorded.
+  it("flags storage as unhealthy when localStorage access throws", () => {
+    expect(isEncountersStorageHealthy()).toBe(true);
+    vi.stubGlobal("localStorage", {
+      getItem: () => {
+        throw new Error("blocked");
+      },
+      setItem: () => {
+        throw new Error("blocked");
+      },
+      removeItem: () => {
+        throw new Error("blocked");
+      },
+    });
+    try {
+      // Any store write goes through trackedStorage.setItem; a throwing
+      // localStorage must flip the health flag instead of only logging.
+      useEncounters.getState().createEncounter("X");
+      expect(isEncountersStorageHealthy()).toBe(false);
+    } finally {
+      vi.unstubAllGlobals();
+    }
   });
 });
