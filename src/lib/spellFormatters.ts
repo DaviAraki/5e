@@ -200,6 +200,7 @@ const SOURCE_TO_DISPLAY: Record<string, string> = {
   XDMG: "DMG",
   XMM: "MM",
   XSAC: "SAC",
+  AU: "AU",
   EFA: "EFA",
   FRHoF: "FRHoF",
   GrimHollowCG24: "GH:CG'24",

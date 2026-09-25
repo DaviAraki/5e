@@ -26,6 +26,7 @@ export const SOURCE_LABELS: Readonly<Record<string, string>> = {
   XSAC: "Sage Advice Compendium",
 
   // Campaign / setting sources
+  AU: "Arcana Unleashed",
   EFA: "Eberron: Friends and Foes",
   RHW: "Ravenloft: The Horrors Within",
   FRAiF: "Forge of the Elemental Giants",

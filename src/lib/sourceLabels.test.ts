@@ -9,6 +9,7 @@ import {
 describe("sourceLabel", () => {
   it("returns the long-form label for a known code", () => {
     expect(sourceLabel("XPHB")).toBe("Player's Handbook");
+    expect(sourceLabel("AU")).toBe("Arcana Unleashed");
     expect(sourceLabel("GrimHollowCG24")).toBe("Grim Hollow: Campaign Guide (2024)");
   });
   it("falls back to the raw code when unknown", () => {
@@ -20,7 +21,7 @@ describe("SOURCE_LABELS", () => {
   it("is the union of all per-store maps (no store has a code missing here)", () => {
     // Codes previously known to each store; all should resolve to a non-raw
     // label (i.e. they're in SOURCE_LABELS, not falling back).
-    const known = ["XPHB", "XDMG", "XMM", "EFA", "RHW", "FRAiF", "FRHoF", "WttHC", "HotB", "LFL", "NF", "ABH", "GrimHollowCG24", "GrimHollowPG24", "GrimHollowMG24"];
+    const known = ["XPHB", "XDMG", "XMM", "EFA", "RHW", "FRAiF", "FRHoF", "WttHC", "HotB", "LFL", "NF", "ABH", "AU", "GrimHollowCG24", "GrimHollowPG24", "GrimHollowMG24"];
     for (const code of known) {
       expect(SOURCE_LABELS[code], `expected ${code} in SOURCE_LABELS`).toBeDefined();
     }

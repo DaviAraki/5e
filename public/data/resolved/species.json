@@ -188,6 +188,7 @@
               "deception",
               "insight",
               "intimidation",
+              "performance",
               "persuasion"
             ],
             "count": 2
@@ -225,6 +226,7 @@
     {
       "name": "Dhampir",
       "source": "RHW",
+      "page": 28,
       "otherSources": [
         {
           "source": "ABH",
@@ -4059,6 +4061,7 @@
     {
       "name": "Hexblood",
       "source": "RHW",
+      "page": 29,
       "edition": "one",
       "creatureTypes": [
         "fey"
@@ -4672,6 +4675,7 @@
     {
       "name": "Lupin",
       "source": "RHW",
+      "page": 30,
       "edition": "one",
       "creatureTypes": [
         "humanoid"
@@ -4793,6 +4797,7 @@
     {
       "name": "Reborn",
       "source": "RHW",
+      "page": 31,
       "edition": "one",
       "creatureTypes": [
         "humanoid"
@@ -7828,7 +7833,7 @@
       "hasFluffImages": true
     }
   ],
-  "generatedAt": "2026-07-17T12:47:06.085Z",
+  "generatedAt": "2026-09-25T14:21:18.114Z",
   "source": "5etools-src (One/2024 edition, build-time pre-merged)",
   "edition": "one"
 }

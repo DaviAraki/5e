@@ -242,6 +242,7 @@ describe("sourceToAbv", () => {
     ["XDMG", "DMG"],
     ["XMM", "MM"],
     ["XSAC", "SAC"],
+    ["AU", "AU"],
     ["GrimHollowCG24", "GH:CG'24"],
     ["UNKNOWN", "UNKNOWN"], // passthrough for unknown codes
   ])("sourceToAbv(%s) -> %s", (src, expected) => {

@@ -46,6 +46,10 @@ A modern React/TypeScript rewrite of [5etools](https://5etools.com), the communi
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                      Build-time pipeline                         │
+│   ../5etools-src data/  ──  apps/web `npm run gen`               │
+│   (official 5etools data,     (pre-merge.ts: _copy resolution,   │
+│    One/2024 edition filter)    flat core datasets + books)       │
+│                             ▼                                   │
 │   scripts/vendor/*.json  ──┐                                    │
 │   (Grim Hollow homebrew)   │  merge-grim-hollow.mjs             │
 │                             ▼                                   │
@@ -140,7 +144,16 @@ Datasets range from 2 KB (`conditions.json`) to ~4 MB (`bestiary.json`). The tot
 - `classes` is resolved as **two** files (`classes.json` + `subclasses.json`) fetched in parallel and reshaped into `{ classes, subclasses }`.
 - Per-book JSON lives under `data/resolved/books/<id>.json` and is runtime-cached (SWR) rather than precached.
 
-### 4.2 The Grim Hollow merge
+### 4.2 Core (official) data refresh
+
+Core/official content is generated in the sibling `5etools-src` clone (a mirror of the 5etools data + source), not in this repo:
+
+1. In `5etools-src`: `git fetch origin && git merge origin/main` to pull new upstream data (new WotC books land there first, e.g. `AU` = Arcana Unleashed).
+2. In `5etools-src/apps/web`: `npm run gen` (`scripts/pre-merge.ts`) — resolves `_copy` templates via the legacy loader, filters to the One/2024 edition (source published ≥ 2024-09-17), and writes flat datasets + `books.json` + per-book reader files.
+3. Copy `apps/web/public/data/resolved/*` over this repo's `public/data/resolved/` (plain copy, no delete).
+4. Re-run `pnpm merge:gh` here — the copy overwrites the Grim Hollow entities, and the merge re-appends them idempotently.
+
+### 4.3 The Grim Hollow merge
 
 `scripts/merge-grim-hollow.mjs` is an idempotent Node ≥ 20 script (no dependencies) that merges three upstream Grim Hollow homebrew files (`CG24`, `PG24`, `MG24`) into the resolved datasets:
 
@@ -148,7 +161,7 @@ Datasets range from 2 KB (`conditions.json`) to ~4 MB (`bestiary.json`). The tot
 - It strips any entity whose `source` starts with `GrimHollow` before re-appending, so re-runs are safe.
 - A `TYPE_MAP` routes each upstream top-level key (`spell`, `monster`, `item`, `charoption`, …) to the correct resolved file.
 
-### 4.3 Runtime fetching
+### 4.4 Runtime fetching
 
 `src/data/DataLoader.ts` exposes one `use*()` hook per dataset (e.g. `useSpells()`, `useMonsters()`, `useItems()`). Each is a thin React Query wrapper:
 
@@ -163,13 +176,13 @@ export function useSpells() {
 
 Because data is immutable, `QueryClient` is configured with `staleTime: Infinity` / `gcTime: Infinity` — a fetched dataset is never refached within a session.
 
-### 4.4 The deep-link preload optimization
+### 4.5 The deep-link preload optimization
 
 `main.tsx` starts the deep-linked route's JSON fetch **before React mounts**, in parallel with the app-shell + lazy-page-chunk download. Without this, a cold deep link to `/spells?s=Aid|XPHB` would serialize as: *download page chunk → parse → mount → fetch 2 MB JSON*, which dominates content-page LCP. The preload primes the cache so the page's `useSpells()` hits on mount.
 
 A second `requestIdleCallback` (with a `setTimeout` fallback for Safari < 17.4) prefetches the ten small cross-referenced datasets so the preview popover can resolve `{@condition}` / `{@variantrule}` links without visiting each page.
 
-### 4.5 Cross-entity references
+### 4.6 Cross-entity references
 
 Entities reference each other by composite key: the string `"<name>|<source>"` (case-insensitive on lookup). `entityRefs.ts` provides `makeRef`, `parseRef`, `refKey`, and `indexByRef` (builds a `Map` for O(1) joins). `resolveEntity.ts` resolves a `(type, name, source)` triple against the React Query cache — this powers the entity-preview popover without any dedicated API.
 
@@ -181,7 +194,7 @@ The app separates **server state** (cached entity datasets) from **client state*
 
 ### 5.1 React Query — server state
 
-Used purely as an immutable JSON cache (see §4.3). No mutations, no invalidation, no optimistic updates — the dataset is a build artifact.
+Used purely as an immutable JSON cache (see §4.4). No mutations, no invalidation, no optimistic updates — the dataset is a build artifact.
 
 ### 5.2 Zustand — client state
 
@@ -284,7 +297,7 @@ Dark-first design tokens declared in `tailwind.config.ts`: a four-step surface s
 | --- | --- |
 | Initial JS payload | Route-level `React.lazy` code-splitting; only the app shell + Landing ship on first paint. |
 | Vendor cache stability | `manualChunks` pins `react`, `react-dom`, `react-router`, `@tanstack`, `zustand` into a stable `vendor` chunk so it caches independently of app code. |
-| Deep-link LCP | Route-aware JSON preload in `main.tsx` (see §4.4) parallelizes chunk download with the data fetch. |
+| Deep-link LCP | Route-aware JSON preload in `main.tsx` (see §4.5) parallelizes chunk download with the data fetch. |
 | Cross-reference latency | Idle prefetch of the ten small datasets so the preview popover resolves without a cold fetch. |
 | Large lists | Full filtered array rendered to the DOM via `.map()` inside a CSS `overflow-y-auto` scroll container — no virtualization or pagination today (`react-window` was a dead dependency, now removed; see §11). |
 | Repeated filter passes | Per-category filter state is read via Zustand selectors; `useMemo` memoizes the filtered+sorted list. |
